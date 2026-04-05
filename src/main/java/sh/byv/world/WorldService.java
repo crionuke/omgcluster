@@ -24,7 +24,12 @@ public class WorldService {
         return world;
     }
 
-    public WorldEntity getRequired(final String name) {
+    public WorldEntity getByIdRequired(final Long id) {
+        return worldRepository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("World not found: " + id));
+    }
+
+    public WorldEntity getByNameRequired(final String name) {
         return worldRepository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("World not found: " + name));
     }

@@ -30,7 +30,7 @@ public class WorldContextBuilder {
         }
 
         public LayerContextBuilder.LayerContext getLayer(final String name) {
-            final var layer = service.getRequired(world, name);
+            final var layer = service.getByNameRequired(world, name);
             return builder.build(layer);
         }
     }

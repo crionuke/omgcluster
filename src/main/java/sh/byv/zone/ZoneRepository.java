@@ -6,7 +6,6 @@ import sh.byv.event.EntityStatus;
 import sh.byv.layer.LayerEntity;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
 @ApplicationScoped
 public class ZoneRepository implements PanacheRepository<ZoneEntity> {
@@ -27,14 +26,5 @@ public class ZoneRepository implements PanacheRepository<ZoneEntity> {
         zone.setY2(y2);
         persist(zone);
         return zone;
-    }
-
-    public Optional<ZoneEntity> findByLayerAndCoords(final LayerEntity layer,
-                                                     final int x1,
-                                                     final int y1,
-                                                     final int x2,
-                                                     final int y2) {
-        return find("layer = ?1 and x1 = ?2 and y1 = ?3 and x2 = ?4 and y2 = ?5",
-                layer, x1, y1, x2, y2).firstResultOptional();
     }
 }

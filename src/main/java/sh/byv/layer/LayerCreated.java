@@ -1,4 +1,4 @@
-package sh.byv.world;
+package sh.byv.layer;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -12,14 +12,14 @@ import sh.byv.event.EventType;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class WorldCreated implements EventHandler {
+public class LayerCreated implements EventHandler {
 
-    final WorldService worldService;
-    final WorldCreated thisHandler;
+    final LayerService layerService;
+    final LayerCreated thisHandler;
 
     @Override
     public EventType getType() {
-        return EventType.WORLD_CREATED;
+        return EventType.LAYER_CREATED;
     }
 
     @Override
@@ -28,10 +28,10 @@ public class WorldCreated implements EventHandler {
     }
 
     @Transactional
-    public void handle(final Long worldId) {
-        final var world = worldService.getByIdRequired(worldId);
-        if (world.getStatus() == EntityStatus.PENDING) {
-            world.setStatus(EntityStatus.CREATED);
+    public void handle(final Long layerId) {
+        final var layer = layerService.getByIdRequired(layerId);
+        if (layer.getStatus() == EntityStatus.PENDING) {
+            layer.setStatus(EntityStatus.CREATED);
         }
     }
 }

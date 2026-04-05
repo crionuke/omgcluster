@@ -16,10 +16,15 @@ public class ClusterStub implements ClusterService {
     @Override
     public void init(final ClusterContext cluster, final int version) {
         if (version == 1) {
-            final var world = cluster.newWorld("stub-world");
+            final var world = cluster.newWorld("stub_world");
 
-            world.newLayer("stub-lobby").newZone(0, 0, 1024, 1024);
-            world.newLayer("stub-world").newZone(0, 0, 1024, 1024);
+            world.newLayer("lobby_layer")
+                    .newZone(0, 0, 1024, 1024)
+                    .newSim("lobby_sim");
+
+            world.newLayer("game_layer")
+                    .newZone(0, 0, 1024, 1024)
+                    .newSim("game_sim");
         }
     }
 }
