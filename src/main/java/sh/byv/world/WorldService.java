@@ -1,0 +1,31 @@
+package sh.byv.world;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import sh.byv.event.EventService;
+import sh.byv.event.EventType;
+import sh.byv.exception.NotFoundException;
+
+@Slf4j
+@ApplicationScoped
+@AllArgsConstructor
+public class WorldService {
+
+    final WorldRepository worldRepository;
+    final EventService eventService;
+
+    @Transactional
+    public WorldEntity create(final String name) {
+        final var world = worldRepository.create(name);
+        eventService.create(EventType.WORLD_CREATED, world.getId());
+        log.info("Created world {}", name);
+        return world;
+    }
+
+    public WorldEntity getRequired(final String name) {
+        return worldRepository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("World not found: " + name));
+    }
+}

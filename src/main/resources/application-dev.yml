@@ -1,0 +1,11 @@
+quarkus:
+  datasource:
+    devservices:
+      container-env:
+        "PAGER": "cat"
+omgcluster:
+  init:
+    version: 2
+  server:
+    internal-address: http://localhost:8080
+    external-address: http://localhost:8080

@@ -1,2 +1,29 @@
-greeting:
-  message: "hello"
+quarkus:
+  application:
+    name: omgcluster
+  container-image:
+    group: crionuke
+    name: omgcluster
+    tag: latest
+    additional-tags: ${quarkus.application.version}
+    build: true
+  log:
+    console:
+      format: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%X{mdcId}] [%c{2.}] (%t) %s%e%n"
+    category:
+      "sh.byv":
+        level: INFO
+  quartz:
+    store-type: jdbc-cmt
+    clustered: true
+  scheduler:
+    start-mode: forced
+  flyway:
+    migrate-at-start: true
+    locations: db/migration
+  hibernate-orm:
+    database:
+      start-offline: true
+    mapping:
+      format:
+        global: ignore
