@@ -25,7 +25,12 @@ public class LayerService {
         return layer;
     }
 
-    public LayerEntity getRequired(final WorldEntity world, final String name) {
+    public LayerEntity getByIdRequired(final Long id) {
+        return layerRepository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Layer not found: " + id));
+    }
+
+    public LayerEntity getByNameRequired(final WorldEntity world, final String name) {
         return layerRepository.findByWorldAndName(world, name)
                 .orElseThrow(() -> new NotFoundException("Layer not found: " + name));
     }

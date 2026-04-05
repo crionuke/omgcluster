@@ -1,4 +1,4 @@
-package sh.byv.world;
+package sh.byv.sim;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -12,14 +12,14 @@ import sh.byv.event.EventType;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class WorldCreated implements EventHandler {
+public class SimCreated implements EventHandler {
 
-    final WorldService worldService;
-    final WorldCreated thisHandler;
+    final SimCreated thisHandler;
+    final SimService simService;
 
     @Override
     public EventType getType() {
-        return EventType.WORLD_CREATED;
+        return EventType.SIM_CREATED;
     }
 
     @Override
@@ -28,10 +28,10 @@ public class WorldCreated implements EventHandler {
     }
 
     @Transactional
-    public void handle(final Long worldId) {
-        final var world = worldService.getByIdRequired(worldId);
-        if (world.getStatus() == EntityStatus.PENDING) {
-            world.setStatus(EntityStatus.CREATED);
+    public void handle(final Long simId) {
+        final var sim = simService.getByIdRequired(simId);
+        if (sim.getStatus() == EntityStatus.PENDING) {
+            sim.setStatus(EntityStatus.CREATED);
         }
     }
 }

@@ -17,7 +17,7 @@ public class ClusterContext {
     }
 
     public WorldContextBuilder.WorldContext getWorld(final String name) {
-        final var world = worldService.getRequired(name);
+        final var world = worldService.getByNameRequired(name);
         return worldContextBuilder.build(world);
     }
 }
