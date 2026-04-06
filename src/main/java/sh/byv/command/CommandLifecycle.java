@@ -24,7 +24,8 @@ public class CommandLifecycle {
                 .setConcurrentExecution(Scheduled.ConcurrentExecution.SKIP)
                 .setInterval("1s")
                 .setExecuteWith(Scheduled.SIMPLE)
-                .setTask(scheduledExecution -> worker.execute());
+                .setTask(_ -> worker.execute())
+                .schedule();
 
         log.info("Command worker scheduled {}", trigger);
     }

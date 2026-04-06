@@ -4,7 +4,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.job.JobExecutor;
-import sh.byv.job.JobService;
 import sh.byv.job.JobType;
 
 @Slf4j
@@ -12,8 +11,7 @@ import sh.byv.job.JobType;
 @AllArgsConstructor
 public class EventJob implements JobExecutor {
 
-    final EventService eventService;
-    final JobService jobService;
+    final EventService events;
 
     @Override
     public JobType getType() {
@@ -24,7 +22,7 @@ public class EventJob implements JobExecutor {
     public void execute() {
         log.debug("Executing {}", getType());
 
-        final var events = eventService.getPendingEvents();
-        events.forEach(event -> eventService.process(event.getId()));
+        final var pending = events.getPendingEvents();
+        pending.forEach(event -> events.process(event.getId()));
     }
 }
