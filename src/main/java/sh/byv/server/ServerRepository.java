@@ -3,7 +3,6 @@ package sh.byv.server;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import sh.byv.event.EntityStatus;
-import sh.byv.group.GroupEntity;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -11,11 +10,9 @@ import java.util.Optional;
 @ApplicationScoped
 public class ServerRepository implements PanacheRepository<ServerEntity> {
 
-    ServerEntity create(final GroupEntity group,
-                        final String internalAddress,
+    ServerEntity create(final String internalAddress,
                         final String externalAddress) {
         final var server = new ServerEntity();
-        server.setGroup(group);
         server.setCreatedAt(OffsetDateTime.now());
         server.setUpdatedAt(OffsetDateTime.now());
         server.setInternalAddress(internalAddress);

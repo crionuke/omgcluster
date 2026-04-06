@@ -25,6 +25,6 @@ public class ConnZoneRelService {
 
     public ConnZoneRelEntity getByIdRequired(final Long id) {
         return repository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Conn zone rel not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Rel not found: " + id));
     }
 }

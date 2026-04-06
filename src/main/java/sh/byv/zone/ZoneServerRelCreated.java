@@ -1,4 +1,4 @@
-package sh.byv.group;
+package sh.byv.zone;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -12,14 +12,14 @@ import sh.byv.event.EventType;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class GroupCreated implements EventHandler {
+public class ZoneServerRelCreated implements EventHandler {
 
-    final GroupService groups;
-    final GroupCreated proxy;
+    final ZoneServerRelCreated proxy;
+    final ZoneServerRelService rels;
 
     @Override
     public EventType getType() {
-        return EventType.GROUP_CREATED;
+        return EventType.ZONE_SERVER_REL_CREATED;
     }
 
     @Override
@@ -28,10 +28,10 @@ public class GroupCreated implements EventHandler {
     }
 
     @Transactional
-    public void handle(final Long groupId) {
-        final var group = groups.getByIdRequired(groupId);
-        if (group.getStatus() == EntityStatus.PENDING) {
-            group.setStatus(EntityStatus.CREATED);
+    public void handle(final Long relId) {
+        final var rel = rels.getByIdRequired(relId);
+        if (rel.getStatus() == EntityStatus.PENDING) {
+            rel.setStatus(EntityStatus.CREATED);
         }
     }
 }

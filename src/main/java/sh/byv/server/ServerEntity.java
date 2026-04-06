@@ -6,14 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import sh.byv.event.EntityStatus;
-import sh.byv.group.GroupEntity;
 
 import java.time.OffsetDateTime;
 
@@ -26,10 +23,6 @@ public class ServerEntity extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    GroupEntity group;
 
     @Column(name = "created_at", nullable = false)
     OffsetDateTime createdAt;

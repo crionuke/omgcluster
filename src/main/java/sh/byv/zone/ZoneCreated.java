@@ -14,7 +14,7 @@ import sh.byv.event.EventType;
 @AllArgsConstructor
 public class ZoneCreated implements EventHandler {
 
-    final ZoneGroupRelService rels;
+    final ZoneServerRelService rels;
     final ZoneCreated proxy;
     final ZoneService zones;
 
@@ -32,8 +32,8 @@ public class ZoneCreated implements EventHandler {
     public void handle(final Long zoneId) {
         final var zone = zones.getByIdRequired(zoneId);
         if (zone.getStatus() == EntityStatus.PENDING) {
-            final var group = rels.getLeastPopulatedGroup();
-            rels.create(zone, group);
+            final var server = rels.getLeastPopulatedServer();
+            rels.create(zone, server);
             zone.setStatus(EntityStatus.CREATED);
         }
     }
