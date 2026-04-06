@@ -1,5 +1,6 @@
 package sh.byv.event;
 
+import io.quarkus.runtime.Startup;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.transaction.Transactional;
@@ -11,6 +12,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
+@Startup
 @ApplicationScoped
 public class EventService {
 
@@ -33,8 +35,8 @@ public class EventService {
         return repository.create(type, entityId);
     }
 
-    public List<EventEntity> fetchPending() {
-        return repository.fetchByStatus(EventStatus.PENDING, 100);
+    public List<EventEntity> getPendingEvents() {
+        return repository.findByStatus(EventStatus.PENDING, 100);
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)

@@ -1,6 +1,8 @@
 package sh.byv.event;
 
 import org.junit.jupiter.api.Test;
+import sh.byv.command.CommandStatus;
+import sh.byv.command.CommandType;
 
 import java.util.Arrays;
 
@@ -22,6 +24,16 @@ class EnumIdTest {
     @Test
     void eventStatusIds() {
         assertUniqueAndSequential(Arrays.stream(EventStatus.values()).mapToInt(EventStatus::getId).toArray());
+    }
+
+    @Test
+    void commandTypeIds() {
+        assertUniqueAndSequential(Arrays.stream(CommandType.values()).mapToInt(CommandType::getId).toArray());
+    }
+
+    @Test
+    void commandStatusIds() {
+        assertUniqueAndSequential(Arrays.stream(CommandStatus.values()).mapToInt(CommandStatus::getId).toArray());
     }
 
     void assertUniqueAndSequential(final int[] ids) {

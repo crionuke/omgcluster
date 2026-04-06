@@ -27,7 +27,7 @@ public class EventRepository implements PanacheRepository<EventEntity> {
         return event;
     }
 
-    public List<EventEntity> fetchByStatus(final EventStatus status, final int limit) {
+    public List<EventEntity> findByStatus(final EventStatus status, final int limit) {
         return find("status = ?1 order by createdAt asc", status)
                 .page(0, limit)
                 .list();

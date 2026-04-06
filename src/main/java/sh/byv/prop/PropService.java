@@ -13,13 +13,13 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class PropService {
 
-    final ObjectMapper objectMapper;
     final PropRepository repository;
+    final ObjectMapper mapper;
 
     public int getInt(final PropType type) {
         final var prop = repository.findByType(type);
         final var raw = prop.isPresent() ? prop.get().getValue() : type.getDefaultValue();
-        return objectMapper.convertValue(raw, Integer.class);
+        return mapper.convertValue(raw, Integer.class);
     }
 
     @Transactional
@@ -33,7 +33,7 @@ public class PropService {
     }
 
     private PropEntity set(final PropType type, final Object value) {
-        final var node = objectMapper.valueToTree(value);
+        final var node = mapper.valueToTree(value);
         final var prop = repository.findByType(type);
         if (prop.isPresent()) {
             log.info("Update prop {} by value {}", type, value);
