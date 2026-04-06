@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
+import sh.byv.event.EntityStatus;
 import sh.byv.zone.ZoneEntity;
 
 import java.time.OffsetDateTime;
@@ -39,4 +40,7 @@ public class ConnZoneRelEntity extends PanacheEntityBase {
 
     @Column(name = "updated_at", nullable = false)
     OffsetDateTime updatedAt;
+
+    @Column(name = "status", nullable = false)
+    EntityStatus status;
 }
