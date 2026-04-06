@@ -2,11 +2,11 @@ package sh.byv.group;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.EventService;
 import sh.byv.event.EventType;
+import sh.byv.exception.NotFoundException;
 
 @Slf4j
 @ApplicationScoped
