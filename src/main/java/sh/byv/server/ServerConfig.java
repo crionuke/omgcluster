@@ -3,7 +3,7 @@ package sh.byv.server;
 import io.smallrye.config.ConfigMapping;
 
 @ConfigMapping(prefix = "omgcluster.server")
-interface ServerConfig {
+public interface ServerConfig {
 
     AddressConfig address();
 
