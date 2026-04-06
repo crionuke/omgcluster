@@ -1,4 +1,4 @@
-package sh.byv.server;
+package sh.byv.zone;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-import sh.byv.event.EntityStatus;
 import sh.byv.group.GroupEntity;
 
 import java.time.OffsetDateTime;
@@ -20,12 +19,16 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_server", uniqueConstraints = @UniqueConstraint(columnNames = {"internal_address"}))
-public class ServerEntity extends PanacheEntityBase {
+@Table(name = "omgc_zone_group_rel", uniqueConstraints = @UniqueConstraint(columnNames = {"zone_id", "group_id"}))
+public class ZoneGroupRelEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "zone_id")
+    ZoneEntity zone;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
@@ -36,13 +39,4 @@ public class ServerEntity extends PanacheEntityBase {
 
     @Column(name = "updated_at", nullable = false)
     OffsetDateTime updatedAt;
-
-    @Column(name = "internal_address", nullable = false)
-    String internalAddress;
-
-    @Column(name = "external_address", nullable = false)
-    String externalAddress;
-
-    @Column(name = "status", nullable = false)
-    EntityStatus status;
 }

@@ -30,8 +30,4 @@ public class EventJob implements JobExecutor {
         final var events = eventService.fetchPending();
         events.forEach(event -> eventService.process(event.getId()));
     }
-
-    void onStart(@Observes final StartupEvent event) throws SchedulerException {
-        jobService.iterate(getType());
-    }
 }

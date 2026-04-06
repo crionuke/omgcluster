@@ -7,5 +7,7 @@ omgcluster:
   init:
     version: 2
   server:
-    internal-address: http://localhost:8080
-    external-address: http://localhost:8080
+    group: localhost
+    address:
+      internal: http://localhost:8080
+      external: http://localhost:8080

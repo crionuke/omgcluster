@@ -7,7 +7,9 @@ quarkus:
       url: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
 omgcluster:
   init:
-    version: ${CLUSTER_VERSION}
+    version: ${INIT_VERSION}
   server:
-    internal-address: ${INTERNAL_ADDRESS}
-    external-address: ${EXTERNAL_ADDRESS}
+    group: ${SERVER_GROUP}
+    address:
+      internal: ${INTERNAL_ADDRESS}
+      external: ${EXTERNAL_ADDRESS}

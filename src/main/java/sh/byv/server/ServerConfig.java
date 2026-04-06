@@ -5,7 +5,13 @@ import io.smallrye.config.ConfigMapping;
 @ConfigMapping(prefix = "omgcluster.server")
 interface ServerConfig {
 
-    String internalAddress();
+    String group();
 
-    String externalAddress();
+    AddressConfig address();
+
+    interface AddressConfig {
+        String internal();
+
+        String external();
+    }
 }

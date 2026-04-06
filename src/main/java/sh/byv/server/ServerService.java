@@ -1,11 +1,13 @@
 package sh.byv.server;
 
-import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Observes;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sh.byv.event.EventService;
+import sh.byv.event.EventType;
+import sh.byv.group.GroupEntity;
 
 @Slf4j
 @ApplicationScoped
@@ -13,18 +15,38 @@ import lombok.extern.slf4j.Slf4j;
 public class ServerService {
 
     final ServerRepository repository;
-    final ServerConfig config;
+    final EventService events;
+
+    public ServerEntity getByIdRequired(final Long id) {
+        return repository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Server not found: " + id));
+    }
+
+    public ServerEntity getByInternalAddressRequired(final String internalAddress) {
+        return repository.findByInternalAddress(internalAddress)
+                .orElseThrow(() -> new NotFoundException("Server not found: " + internalAddress));
+    }
 
     @Transactional
-    void onStart(@Observes final StartupEvent event) {
-        final var internalAddress = config.internalAddress();
+    public ServerEntity create(final GroupEntity group,
+                               final String internalAddress,
+                               final String externalAddress) {
+        final var server = repository.create(group, internalAddress, externalAddress);
+        events.create(EventType.SERVER_CREATED, server.getId());
+        log.info("Server {} created with id {}", internalAddress, server.getId());
+        return server;
+    }
+
+    @Transactional
+    public ServerEntity getOrCreate(final GroupEntity group,
+                                    final String internalAddress,
+                                    final String externalAddress) {
         final var existing = repository.findByInternalAddress(internalAddress);
         if (existing.isPresent()) {
-            log.info("Server already registered, id={}, internalAddress={}", existing.get().getId(), internalAddress);
-            return;
+            log.debug("Server {} already exists with id {}", internalAddress, existing.get().getId());
+            return existing.get();
         }
 
-        final var server = repository.create(internalAddress, config.externalAddress());
-        log.info("Server created, id={}, internalAddress={}", server.getId(), internalAddress);
+        return create(group, internalAddress, externalAddress);
     }
 }

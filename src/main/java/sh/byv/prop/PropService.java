@@ -36,13 +36,13 @@ public class PropService {
         final var node = objectMapper.valueToTree(value);
         final var prop = repository.findByType(type);
         if (prop.isPresent()) {
-            log.info("Update prop, type={}", type);
+            log.info("Update prop {} by value {}", type, value);
             final var entity = prop.get();
             entity.setUpdatedAt(OffsetDateTime.now());
             entity.setValue(node);
             return entity;
         } else {
-            log.info("Create prop, type={}", type);
+            log.info("Create prop {} with value {}", type, value);
             return repository.create(type, node);
         }
     }

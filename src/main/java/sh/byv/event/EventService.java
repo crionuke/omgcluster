@@ -29,17 +29,15 @@ public class EventService {
         log.info("Registered event handlers, {}", this.handlers.keySet());
     }
 
-    @Transactional
     public EventEntity create(final EventType type, final Long entityId) {
         return repository.create(type, entityId);
     }
 
-    @Transactional
     public List<EventEntity> fetchPending() {
         return repository.fetchByStatus(EventStatus.PENDING, 100);
     }
 
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void process(final Long id) {
         final var event = repository.findById(id);
         final var handler = handlers.get(event.getType());

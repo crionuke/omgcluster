@@ -21,7 +21,8 @@ public class SimService {
     public SimEntity create(final ZoneEntity zone, final String name) {
         final var sim = simRepository.create(zone, name);
         eventService.create(EventType.SIM_CREATED, sim.getId());
-        log.info("Created sim {} in zone {}", name, zone.getId());
+        log.info("Created sim {} in zone {} of layer {} in world {}",
+                name, zone.getId(), zone.getLayer().getName(), zone.getLayer().getWorld().getName());
         return sim;
     }
 

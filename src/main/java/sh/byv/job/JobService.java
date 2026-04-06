@@ -16,6 +16,7 @@ import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import sh.byv.mdc.WithMdcId;
 
 import java.util.Map;
 import java.util.Objects;
@@ -76,6 +77,7 @@ public class JobService {
         }
     }
 
+    @WithMdcId
     @ActivateRequestContext
     void executeJob(final JobType type) {
         final var executor = executors.get(type);
@@ -91,13 +93,13 @@ public class JobService {
     public static class QuartzJob implements Job {
 
         @Inject
-        JobService service;
+        JobService jobs;
 
         public void execute(JobExecutionContext context) throws JobExecutionException {
             final var name = context.getJobDetail().getKey().getName();
             final var type = JobType.valueOf(name);
 
-            service.executeJob(type);
+            jobs.executeJob(type);
         }
     }
 }
