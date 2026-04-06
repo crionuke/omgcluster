@@ -8,7 +8,7 @@ quarkus:
 omgcluster:
   init:
     version: ${INIT_VERSION}
-  server:
+  instance:
     address:
       internal: ${INTERNAL_ADDRESS}
       external: ${EXTERNAL_ADDRESS}

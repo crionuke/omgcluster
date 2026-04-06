@@ -1,9 +1,9 @@
-package sh.byv.server;
+package sh.byv.instance;
 
 import io.smallrye.config.ConfigMapping;
 
-@ConfigMapping(prefix = "omgcluster.server")
-public interface ServerConfig {
+@ConfigMapping(prefix = "omgcluster.instance")
+public interface InstanceConfig {
 
     AddressConfig address();
 

@@ -1,4 +1,4 @@
-package sh.byv.zone;
+package sh.byv.sim;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -13,27 +13,27 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import sh.byv.event.EntityStatus;
-import sh.byv.server.ServerEntity;
+import sh.byv.instance.InstanceEntity;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_zone_server_rel", uniqueConstraints = @UniqueConstraint(columnNames = {"zone_id", "server_id"}))
-public class ZoneServerRelEntity extends PanacheEntityBase {
+@Table(name = "omgc_sim_instance_rel", uniqueConstraints = @UniqueConstraint(columnNames = {"sim_id", "instance_id"}))
+public class SimInstanceRelEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "zone_id")
-    ZoneEntity zone;
+    @JoinColumn(name = "sim_id")
+    SimEntity sim;
 
     @ManyToOne
-    @JoinColumn(name = "server_id")
-    ServerEntity server;
+    @JoinColumn(name = "instance_id")
+    InstanceEntity instance;
 
     @Column(name = "created_at", nullable = false)
     OffsetDateTime createdAt;

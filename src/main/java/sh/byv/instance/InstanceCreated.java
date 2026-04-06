@@ -1,4 +1,4 @@
-package sh.byv.server;
+package sh.byv.instance;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -12,14 +12,14 @@ import sh.byv.event.EventType;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class ServerCreated implements EventHandler {
+public class InstanceCreated implements EventHandler {
 
-    final ServerService servers;
-    final ServerCreated proxy;
+    final InstanceService instances;
+    final InstanceCreated proxy;
 
     @Override
     public EventType getType() {
-        return EventType.SERVER_CREATED;
+        return EventType.INSTANCE_CREATED;
     }
 
     @Override
@@ -28,10 +28,10 @@ public class ServerCreated implements EventHandler {
     }
 
     @Transactional
-    public void handle(final Long serverId) {
-        final var server = servers.getByIdRequired(serverId);
-        if (server.getStatus() == EntityStatus.PENDING) {
-            server.setStatus(EntityStatus.CREATED);
+    public void handle(final Long instanceId) {
+        final var instance = instances.getByIdRequired(instanceId);
+        if (instance.getStatus() == EntityStatus.PENDING) {
+            instance.setStatus(EntityStatus.CREATED);
         }
     }
 }

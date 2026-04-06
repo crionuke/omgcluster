@@ -6,7 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.server.ServerEntity;
+import sh.byv.instance.InstanceEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -33,12 +33,12 @@ public class CommandService {
         log.info("Registered command handlers, {}", handlers.keySet());
     }
 
-    public CommandEntity create(final Long serverId, final CommandType type, final JsonNode body) {
-        return repository.create(serverId, type, body);
+    public CommandEntity create(final Long instanceId, final CommandType type, final JsonNode body) {
+        return repository.create(instanceId, type, body);
     }
 
-    public List<CommandEntity> getPendingCommands(final ServerEntity server) {
-        return repository.findByServerAndStatus(server, CommandStatus.PENDING, 100);
+    public List<CommandEntity> getPendingCommands(final InstanceEntity instance) {
+        return repository.findByInstanceAndStatus(instance, CommandStatus.PENDING, 100);
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
@@ -53,7 +53,7 @@ public class CommandService {
         }
 
         try {
-            log.info("Processing {} command, serverId={}", command.getType(), command.getServerId());
+            log.info("Processing {} command, instanceId={}", command.getType(), command.getInstanceId());
             handler.execute(command);
             repository.process(command);
         } catch (Exception e) {

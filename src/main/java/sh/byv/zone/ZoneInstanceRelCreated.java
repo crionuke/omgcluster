@@ -15,16 +15,16 @@ import sh.byv.event.EventType;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class ZoneServerRelCreated implements EventHandler {
+public class ZoneInstanceRelCreated implements EventHandler {
 
-    final ZoneServerRelCreated proxy;
-    final ZoneServerRelService rels;
+    final ZoneInstanceRelCreated proxy;
+    final ZoneInstanceRelService rels;
     final CommandService commands;
     final ObjectMapper mapper;
 
     @Override
     public EventType getType() {
-        return EventType.ZONE_SERVER_REL_CREATED;
+        return EventType.ZONE_INSTANCE_REL_CREATED;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ZoneServerRelCreated implements EventHandler {
             rel.setStatus(EntityStatus.CREATED);
 
             final var body = mapper.valueToTree(rel.getZone().getId());
-            commands.create(rel.getServer().getId(), CommandType.ADD_ZONE, body);
+            commands.create(rel.getInstance().getId(), CommandType.ADD_ZONE, body);
         }
     }
 }

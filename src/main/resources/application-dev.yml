@@ -6,7 +6,7 @@ quarkus:
 omgcluster:
   init:
     version: 2
-  server:
+  instance:
     address:
       internal: http://localhost:8080
       external: http://localhost:8080

@@ -15,16 +15,16 @@ import sh.byv.event.EventType;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class SimServerRelCreated implements EventHandler {
+public class SimInstanceRelCreated implements EventHandler {
 
-    final SimServerRelCreated proxy;
-    final SimServerRelService rels;
+    final SimInstanceRelCreated proxy;
+    final SimInstanceRelService rels;
     final CommandService commands;
     final ObjectMapper mapper;
 
     @Override
     public EventType getType() {
-        return EventType.SIM_SERVER_REL_CREATED;
+        return EventType.SIM_INSTANCE_REL_CREATED;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SimServerRelCreated implements EventHandler {
             rel.setStatus(EntityStatus.CREATED);
 
             final var body = mapper.valueToTree(rel.getSim().getId());
-            commands.create(rel.getServer().getId(), CommandType.ADD_SIM, body);
+            commands.create(rel.getInstance().getId(), CommandType.ADD_SIM, body);
         }
     }
 }
