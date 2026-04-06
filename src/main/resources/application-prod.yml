@@ -9,7 +9,6 @@ omgcluster:
   init:
     version: ${INIT_VERSION}
   server:
-    group: ${SERVER_GROUP}
     address:
       internal: ${INTERNAL_ADDRESS}
       external: ${EXTERNAL_ADDRESS}

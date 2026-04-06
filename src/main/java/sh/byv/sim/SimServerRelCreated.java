@@ -12,14 +12,14 @@ import sh.byv.event.EventType;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class SimGroupRelCreated implements EventHandler {
+public class SimServerRelCreated implements EventHandler {
 
-    final SimGroupRelCreated proxy;
-    final SimGroupRelService rels;
+    final SimServerRelCreated proxy;
+    final SimServerRelService rels;
 
     @Override
     public EventType getType() {
-        return EventType.SIM_GROUP_REL_CREATED;
+        return EventType.SIM_SERVER_REL_CREATED;
     }
 
     @Override

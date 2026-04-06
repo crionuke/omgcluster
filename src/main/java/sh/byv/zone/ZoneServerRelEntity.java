@@ -13,15 +13,15 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import sh.byv.event.EntityStatus;
-import sh.byv.group.GroupEntity;
+import sh.byv.server.ServerEntity;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_zone_group_rel", uniqueConstraints = @UniqueConstraint(columnNames = {"zone_id", "group_id"}))
-public class ZoneGroupRelEntity extends PanacheEntityBase {
+@Table(name = "omgc_zone_server_rel", uniqueConstraints = @UniqueConstraint(columnNames = {"zone_id", "server_id"}))
+public class ZoneServerRelEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +32,8 @@ public class ZoneGroupRelEntity extends PanacheEntityBase {
     ZoneEntity zone;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
-    GroupEntity group;
+    @JoinColumn(name = "server_id")
+    ServerEntity server;
 
     @Column(name = "created_at", nullable = false)
     OffsetDateTime createdAt;

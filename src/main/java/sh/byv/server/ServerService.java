@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.EventService;
 import sh.byv.event.EventType;
 import sh.byv.exception.NotFoundException;
-import sh.byv.group.GroupEntity;
 
 @Slf4j
 @ApplicationScoped
@@ -28,18 +27,16 @@ public class ServerService {
     }
 
     @Transactional
-    public ServerEntity create(final GroupEntity group,
-                               final String internalAddress,
+    public ServerEntity create(final String internalAddress,
                                final String externalAddress) {
-        final var server = repository.create(group, internalAddress, externalAddress);
+        final var server = repository.create(internalAddress, externalAddress);
         events.create(EventType.SERVER_CREATED, server.getId());
         log.info("Server {} created with id {}", internalAddress, server.getId());
         return server;
     }
 
     @Transactional
-    public ServerEntity getOrCreate(final GroupEntity group,
-                                    final String internalAddress,
+    public ServerEntity getOrCreate(final String internalAddress,
                                     final String externalAddress) {
         final var existing = repository.findByInternalAddress(internalAddress);
         if (existing.isPresent()) {
@@ -47,6 +44,6 @@ public class ServerService {
             return existing.get();
         }
 
-        return create(group, internalAddress, externalAddress);
+        return create(internalAddress, externalAddress);
     }
 }
