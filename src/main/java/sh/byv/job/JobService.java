@@ -31,16 +31,16 @@ public class JobService {
     final Map<JobType, JobExecutor> executors;
     final Scheduler scheduler;
 
-    public JobService(final Scheduler scheduler, final Instance<JobExecutor> executors) {
+    public JobService(final Scheduler scheduler, final Instance<JobExecutor> instances) {
         this.scheduler = scheduler;
 
-        this.executors = new ConcurrentHashMap<>();
-        executors.stream().forEach(jobExecutor -> {
+        executors = new ConcurrentHashMap<>();
+        instances.stream().forEach(jobExecutor -> {
             final var type = jobExecutor.getType();
-            this.executors.put(type, jobExecutor);
+            executors.put(type, jobExecutor);
         });
 
-        log.info("Registered job executors, {}", this.executors.keySet());
+        log.info("Registered job executors, {}", executors.keySet());
     }
 
     public void request(final JobType type) throws SchedulerException {

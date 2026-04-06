@@ -19,16 +19,16 @@ public class EventService {
     final Map<EventType, EventHandler> handlers;
     final EventRepository repository;
 
-    EventService(final EventRepository repository, final Instance<EventHandler> handlers) {
+    EventService(final EventRepository repository, final Instance<EventHandler> instances) {
         this.repository = repository;
 
-        this.handlers = new ConcurrentHashMap<>();
-        handlers.stream().forEach(handler -> {
+        handlers = new ConcurrentHashMap<>();
+        instances.stream().forEach(handler -> {
             final var type = handler.getType();
-            this.handlers.put(type, handler);
+            handlers.put(type, handler);
         });
 
-        log.info("Registered event handlers, {}", this.handlers.keySet());
+        log.info("Registered event handlers, {}", handlers.keySet());
     }
 
     public EventEntity create(final EventType type, final Long entityId) {

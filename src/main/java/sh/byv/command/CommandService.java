@@ -21,16 +21,16 @@ public class CommandService {
     final Map<CommandType, CommandHandler> handlers;
     final CommandRepository repository;
 
-    CommandService(final CommandRepository repository, final Instance<CommandHandler> handlers) {
+    CommandService(final CommandRepository repository, final Instance<CommandHandler> instances) {
         this.repository = repository;
 
-        this.handlers = new ConcurrentHashMap<>();
-        handlers.stream().forEach(handler -> {
-            final var type = handler.getType();
-            this.handlers.put(type, handler);
+        handlers = new ConcurrentHashMap<>();
+        instances.stream().forEach(instance -> {
+            final var type = instance.getType();
+            handlers.put(type, instance);
         });
 
-        log.info("Registered command handlers, {}", this.handlers.keySet());
+        log.info("Registered command handlers, {}", handlers.keySet());
     }
 
     public CommandEntity create(final Long serverId, final CommandType type, final JsonNode body) {
