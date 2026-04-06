@@ -2,6 +2,7 @@ quarkus:
   application:
     name: omgcluster
   container-image:
+    registry: ghcr.io
     group: crionuke
     name: omgcluster
     tag: latest

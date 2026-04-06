@@ -28,12 +28,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push image
-        run: >
-          ./mvnw package -B -DskipTests
-          -Dquarkus.container-image.build=true
-          -Dquarkus.container-image.push=true
-          -Dquarkus.container-image.registry=ghcr.io
-          -Dquarkus.container-image.group=${{ github.repository_owner }}
-          -Dquarkus.container-image.name=omgcluster
-          -Dquarkus.container-image.tag=${{ github.sha }}
-          -Dquarkus.container-image.additional-tags=latest
+        run: ./mvnw package -B -DskipTests-Dquarkus.container-image.push=true
