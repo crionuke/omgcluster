@@ -13,7 +13,7 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import sh.byv.event.EntityStatus;
-import sh.byv.server.ServerEntity;
+import sh.byv.instance.InstanceEntity;
 import sh.byv.world.WorldEntity;
 
 import java.time.OffsetDateTime;
@@ -21,7 +21,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_conn", uniqueConstraints = @UniqueConstraint(columnNames = {"server_id", "world_id"}))
+@Table(name = "omgc_conn", uniqueConstraints = @UniqueConstraint(columnNames = {"instance_id", "world_id"}))
 public class ConnEntity extends PanacheEntityBase {
 
     @Id
@@ -29,8 +29,8 @@ public class ConnEntity extends PanacheEntityBase {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "server_id")
-    ServerEntity server;
+    @JoinColumn(name = "instance_id")
+    InstanceEntity instance;
 
     @ManyToOne
     @JoinColumn(name = "world_id")

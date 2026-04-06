@@ -25,8 +25,8 @@ public class CommandEntity extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "server_id", nullable = false)
-    Long serverId;
+    @Column(name = "instance_id", nullable = false)
+    Long instanceId;
 
     @Column(name = "created_at", nullable = false)
     OffsetDateTime createdAt;

@@ -1,4 +1,4 @@
-package sh.byv.server;
+package sh.byv.instance;
 
 import io.quarkus.runtime.StartupEvent;
 import jakarta.annotation.Priority;
@@ -11,18 +11,18 @@ import sh.byv.mdc.WithMdcId;
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class ServerLifecycle {
+public class InstanceLifecycle {
 
-    final ServerService servers;
-    final ServerConfig config;
+    final InstanceService instances;
+    final InstanceConfig config;
 
     @WithMdcId
     public void onStart(@Observes @Priority(1) final StartupEvent event) {
         final var internalAddress = config.address().internal();
         final var externalAddress = config.address().external();
 
-        log.info("Start server {}", internalAddress);
+        log.info("Start instance {}", internalAddress);
 
-        servers.getOrCreate(internalAddress, externalAddress);
+        instances.getOrCreate(internalAddress, externalAddress);
     }
 }

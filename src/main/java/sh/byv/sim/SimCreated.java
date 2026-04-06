@@ -14,7 +14,7 @@ import sh.byv.event.EventType;
 @AllArgsConstructor
 public class SimCreated implements EventHandler {
 
-    final SimServerRelService rels;
+    final SimInstanceRelService rels;
     final SimCreated proxy;
     final SimService sims;
 
@@ -32,8 +32,8 @@ public class SimCreated implements EventHandler {
     public void handle(final Long simId) {
         final var sim = sims.getByIdRequired(simId);
         if (sim.getStatus() == EntityStatus.PENDING) {
-            final var server = rels.getLeastPopulatedServer();
-            rels.create(sim, server);
+            final var instance = rels.getLeastPopulatedInstance();
+            rels.create(sim, instance);
             sim.setStatus(EntityStatus.CREATED);
         }
     }
