@@ -20,7 +20,9 @@ public enum EventType {
     SERVER_CREATED(9),
     SERVER_DELETED(10),
     CONN_CREATED(11),
-    CONN_DELETED(12);
+    CONN_DELETED(12),
+    GROUP_CREATED(13),
+    GROUP_DELETED(14);
 
     final int id;
 
