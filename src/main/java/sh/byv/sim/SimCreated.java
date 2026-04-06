@@ -14,8 +14,9 @@ import sh.byv.event.EventType;
 @AllArgsConstructor
 public class SimCreated implements EventHandler {
 
-    final SimCreated thisHandler;
-    final SimService simService;
+    final SimGroupRelService rels;
+    final SimCreated proxy;
+    final SimService sims;
 
     @Override
     public EventType getType() {
@@ -24,13 +25,15 @@ public class SimCreated implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        thisHandler.handle(event.getEntityId());
+        proxy.handle(event.getEntityId());
     }
 
     @Transactional
     public void handle(final Long simId) {
-        final var sim = simService.getByIdRequired(simId);
+        final var sim = sims.getByIdRequired(simId);
         if (sim.getStatus() == EntityStatus.PENDING) {
+            final var group = rels.getLeastPopulatedGroup();
+            rels.create(sim, group);
             sim.setStatus(EntityStatus.CREATED);
         }
     }

@@ -10,7 +10,7 @@ import java.util.Arrays;
 public enum EntityStatus {
     PENDING(1),
     CREATED(2),
-    DELETING(3);
+    DELETED(3);
 
     final int id;
 

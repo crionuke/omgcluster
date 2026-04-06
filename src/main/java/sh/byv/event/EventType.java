@@ -17,12 +17,12 @@ public enum EventType {
     SIM_CREATED(7),
     SIM_DELETED(8),
 
+    GROUP_CREATED(13),
+    GROUP_DELETED(14),
     SERVER_CREATED(9),
     SERVER_DELETED(10),
     CONN_CREATED(11),
-    CONN_DELETED(12),
-    GROUP_CREATED(13),
-    GROUP_DELETED(14);
+    CONN_DELETED(12);
 
     final int id;
 
