@@ -18,7 +18,7 @@ public class CommandWorker {
 
     @WithMdcId
     public void execute() {
-        final var instance = instances.getByInternalAddressRequired(config.address().internal());
+        final var instance = instances.getByNameRequired(config.name());
         final var pending = commands.getPendingCommands(instance);
         pending.forEach(command -> commands.process(command.getId()));
     }

@@ -9,6 +9,4 @@ omgcluster:
   init:
     version: ${INIT_VERSION}
   instance:
-    address:
-      internal: ${INTERNAL_ADDRESS}
-      external: ${EXTERNAL_ADDRESS}
+    name: ${HOSTNAME}

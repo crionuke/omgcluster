@@ -21,29 +21,27 @@ public class InstanceService {
                 .orElseThrow(() -> new NotFoundException("Instance not found: " + id));
     }
 
-    public InstanceEntity getByInternalAddressRequired(final String internalAddress) {
-        return repository.findByInternalAddress(internalAddress)
-                .orElseThrow(() -> new NotFoundException("Instance not found: " + internalAddress));
+    public InstanceEntity getByNameRequired(final String name) {
+        return repository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("Instance not found: " + name));
     }
 
     @Transactional
-    public InstanceEntity create(final String internalAddress,
-                               final String externalAddress) {
-        final var instance = repository.create(internalAddress, externalAddress);
+    public InstanceEntity create(final String name) {
+        final var instance = repository.create(name);
         events.create(EventType.INSTANCE_CREATED, instance.getId());
-        log.info("Instance {} created with id {}", internalAddress, instance.getId());
+        log.info("Instance {} created with id {}", name, instance.getId());
         return instance;
     }
 
     @Transactional
-    public InstanceEntity getOrCreate(final String internalAddress,
-                                    final String externalAddress) {
-        final var existing = repository.findByInternalAddress(internalAddress);
+    public InstanceEntity getOrCreate(final String name) {
+        final var existing = repository.findByName(name);
         if (existing.isPresent()) {
-            log.debug("Instance {} already exists with id {}", internalAddress, existing.get().getId());
+            log.debug("Instance {} already exists with id {}", name, existing.get().getId());
             return existing.get();
         }
 
-        return create(internalAddress, externalAddress);
+        return create(name);
     }
 }

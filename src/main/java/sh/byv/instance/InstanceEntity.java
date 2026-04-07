@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_instance", uniqueConstraints = @UniqueConstraint(columnNames = {"internal_address"}))
+@Table(name = "omgc_instance", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class InstanceEntity extends PanacheEntityBase {
 
     @Id
@@ -30,11 +30,8 @@ public class InstanceEntity extends PanacheEntityBase {
     @Column(name = "updated_at", nullable = false)
     OffsetDateTime updatedAt;
 
-    @Column(name = "internal_address", nullable = false)
-    String internalAddress;
-
-    @Column(name = "external_address", nullable = false)
-    String externalAddress;
+    @Column(name = "name", nullable = false)
+    String name;
 
     @Column(name = "status", nullable = false)
     EntityStatus status;

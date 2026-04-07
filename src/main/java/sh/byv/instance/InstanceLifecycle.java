@@ -18,11 +18,10 @@ public class InstanceLifecycle {
 
     @WithMdcId
     public void onStart(@Observes @Priority(1) final StartupEvent event) {
-        final var internalAddress = config.address().internal();
-        final var externalAddress = config.address().external();
+        final var name = config.name();
 
-        log.info("Start instance {}", internalAddress);
+        log.info("Start instance {}", name);
 
-        instances.getOrCreate(internalAddress, externalAddress);
+        instances.getOrCreate(name);
     }
 }
