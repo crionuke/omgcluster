@@ -34,9 +34,10 @@ public class ZoneCreated implements EventHandler {
     public void handle(final Long zoneId) {
         final var zone = zones.getByIdRequired(zoneId);
         if (zone.getStatus() == EntityStatus.PENDING) {
+            zone.setStatus(EntityStatus.CREATED);
+
             final var instance = rels.getLeastPopulatedInstance();
             rels.create(zone, instance);
-            zone.setStatus(EntityStatus.CREATED);
         }
     }
 }

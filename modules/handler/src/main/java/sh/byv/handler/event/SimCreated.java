@@ -34,9 +34,10 @@ public class SimCreated implements EventHandler {
     public void handle(final Long simId) {
         final var sim = sims.getByIdRequired(simId);
         if (sim.getStatus() == EntityStatus.PENDING) {
+            sim.setStatus(EntityStatus.CREATED);
+
             final var instance = rels.getLeastPopulatedInstance();
             rels.create(sim, instance);
-            sim.setStatus(EntityStatus.CREATED);
         }
     }
 }

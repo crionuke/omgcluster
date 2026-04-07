@@ -1,6 +1,7 @@
 package sh.byv.zone;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import sh.byv.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import sh.byv.event.EventType;
 import sh.byv.instance.InstanceEntity;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class ZoneInstanceRelService {

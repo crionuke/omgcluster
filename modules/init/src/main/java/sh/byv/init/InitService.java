@@ -12,6 +12,7 @@ import sh.byv.prop.PropType;
 import java.util.stream.IntStream;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class InitService {
@@ -22,6 +23,7 @@ public class InitService {
     final PropService propService;
     final InitConfig initConfig;
 
+    @Transactional(Transactional.TxType.SUPPORTS)
     public void initToLatest() {
         final var fromVersion = propService.getInt(PropType.RUNTIME_VERSION);
         final var toVersion = initConfig.version();

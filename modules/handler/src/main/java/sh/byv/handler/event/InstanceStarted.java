@@ -24,11 +24,6 @@ public class InstanceStarted implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        proxy.handle(event.getEntityId());
-    }
-
-    @Transactional
-    public void handle(final Long instanceId) {
         init.initToLatest();
     }
 }

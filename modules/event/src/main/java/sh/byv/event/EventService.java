@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Startup
+@Transactional
 @ApplicationScoped
 public class EventService {
 

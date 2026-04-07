@@ -10,6 +10,7 @@ import sh.byv.exception.NotFoundException;
 import sh.byv.zone.ZoneEntity;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class SimService {
@@ -17,7 +18,6 @@ public class SimService {
     final SimRepository simRepository;
     final EventService eventService;
 
-    @Transactional
     public SimEntity create(final ZoneEntity zone, final String name) {
         final var sim = simRepository.create(zone, name);
         eventService.create(EventType.SIM_CREATED, sim.getId());

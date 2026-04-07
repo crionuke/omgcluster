@@ -10,6 +10,7 @@ import sh.byv.exception.NotFoundException;
 import sh.byv.layer.LayerEntity;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class ZoneService {
@@ -17,7 +18,6 @@ public class ZoneService {
     final ZoneRepository zoneRepository;
     final EventService eventService;
 
-    @Transactional
     public ZoneEntity create(final LayerEntity layer,
                              final int x1,
                              final int y1,

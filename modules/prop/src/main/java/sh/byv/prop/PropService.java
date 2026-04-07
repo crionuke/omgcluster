@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.OffsetDateTime;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class PropService {
@@ -22,12 +23,10 @@ public class PropService {
         return mapper.convertValue(raw, Integer.class);
     }
 
-    @Transactional
     public PropEntity setInt(final PropType type, final int value) {
         return set(type, value);
     }
 
-    @Transactional
     public PropEntity setString(final PropType type, final String value) {
         return set(type, value);
     }

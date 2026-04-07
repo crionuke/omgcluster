@@ -9,6 +9,7 @@ import sh.byv.event.EventType;
 import sh.byv.exception.NotFoundException;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class WorldService {
@@ -16,7 +17,6 @@ public class WorldService {
     final WorldRepository worldRepository;
     final EventService eventService;
 
-    @Transactional
     public WorldEntity create(final String name) {
         final var world = worldRepository.create(name);
         eventService.create(EventType.WORLD_CREATED, world.getId());

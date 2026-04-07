@@ -43,10 +43,6 @@ public class JobService {
         log.info("Registered job executors, {}", executors.keySet());
     }
 
-    public void startJobs() throws SchedulerException {
-        iterate(JobType.EVENT);
-    }
-
     public void iterate(final JobType type) throws SchedulerException {
         final var trigger = TriggerBuilder.newTrigger()
                 .withIdentity(type.name())
