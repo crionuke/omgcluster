@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PropType {
-    CLUSTER_VERSION(0);
+    RUNTIME_VERSION(0);
 
     final Object defaultValue;
 }

@@ -1,4 +1,4 @@
-package sh.byv.cluster;
+package sh.byv.runtime;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import sh.byv.world.WorldService;
 
 @ApplicationScoped
 @AllArgsConstructor
-public class ClusterContext {
+public class RuntimeContext {
 
     final WorldContextBuilder builder;
     final WorldService worlds;

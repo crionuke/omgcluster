@@ -1,4 +1,4 @@
-package sh.byv.cluster;
+package sh.byv.runtime;
 
 import io.quarkus.arc.DefaultBean;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -9,12 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 @DefaultBean
 @ApplicationScoped
 @AllArgsConstructor
-public class ClusterStub implements ClusterService {
+public class RuntimeStub implements RuntimeService {
 
     @Override
-    public void init(final ClusterContext cluster, final int version) {
+    public void init(final RuntimeContext runtime, final int version) {
         if (version == 1) {
-            final var world = cluster.newWorld("stub_world");
+            final var world = runtime.newWorld("stub_world");
 
             world.newLayer("lobby_layer")
                     .newZone(0, 0, 1024, 1024)

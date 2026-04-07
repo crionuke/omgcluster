@@ -4,8 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.cluster.ClusterContext;
-import sh.byv.cluster.ClusterService;
+import sh.byv.runtime.RuntimeContext;
+import sh.byv.runtime.RuntimeService;
 import sh.byv.prop.PropService;
 import sh.byv.prop.PropType;
 
@@ -16,14 +16,14 @@ import java.util.stream.IntStream;
 @AllArgsConstructor
 public class InitService {
 
-    final ClusterService clusterService;
-    final ClusterContext clusterContext;
+    final RuntimeService runtimeService;
+    final RuntimeContext runtimeContext;
     final InitService serviceProxy;
     final PropService propService;
     final InitConfig initConfig;
 
     public void initToLatest() {
-        final var fromVersion = propService.getInt(PropType.CLUSTER_VERSION);
+        final var fromVersion = propService.getInt(PropType.RUNTIME_VERSION);
         final var toVersion = initConfig.version();
 
         IntStream.range(fromVersion, toVersion)
@@ -33,7 +33,7 @@ public class InitService {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void initToVersion(final int version) {
         log.info("Init version {}", version);
-        clusterService.init(clusterContext, version);
-        propService.setInt(PropType.CLUSTER_VERSION, version);
+        runtimeService.init(runtimeContext, version);
+        propService.setInt(PropType.RUNTIME_VERSION, version);
     }
 }

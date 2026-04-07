@@ -23,8 +23,8 @@
         <module>prop</module>
         <module>zone</module>
         <module>world</module>
+        <module>runtime</module>
         <module>sim</module>
-        <module>cluster</module>
         <module>lifecycle</module>
         <module>init</module>
         <module>state</module>

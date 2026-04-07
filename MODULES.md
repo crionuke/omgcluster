@@ -9,12 +9,12 @@ graph TD
     lifecycle --> command
     lifecycle --> job
 
-    init --> cluster
+    init --> runtime
     init --> prop
 
     state --> sim
 
-    cluster --> sim
+    runtime --> sim
 
     conn --> instance
     conn --> zone

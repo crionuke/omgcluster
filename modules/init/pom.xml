@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>cluster</artifactId>
+            <artifactId>runtime</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
