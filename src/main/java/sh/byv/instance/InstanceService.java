@@ -14,13 +14,33 @@ import sh.byv.exception.NotFoundException;
 public class InstanceService {
 
     final InstanceRepository repository;
+    final InstanceConfig config;
     final EventService events;
+
+    public void createInstance() {
+        final var name = config.name();
+        log.info("Start instance {}", name);
+        getOrCreate(name);
+    }
+
+    @Transactional
+    public void startInstance() {
+        final var instance = getThisInstance();
+        events.create(EventType.INSTANCE_STARTED, instance.getId());
+    }
 
     public InstanceEntity getByIdRequired(final Long id) {
         return repository.findByIdOptional(id)
                 .orElseThrow(() -> new NotFoundException("Instance not found: " + id));
     }
 
+    public InstanceEntity getThisInstance() {
+        final var name = config.name();
+        return repository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("Instance not found: " + name));
+    }
+
+    @Transactional
     public InstanceEntity getByNameRequired(final String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("Instance not found: " + name));
@@ -38,7 +58,7 @@ public class InstanceService {
     public InstanceEntity getOrCreate(final String name) {
         final var existing = repository.findByName(name);
         if (existing.isPresent()) {
-            log.debug("Instance {} already exists with id {}", name, existing.get().getId());
+            log.info("Instance {} already exists with id {}", name, existing.get().getId());
             return existing.get();
         }
 
