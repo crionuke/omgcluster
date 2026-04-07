@@ -12,12 +12,12 @@ import sh.byv.sim.SimInstanceRelService;
 import sh.byv.sim.SimService;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class SimCreated implements EventHandler {
 
     final SimInstanceRelService rels;
-    final SimCreated proxy;
     final SimService sims;
 
     @Override
@@ -27,12 +27,7 @@ public class SimCreated implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        proxy.handle(event.getEntityId());
-    }
-
-    @Transactional
-    public void handle(final Long simId) {
-        final var sim = sims.getByIdRequired(simId);
+        final var sim = sims.getByIdRequired(event.getEntityId());
         if (sim.getStatus() == EntityStatus.PENDING) {
             sim.setStatus(EntityStatus.CREATED);
 

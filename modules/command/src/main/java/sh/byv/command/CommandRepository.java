@@ -11,14 +11,14 @@ import java.util.List;
 @ApplicationScoped
 public class CommandRepository implements PanacheRepository<CommandEntity> {
 
-    public CommandEntity create(final Long instanceId,
+    public CommandEntity create(final InstanceEntity instance,
                                 final CommandType type,
                                 final JsonNode body) {
         final var command = new CommandEntity();
         command.setCreatedAt(OffsetDateTime.now());
         command.setUpdatedAt(OffsetDateTime.now());
         command.setType(type);
-        command.setInstanceId(instanceId);
+        command.setInstance(instance);
         command.setBody(body);
         command.setStatus(CommandStatus.PENDING);
         persist(command);
@@ -40,7 +40,7 @@ public class CommandRepository implements PanacheRepository<CommandEntity> {
     public List<CommandEntity> findByInstanceAndStatus(final InstanceEntity instance,
                                                      final CommandStatus status,
                                                      final int limit) {
-        return find("status = ?1 and instanceId = ?2 order by createdAt asc", status, instance.getId())
+        return find("status = ?1 and instance = ?2 order by createdAt asc", status, instance)
                 .page(0, limit)
                 .list();
     }

@@ -1,6 +1,7 @@
 package sh.byv.handler.command;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.command.CommandEntity;
@@ -10,6 +11,7 @@ import sh.byv.state.StateService;
 import sh.byv.zone.ZoneService;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class AddZoneHandler implements CommandHandler {
@@ -24,8 +26,9 @@ public class AddZoneHandler implements CommandHandler {
 
     @Override
     public void execute(final CommandEntity command) {
+        final var instance = command.getInstance();
         final var zoneId = command.getBody().asLong();
         final var zone = zones.getByIdRequired(zoneId);
-        state.addZone(zone);
+        state.addZone(instance, zone);
     }
 }

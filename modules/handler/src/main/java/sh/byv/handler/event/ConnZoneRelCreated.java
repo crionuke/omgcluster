@@ -11,11 +11,11 @@ import sh.byv.event.EventHandler;
 import sh.byv.event.EventType;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class ConnZoneRelCreated implements EventHandler {
 
-    final ConnZoneRelCreated proxy;
     final ConnZoneRelService rels;
 
     @Override
@@ -25,12 +25,7 @@ public class ConnZoneRelCreated implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        proxy.handle(event.getEntityId());
-    }
-
-    @Transactional
-    public void handle(final Long relId) {
-        final var rel = rels.getByIdRequired(relId);
+        final var rel = rels.getByIdRequired(event.getEntityId());
         if (rel.getStatus() == EntityStatus.PENDING) {
             rel.setStatus(EntityStatus.CREATED);
         }

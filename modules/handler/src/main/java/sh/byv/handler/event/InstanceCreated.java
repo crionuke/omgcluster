@@ -11,12 +11,12 @@ import sh.byv.event.EventType;
 import sh.byv.instance.InstanceService;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class InstanceCreated implements EventHandler {
 
     final InstanceService instances;
-    final InstanceCreated proxy;
 
     @Override
     public EventType getType() {
@@ -25,12 +25,7 @@ public class InstanceCreated implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        proxy.handle(event.getEntityId());
-    }
-
-    @Transactional
-    public void handle(final Long instanceId) {
-        final var instance = instances.getByIdRequired(instanceId);
+        final var instance = instances.getByIdRequired(event.getEntityId());
         if (instance.getStatus() == EntityStatus.PENDING) {
             instance.setStatus(EntityStatus.CREATED);
         }

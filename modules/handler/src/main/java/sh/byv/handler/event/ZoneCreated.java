@@ -12,12 +12,12 @@ import sh.byv.zone.ZoneInstanceRelService;
 import sh.byv.zone.ZoneService;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class ZoneCreated implements EventHandler {
 
     final ZoneInstanceRelService rels;
-    final ZoneCreated proxy;
     final ZoneService zones;
 
     @Override
@@ -27,12 +27,7 @@ public class ZoneCreated implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        proxy.handle(event.getEntityId());
-    }
-
-    @Transactional
-    public void handle(final Long zoneId) {
-        final var zone = zones.getByIdRequired(zoneId);
+        final var zone = zones.getByIdRequired(event.getEntityId());
         if (zone.getStatus() == EntityStatus.PENDING) {
             zone.setStatus(EntityStatus.CREATED);
 
