@@ -20,11 +20,6 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>command</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
             <artifactId>job</artifactId>
             <version>${project.version}</version>
         </dependency>
