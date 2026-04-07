@@ -42,11 +42,6 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>command</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
             <artifactId>conn</artifactId>
             <version>${project.version}</version>
         </dependency>
