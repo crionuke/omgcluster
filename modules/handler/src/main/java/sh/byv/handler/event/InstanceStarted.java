@@ -10,11 +10,11 @@ import sh.byv.event.EventType;
 import sh.byv.init.InitService;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class InstanceStarted implements EventHandler {
 
-    final InstanceStarted proxy;
     final InitService init;
 
     @Override

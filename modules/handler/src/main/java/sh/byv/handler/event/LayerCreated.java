@@ -11,12 +11,12 @@ import sh.byv.event.EventType;
 import sh.byv.layer.LayerService;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class LayerCreated implements EventHandler {
 
     final LayerService layers;
-    final LayerCreated proxy;
 
     @Override
     public EventType getType() {
@@ -25,12 +25,7 @@ public class LayerCreated implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        proxy.handle(event.getEntityId());
-    }
-
-    @Transactional
-    public void handle(final Long layerId) {
-        final var layer = layers.getByIdRequired(layerId);
+        final var layer = layers.getByIdRequired(event.getEntityId());
         if (layer.getStatus() == EntityStatus.PENDING) {
             layer.setStatus(EntityStatus.CREATED);
         }

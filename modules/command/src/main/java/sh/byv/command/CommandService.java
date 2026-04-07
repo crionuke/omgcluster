@@ -36,8 +36,8 @@ public class CommandService {
         log.info("Registered command handlers, {}", handlers.keySet());
     }
 
-    public CommandEntity create(final Long instanceId, final CommandType type, final JsonNode body) {
-        return repository.create(instanceId, type, body);
+    public CommandEntity create(final InstanceEntity instance, final CommandType type, final JsonNode body) {
+        return repository.create(instance, type, body);
     }
 
     public List<CommandEntity> getPendingCommands(final InstanceEntity instance) {
@@ -56,7 +56,7 @@ public class CommandService {
         }
 
         try {
-            log.info("Processing {} command, instanceId={}", command.getType(), command.getInstanceId());
+            log.info("Processing {} command, instance={}", command.getType(), command.getInstance().getName());
             handler.execute(command);
             repository.process(command);
         } catch (Exception e) {

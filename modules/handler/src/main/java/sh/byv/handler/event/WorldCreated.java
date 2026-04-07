@@ -11,12 +11,12 @@ import sh.byv.event.EventType;
 import sh.byv.world.WorldService;
 
 @Slf4j
+@Transactional
 @ApplicationScoped
 @AllArgsConstructor
 public class WorldCreated implements EventHandler {
 
     final WorldService worlds;
-    final WorldCreated proxy;
 
     @Override
     public EventType getType() {
@@ -25,12 +25,7 @@ public class WorldCreated implements EventHandler {
 
     @Override
     public void execute(final EventEntity event) {
-        proxy.handle(event.getEntityId());
-    }
-
-    @Transactional
-    public void handle(final Long worldId) {
-        final var world = worlds.getByIdRequired(worldId);
+        final var world = worlds.getByIdRequired(event.getEntityId());
         if (world.getStatus() == EntityStatus.PENDING) {
             world.setStatus(EntityStatus.CREATED);
         }

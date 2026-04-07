@@ -15,6 +15,7 @@ import sh.byv.exception.NotFoundException;
 public class InstanceService {
 
     final InstanceRepository repository;
+    final InstanceConfig config;
     final EventService events;
 
     public InstanceEntity create(final String name) {
@@ -32,6 +33,10 @@ public class InstanceService {
     public InstanceEntity getByNameRequired(final String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("Instance not found: " + name));
+    }
+
+    public InstanceEntity getThisInstance() {
+        return getByNameRequired(config.name());
     }
 
     public InstanceEntity getOrCreate(final String name) {
