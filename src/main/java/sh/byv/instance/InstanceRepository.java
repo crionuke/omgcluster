@@ -10,19 +10,17 @@ import java.util.Optional;
 @ApplicationScoped
 public class InstanceRepository implements PanacheRepository<InstanceEntity> {
 
-    InstanceEntity create(final String internalAddress,
-                        final String externalAddress) {
+    InstanceEntity create(final String name) {
         final var instance = new InstanceEntity();
         instance.setCreatedAt(OffsetDateTime.now());
         instance.setUpdatedAt(OffsetDateTime.now());
-        instance.setInternalAddress(internalAddress);
-        instance.setExternalAddress(externalAddress);
+        instance.setName(name);
         instance.setStatus(EntityStatus.PENDING);
         persist(instance);
         return instance;
     }
 
-    Optional<InstanceEntity> findByInternalAddress(final String internalAddress) {
-        return find("internalAddress", internalAddress).firstResultOptional();
+    Optional<InstanceEntity> findByName(final String name) {
+        return find("name", name).firstResultOptional();
     }
 }

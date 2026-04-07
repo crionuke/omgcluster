@@ -67,10 +67,9 @@ create table if not exists omgc_instance (
     id bigint generated always as identity primary key,
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null,
-    internal_address text not null,
-    external_address text not null,
+    name text not null,
     status integer not null,
-    constraint omgc_instance_internal_address_unique unique (internal_address)
+    constraint omgc_instance_name_unique unique (name)
 );
 
 create table if not exists omgc_conn (
