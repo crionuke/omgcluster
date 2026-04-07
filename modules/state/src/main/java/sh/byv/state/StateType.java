@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StateType {
-    WORLD(WorldState.class);
+    CLUSTER(ClusterState.class);
 
     final Class<?> bodyClass;
 }

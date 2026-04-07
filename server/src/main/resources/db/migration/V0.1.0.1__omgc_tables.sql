@@ -85,13 +85,11 @@ create table if not exists omgc_command (
 
 create table if not exists omgc_state (
     id bigint generated always as identity primary key,
-    instance_id bigint not null,
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null,
     type text not null,
     body jsonb not null,
-    constraint omgc_state_instance_type_unique unique (instance_id, type),
-    constraint fk_omgc_state_instance foreign key (instance_id) references omgc_instance(id) on delete restrict on update restrict
+    constraint omgc_state_type_unique unique (type)
 );
 
 create table if not exists omgc_conn (

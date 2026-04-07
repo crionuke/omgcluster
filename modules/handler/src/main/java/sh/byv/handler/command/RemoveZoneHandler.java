@@ -24,8 +24,7 @@ public class RemoveZoneHandler implements CommandHandler {
 
     @Override
     public void execute(final CommandEntity command) {
-        final var instance = command.getInstance();
         final var zoneId = command.getBody().asLong();
-        state.removeZone(instance, zoneId);
+        state.removeZone(zoneId);
     }
 }
