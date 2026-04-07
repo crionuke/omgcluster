@@ -9,6 +9,7 @@ import sh.byv.event.EventEntity;
 import sh.byv.event.EventHandler;
 import sh.byv.event.EventType;
 import sh.byv.instance.InstanceService;
+import sh.byv.state.StateService;
 
 @Slf4j
 @Transactional
@@ -17,6 +18,7 @@ import sh.byv.instance.InstanceService;
 public class InstanceCreated implements EventHandler {
 
     final InstanceService instances;
+    final StateService state;
 
     @Override
     public EventType getType() {
@@ -28,6 +30,8 @@ public class InstanceCreated implements EventHandler {
         final var instance = instances.getByIdRequired(event.getEntityId());
         if (instance.getStatus() == EntityStatus.PENDING) {
             instance.setStatus(EntityStatus.CREATED);
+
+            state.addInstance(instance);
         }
     }
 }

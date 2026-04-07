@@ -26,9 +26,7 @@ public class AddSimHandler implements CommandHandler {
 
     @Override
     public void execute(final CommandEntity command) {
-        final var instance = command.getInstance();
         final var simId = command.getBody().asLong();
         final var sim = sims.getByIdRequired(simId);
-        state.addSim(instance, sim);
     }
 }

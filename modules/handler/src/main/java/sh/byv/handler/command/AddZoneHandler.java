@@ -26,9 +26,7 @@ public class AddZoneHandler implements CommandHandler {
 
     @Override
     public void execute(final CommandEntity command) {
-        final var instance = command.getInstance();
         final var zoneId = command.getBody().asLong();
         final var zone = zones.getByIdRequired(zoneId);
-        state.addZone(instance, zone);
     }
 }

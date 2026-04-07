@@ -24,8 +24,7 @@ public class RemoveSimHandler implements CommandHandler {
 
     @Override
     public void execute(final CommandEntity command) {
-        final var instance = command.getInstance();
         final var simId = command.getBody().asLong();
-        state.removeSim(instance, simId);
+        state.removeSim(simId);
     }
 }
