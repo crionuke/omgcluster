@@ -44,7 +44,7 @@ jobs:
 
             Stack: Java 21, Quarkus, Hibernate ORM with Panache, Maven.
 
-            Review the PR diff. Read `src/conv/code-checks.md` and `src/conv/code-style.md` for project conventions.
+            Review the PR diff. Read `src/conv/code-checks.md` for project conventions.
             Leave inline comments only for violations or bugs. Do not leave positive or nitpick comments.
 
           claude_args: |

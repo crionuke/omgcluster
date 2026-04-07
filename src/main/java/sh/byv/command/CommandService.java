@@ -2,6 +2,8 @@ package sh.byv.command;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.quarkus.runtime.Startup;
+import io.quarkus.scheduler.Scheduled;
+import io.quarkus.scheduler.Scheduler;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.transaction.Transactional;
@@ -18,11 +20,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApplicationScoped
 public class CommandService {
 
-    final Map<CommandType, CommandHandler> handlers;
     final CommandRepository repository;
+    final CommandWorker worker;
+    final Scheduler scheduler;
 
-    CommandService(final CommandRepository repository, final Instance<CommandHandler> instances) {
+    final Map<CommandType, CommandHandler> handlers;
+
+    CommandService(final CommandRepository repository,
+                   final CommandWorker worker,
+                   final Scheduler scheduler,
+                   final Instance<CommandHandler> instances) {
         this.repository = repository;
+        this.scheduler = scheduler;
+        this.worker = worker;
 
         handlers = new ConcurrentHashMap<>();
         instances.stream().forEach(instance -> {
@@ -33,10 +43,22 @@ public class CommandService {
         log.info("Registered command handlers, {}", handlers.keySet());
     }
 
+    public void startWorker() {
+        final var trigger = scheduler.newJob("command-worker")
+                .setConcurrentExecution(Scheduled.ConcurrentExecution.SKIP)
+                .setInterval("1s")
+                .setExecuteWith(Scheduled.SIMPLE)
+                .setTask(_ -> worker.execute())
+                .schedule();
+
+        log.info("Command worker scheduled {}", trigger);
+    }
+
     public CommandEntity create(final Long instanceId, final CommandType type, final JsonNode body) {
         return repository.create(instanceId, type, body);
     }
 
+    @Transactional
     public List<CommandEntity> getPendingCommands(final InstanceEntity instance) {
         return repository.findByInstanceAndStatus(instance, CommandStatus.PENDING, 100);
     }

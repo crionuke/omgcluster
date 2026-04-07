@@ -6,5 +6,4 @@
 
 ## Code conventions
 
-- `src/conv/code-checks.md`
 - `src/conv/code-style.md`

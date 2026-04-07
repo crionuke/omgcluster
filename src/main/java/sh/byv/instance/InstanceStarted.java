@@ -1,25 +1,25 @@
-package sh.byv.layer;
+package sh.byv.instance;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.event.EntityStatus;
 import sh.byv.event.EventEntity;
 import sh.byv.event.EventHandler;
 import sh.byv.event.EventType;
+import sh.byv.init.InitService;
 
 @Slf4j
 @ApplicationScoped
 @AllArgsConstructor
-public class LayerCreated implements EventHandler {
+public class InstanceStarted implements EventHandler {
 
-    final LayerService layers;
-    final LayerCreated proxy;
+    final InstanceStarted proxy;
+    final InitService init;
 
     @Override
     public EventType getType() {
-        return EventType.LAYER_CREATED;
+        return EventType.INSTANCE_STARTED;
     }
 
     @Override
@@ -28,10 +28,7 @@ public class LayerCreated implements EventHandler {
     }
 
     @Transactional
-    public void handle(final Long layerId) {
-        final var layer = layers.getByIdRequired(layerId);
-        if (layer.getStatus() == EntityStatus.PENDING) {
-            layer.setStatus(EntityStatus.CREATED);
-        }
+    public void handle(final Long instanceId) {
+        init.initToLatest();
     }
 }
