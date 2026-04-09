@@ -21,54 +21,49 @@ public class StateService {
     final StateRepository repository;
     final ObjectMapper mapper;
 
-    public StateEntity create(final StateType type) {
+    public StateEntity create(final InstanceEntity instance, final StateType type) {
         final var body = switch (type) {
-            case CLUSTER -> mapper.valueToTree(new ClusterState());
+            case INSTANCE -> mapper.valueToTree(new InstanceState());
         };
 
-        final var state = repository.create(type, body);
-        log.info("State {} created", type);
+        final var state = repository.create(instance, type, body);
+        log.info("State {} created for instance {}", type, instance.getId());
         return state;
     }
 
-    public StateEntity getOrCreate(final StateType type) {
-        final var existing = repository.findByType(type);
+    public StateEntity getOrCreate(final InstanceEntity instance, final StateType type) {
+        final var existing = repository.findByTypeAndInstance(type, instance);
         if (existing.isPresent()) {
-            log.debug("State {} already exists with id {}", type, existing.get().getId());
+            log.debug("State {} already exists for instance {} with id {}", type, instance.getId(), existing.get().getId());
             return existing.get();
         }
 
-        return create(type);
-    }
-
-    public void addInstance(final InstanceEntity instance) {
-        updateClusterState(body -> body.addInstance(instance));
-        log.info("Added instance {} to cluster state", instance.getName());
+        return create(instance, type);
     }
 
     public void addZone(final InstanceEntity instance, final ZoneEntity zone) {
-        updateClusterState(body -> body.addZone(instance, zone));
-        log.info("Added zone {} to cluster state", zone.getId());
+        updateInstanceState(instance, body -> body.addZone(zone));
+        log.info("Added zone {} to instance {} state", zone.getId(), instance.getId());
     }
 
-    public void removeZone(final Long zoneId) {
-        updateClusterState(body -> body.removeZone(zoneId));
-        log.info("Removed zone {} from cluster state", zoneId);
+    public void removeZone(final InstanceEntity instance, final Long zoneId) {
+        updateInstanceState(instance, body -> body.removeZone(zoneId));
+        log.info("Removed zone {} from instance {} state", zoneId, instance.getId());
     }
 
     public void addSim(final InstanceEntity instance, final SimEntity sim) {
-        updateClusterState(body -> body.addSim(instance, sim));
-        log.info("Added sim {} to cluster state", sim.getId());
+        updateInstanceState(instance, body -> body.addSim(sim));
+        log.info("Added sim {} to instance {} state", sim.getId(), instance.getId());
     }
 
-    public void removeSim(final Long simId) {
-        updateClusterState(body -> body.removeSim(simId));
-        log.info("Removed sim {} from cluster state", simId);
+    public void removeSim(final InstanceEntity instance, final Long simId) {
+        updateInstanceState(instance, body -> body.removeSim(simId));
+        log.info("Removed sim {} from instance {} state", simId, instance.getId());
     }
 
-    void updateClusterState(final Consumer<ClusterState> mutator) {
-        final var state = getOrCreate(StateType.CLUSTER);
-        final var body = mapper.convertValue(state.getBody(), ClusterState.class);
+    void updateInstanceState(final InstanceEntity instance, final Consumer<InstanceState> mutator) {
+        final var state = getOrCreate(instance, StateType.INSTANCE);
+        final var body = mapper.convertValue(state.getBody(), InstanceState.class);
         mutator.accept(body);
         state.setUpdatedAt(OffsetDateTime.now());
         state.setBody(mapper.valueToTree(body));
