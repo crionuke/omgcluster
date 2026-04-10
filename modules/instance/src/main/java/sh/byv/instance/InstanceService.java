@@ -39,6 +39,11 @@ public class InstanceService {
         return getByNameRequired(config.name());
     }
 
+    public void activate(final InstanceEntity instance) {
+        instance.setStatus(InstanceStatus.ACTIVE);
+        events.create(EventType.INSTANCE_ACTIVATED, instance.getId());
+    }
+
     public InstanceEntity getOrCreate(final String name) {
         final var existing = repository.findByName(name);
         if (existing.isPresent()) {

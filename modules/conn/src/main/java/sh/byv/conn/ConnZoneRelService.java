@@ -29,4 +29,9 @@ public class ConnZoneRelService {
         return repository.findByIdOptional(id)
                 .orElseThrow(() -> new NotFoundException("Rel not found: " + id));
     }
+
+    public void activate(final ConnZoneRelEntity rel) {
+        rel.setStatus(ConnZoneRelStatus.ACTIVE);
+        events.create(EventType.CONN_ZONE_REL_ACTIVATED, rel.getId());
+    }
 }

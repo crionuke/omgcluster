@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.EventEntity;
 import sh.byv.event.EventHandler;
-import sh.byv.event.EventService;
 import sh.byv.event.EventType;
 import sh.byv.world.WorldService;
 import sh.byv.world.WorldStatus;
@@ -18,7 +17,6 @@ import sh.byv.world.WorldStatus;
 public class WorldCreated implements EventHandler {
 
     final WorldService worlds;
-    final EventService events;
 
     @Override
     public EventType getType() {
@@ -29,8 +27,7 @@ public class WorldCreated implements EventHandler {
     public void execute(final EventEntity event) {
         final var world = worlds.getByIdRequired(event.getEntityId());
         if (world.getStatus() == WorldStatus.PENDING) {
-            world.setStatus(WorldStatus.ACTIVE);
-            events.create(EventType.WORLD_ACTIVATED, world.getId());
+            worlds.activate(world);
         }
     }
 }

@@ -5,12 +5,12 @@ import sh.byv.conn.ConnStatus;
 import sh.byv.conn.ConnZoneRelStatus;
 import sh.byv.event.EventStatus;
 import sh.byv.event.EventType;
+import sh.byv.instance.InstanceRelStatus;
+import sh.byv.instance.InstanceRelType;
 import sh.byv.instance.InstanceStatus;
 import sh.byv.layer.LayerStatus;
-import sh.byv.sim.SimInstanceRelStatus;
 import sh.byv.sim.SimStatus;
 import sh.byv.world.WorldStatus;
-import sh.byv.zone.ZoneInstanceRelStatus;
 import sh.byv.zone.ZoneStatus;
 
 import java.util.Arrays;
@@ -46,20 +46,20 @@ class EnumIdTest {
     }
 
     @Test
-    void zoneInstanceRelStatusIds() {
-        assertUniqueAndSequential(Arrays.stream(ZoneInstanceRelStatus.values())
-                .mapToInt(ZoneInstanceRelStatus::getId).toArray());
-    }
-
-    @Test
     void simStatusIds() {
         assertUniqueAndSequential(Arrays.stream(SimStatus.values()).mapToInt(SimStatus::getId).toArray());
     }
 
     @Test
-    void simInstanceRelStatusIds() {
-        assertUniqueAndSequential(Arrays.stream(SimInstanceRelStatus.values())
-                .mapToInt(SimInstanceRelStatus::getId).toArray());
+    void instanceRelStatusIds() {
+        assertUniqueAndSequential(Arrays.stream(InstanceRelStatus.values())
+                .mapToInt(InstanceRelStatus::getId).toArray());
+    }
+
+    @Test
+    void instanceRelTypeIds() {
+        assertUniqueAndSequential(Arrays.stream(InstanceRelType.values())
+                .mapToInt(InstanceRelType::getId).toArray());
     }
 
     @Test

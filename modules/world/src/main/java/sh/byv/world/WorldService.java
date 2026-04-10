@@ -33,4 +33,9 @@ public class WorldService {
         return repository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("World not found: " + name));
     }
+
+    public void activate(final WorldEntity world) {
+        world.setStatus(WorldStatus.ACTIVE);
+        events.create(EventType.WORLD_ACTIVATED, world.getId());
+    }
 }
