@@ -1,4 +1,4 @@
-package sh.byv.sim;
+package sh.byv.instance;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor
-public enum SimInstanceRelStatus {
+public enum InstanceRelStatus {
     PENDING(1),
     ACTIVE(2),
     SUSPENDED(3),
@@ -15,7 +15,7 @@ public enum SimInstanceRelStatus {
 
     final int id;
 
-    public static SimInstanceRelStatus fromId(final int id) {
+    public static InstanceRelStatus fromId(final int id) {
         return Arrays.stream(values())
                 .filter(status -> status.id == id)
                 .findFirst()

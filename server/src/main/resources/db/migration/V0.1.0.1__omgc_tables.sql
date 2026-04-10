@@ -83,6 +83,18 @@ create table if not exists omgc_state (
     constraint fk_omgc_state_instance foreign key (instance_id) references omgc_instance(id) on delete cascade on update restrict
 );
 
+create table if not exists omgc_instance_rel (
+    id bigint generated always as identity primary key,
+    instance_id bigint not null,
+    created_at timestamp with time zone not null,
+    updated_at timestamp with time zone not null,
+    type integer not null,
+    entity_id bigint not null,
+    status integer not null,
+    constraint omgc_instance_rel_type_entity_instance_unique unique (instance_id, entity_id, type),
+    constraint fk_omgc_instance_rel_instance foreign key (instance_id) references omgc_instance(id) on delete restrict on update restrict
+);
+
 create table if not exists omgc_conn (
     id bigint generated always as identity primary key,
     instance_id bigint not null,
@@ -93,18 +105,6 @@ create table if not exists omgc_conn (
     constraint omgc_conn_instance_world_unique unique (instance_id, world_id),
     constraint fk_omgc_conn_instance foreign key (instance_id) references omgc_instance(id) on delete restrict on update restrict,
     constraint fk_omgc_conn_world foreign key (world_id) references omgc_world(id) on delete restrict on update restrict
-);
-
-create table if not exists omgc_sim_instance_rel (
-    id bigint generated always as identity primary key,
-    sim_id bigint not null,
-    instance_id bigint not null,
-    created_at timestamp with time zone not null,
-    updated_at timestamp with time zone not null,
-    status integer not null,
-    constraint omgc_sim_instance_rel_sim_instance_unique unique (sim_id, instance_id),
-    constraint fk_omgc_sim_instance_rel_sim foreign key (sim_id) references omgc_sim(id) on delete restrict on update restrict,
-    constraint fk_omgc_sim_instance_rel_instance foreign key (instance_id) references omgc_instance(id) on delete restrict on update restrict
 );
 
 create table if not exists omgc_conn_zone_rel (
@@ -118,16 +118,3 @@ create table if not exists omgc_conn_zone_rel (
     constraint fk_omgc_conn_zone_rel_conn foreign key (conn_id) references omgc_conn(id) on delete restrict on update restrict,
     constraint fk_omgc_conn_zone_rel_zone foreign key (zone_id) references omgc_zone(id) on delete restrict on update restrict
 );
-
-create table if not exists omgc_zone_instance_rel (
-    id bigint generated always as identity primary key,
-    zone_id bigint not null,
-    instance_id bigint not null,
-    created_at timestamp with time zone not null,
-    updated_at timestamp with time zone not null,
-    status integer not null,
-    constraint omgc_zone_instance_rel_zone_instance_unique unique (zone_id, instance_id),
-    constraint fk_omgc_zone_instance_rel_zone foreign key (zone_id) references omgc_zone(id) on delete restrict on update restrict,
-    constraint fk_omgc_zone_instance_rel_instance foreign key (instance_id) references omgc_instance(id) on delete restrict on update restrict
-);
-

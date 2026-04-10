@@ -1,4 +1,4 @@
-package sh.byv.zone;
+package sh.byv.instance;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,17 +7,15 @@ import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor
-public enum ZoneInstanceRelStatus {
-    PENDING(1),
-    ACTIVE(2),
-    SUSPENDED(3),
-    DELETED(4);
+public enum InstanceRelType {
+    ZONE(1),
+    SIM(2);
 
     final int id;
 
-    public static ZoneInstanceRelStatus fromId(final int id) {
+    public static InstanceRelType fromId(final int id) {
         return Arrays.stream(values())
-                .filter(status -> status.id == id)
+                .filter(type -> type.id == id)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown id: " + id));
     }

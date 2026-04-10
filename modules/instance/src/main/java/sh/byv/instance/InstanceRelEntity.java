@@ -1,4 +1,4 @@
-package sh.byv.sim;
+package sh.byv.instance;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -12,26 +12,22 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-import sh.byv.instance.InstanceEntity;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_sim_instance_rel", uniqueConstraints = @UniqueConstraint(columnNames = {"sim_id", "instance_id"}))
-public class SimInstanceRelEntity extends PanacheEntityBase {
+@Table(name = "omgc_instance_rel", uniqueConstraints = @UniqueConstraint(columnNames = {"instance_id", "entity_id",
+        "type"}))
+public class InstanceRelEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "sim_id")
-    SimEntity sim;
-
-    @ManyToOne
-    @JoinColumn(name = "instance_id")
+    @JoinColumn(name = "instance_id", nullable = false)
     InstanceEntity instance;
 
     @Column(name = "created_at", nullable = false)
@@ -40,6 +36,12 @@ public class SimInstanceRelEntity extends PanacheEntityBase {
     @Column(name = "updated_at", nullable = false)
     OffsetDateTime updatedAt;
 
+    @Column(name = "type", nullable = false)
+    InstanceRelType type;
+
+    @Column(name = "entity_id", nullable = false)
+    Long entityId;
+
     @Column(name = "status", nullable = false)
-    SimInstanceRelStatus status;
+    InstanceRelStatus status;
 }
