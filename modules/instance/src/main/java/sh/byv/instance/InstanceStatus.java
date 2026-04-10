@@ -1,4 +1,4 @@
-package sh.byv.event;
+package sh.byv.instance;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,14 +7,15 @@ import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor
-public enum EntityStatus {
+public enum InstanceStatus {
     PENDING(1),
-    CREATED(2),
-    DELETED(3);
+    ACTIVE(2),
+    SUSPENDED(3),
+    DELETED(4);
 
     final int id;
 
-    public static EntityStatus fromId(final int id) {
+    public static InstanceStatus fromId(final int id) {
         return Arrays.stream(values())
                 .filter(status -> status.id == id)
                 .findFirst()

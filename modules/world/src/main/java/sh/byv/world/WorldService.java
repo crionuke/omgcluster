@@ -14,23 +14,23 @@ import sh.byv.exception.NotFoundException;
 @AllArgsConstructor
 public class WorldService {
 
-    final WorldRepository worldRepository;
-    final EventService eventService;
+    final WorldRepository repository;
+    final EventService events;
 
     public WorldEntity create(final String name) {
-        final var world = worldRepository.create(name);
-        eventService.create(EventType.WORLD_CREATED, world.getId());
+        final var world = repository.create(name);
+        events.create(EventType.WORLD_CREATED, world.getId());
         log.info("Created world {}", name);
         return world;
     }
 
     public WorldEntity getByIdRequired(final Long id) {
-        return worldRepository.findByIdOptional(id)
+        return repository.findByIdOptional(id)
                 .orElseThrow(() -> new NotFoundException("World not found: " + id));
     }
 
     public WorldEntity getByNameRequired(final String name) {
-        return worldRepository.findByName(name)
+        return repository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("World not found: " + name));
     }
 }

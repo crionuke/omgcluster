@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-import sh.byv.event.EntityStatus;
 import sh.byv.layer.LayerEntity;
 
 import java.time.OffsetDateTime;
@@ -39,7 +38,7 @@ public class ZoneEntity extends PanacheEntityBase {
     OffsetDateTime updatedAt;
 
     @Column(name = "status", nullable = false)
-    EntityStatus status;
+    ZoneStatus status;
 
     @Column(name = "x1", nullable = false)
     Integer x1;

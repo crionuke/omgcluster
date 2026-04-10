@@ -2,7 +2,6 @@ package sh.byv.conn;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import sh.byv.event.EntityStatus;
 import sh.byv.zone.ZoneEntity;
 
 import java.time.OffsetDateTime;
@@ -16,7 +15,7 @@ public class ConnZoneRelRepository implements PanacheRepository<ConnZoneRelEntit
         rel.setZone(zone);
         rel.setCreatedAt(OffsetDateTime.now());
         rel.setUpdatedAt(OffsetDateTime.now());
-        rel.setStatus(EntityStatus.PENDING);
+        rel.setStatus(ConnZoneRelStatus.PENDING);
         persist(rel);
         return rel;
     }

@@ -4,11 +4,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.event.EntityStatus;
 import sh.byv.event.EventEntity;
 import sh.byv.event.EventHandler;
+import sh.byv.event.EventService;
 import sh.byv.event.EventType;
 import sh.byv.instance.InstanceService;
+import sh.byv.instance.InstanceStatus;
 import sh.byv.state.StateService;
 import sh.byv.state.StateType;
 
@@ -19,6 +20,7 @@ import sh.byv.state.StateType;
 public class InstanceCreated implements EventHandler {
 
     final InstanceService instances;
+    final EventService events;
     final StateService state;
 
     @Override
@@ -29,8 +31,9 @@ public class InstanceCreated implements EventHandler {
     @Override
     public void execute(final EventEntity event) {
         final var instance = instances.getByIdRequired(event.getEntityId());
-        if (instance.getStatus() == EntityStatus.PENDING) {
-            instance.setStatus(EntityStatus.CREATED);
+        if (instance.getStatus() == InstanceStatus.PENDING) {
+            instance.setStatus(InstanceStatus.ACTIVE);
+            events.create(EventType.INSTANCE_ACTIVATED, instance.getId());
 
             state.create(instance, StateType.INSTANCE);
         }

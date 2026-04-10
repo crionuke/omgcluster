@@ -4,11 +4,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.event.EntityStatus;
 import sh.byv.event.EventEntity;
 import sh.byv.event.EventHandler;
+import sh.byv.event.EventService;
 import sh.byv.event.EventType;
 import sh.byv.layer.LayerService;
+import sh.byv.layer.LayerStatus;
 
 @Slf4j
 @Transactional
@@ -17,6 +18,7 @@ import sh.byv.layer.LayerService;
 public class LayerCreated implements EventHandler {
 
     final LayerService layers;
+    final EventService events;
 
     @Override
     public EventType getType() {
@@ -26,8 +28,9 @@ public class LayerCreated implements EventHandler {
     @Override
     public void execute(final EventEntity event) {
         final var layer = layers.getByIdRequired(event.getEntityId());
-        if (layer.getStatus() == EntityStatus.PENDING) {
-            layer.setStatus(EntityStatus.CREATED);
+        if (layer.getStatus() == LayerStatus.PENDING) {
+            layer.setStatus(LayerStatus.ACTIVE);
+            events.create(EventType.LAYER_ACTIVATED, layer.getId());
         }
     }
 }

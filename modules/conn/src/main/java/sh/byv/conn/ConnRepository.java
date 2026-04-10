@@ -2,7 +2,6 @@ package sh.byv.conn;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import sh.byv.event.EntityStatus;
 import sh.byv.instance.InstanceEntity;
 import sh.byv.world.WorldEntity;
 
@@ -17,7 +16,7 @@ public class ConnRepository implements PanacheRepository<ConnEntity> {
         conn.setWorld(world);
         conn.setCreatedAt(OffsetDateTime.now());
         conn.setUpdatedAt(OffsetDateTime.now());
-        conn.setStatus(EntityStatus.PENDING);
+        conn.setStatus(ConnStatus.PENDING);
         persist(conn);
         return conn;
     }

@@ -10,7 +10,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-import sh.byv.event.EntityStatus;
 
 import java.time.OffsetDateTime;
 
@@ -34,5 +33,5 @@ public class InstanceEntity extends PanacheEntityBase {
     String name;
 
     @Column(name = "status", nullable = false)
-    EntityStatus status;
+    InstanceStatus status;
 }
