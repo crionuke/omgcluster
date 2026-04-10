@@ -27,7 +27,7 @@ public class StateService {
         };
 
         final var state = repository.create(instance, type, body);
-        log.info("State {} created for instance {}", type, instance.getId());
+        log.info("State {} created for instance {}", type, instance.getName());
         return state;
     }
 

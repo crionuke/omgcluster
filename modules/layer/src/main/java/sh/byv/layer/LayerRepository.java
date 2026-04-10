@@ -2,7 +2,6 @@ package sh.byv.layer;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import sh.byv.event.EntityStatus;
 import sh.byv.world.WorldEntity;
 
 import java.time.OffsetDateTime;
@@ -17,7 +16,7 @@ public class LayerRepository implements PanacheRepository<LayerEntity> {
         layer.setCreatedAt(OffsetDateTime.now());
         layer.setUpdatedAt(OffsetDateTime.now());
         layer.setName(name);
-        layer.setStatus(EntityStatus.PENDING);
+        layer.setStatus(LayerStatus.PENDING);
         persist(layer);
         return layer;
     }

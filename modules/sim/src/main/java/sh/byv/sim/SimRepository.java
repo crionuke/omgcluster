@@ -2,7 +2,6 @@ package sh.byv.sim;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import sh.byv.event.EntityStatus;
 import sh.byv.zone.ZoneEntity;
 
 import java.time.OffsetDateTime;
@@ -16,7 +15,7 @@ public class SimRepository implements PanacheRepository<SimEntity> {
         sim.setCreatedAt(OffsetDateTime.now());
         sim.setUpdatedAt(OffsetDateTime.now());
         sim.setName(name);
-        sim.setStatus(EntityStatus.PENDING);
+        sim.setStatus(SimStatus.PENDING);
         persist(sim);
         return sim;
     }

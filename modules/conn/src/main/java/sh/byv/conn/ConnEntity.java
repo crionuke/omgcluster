@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-import sh.byv.event.EntityStatus;
 import sh.byv.instance.InstanceEntity;
 import sh.byv.world.WorldEntity;
 
@@ -43,5 +42,5 @@ public class ConnEntity extends PanacheEntityBase {
     OffsetDateTime updatedAt;
 
     @Column(name = "status", nullable = false)
-    EntityStatus status;
+    ConnStatus status;
 }

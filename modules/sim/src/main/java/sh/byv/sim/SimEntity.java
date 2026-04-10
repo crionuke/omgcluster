@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-import sh.byv.event.EntityStatus;
 import sh.byv.zone.ZoneEntity;
 
 import java.time.OffsetDateTime;
@@ -41,5 +40,5 @@ public class SimEntity extends PanacheEntityBase {
     String name;
 
     @Column(name = "status", nullable = false)
-    EntityStatus status;
+    SimStatus status;
 }
