@@ -3,6 +3,8 @@
 ## Rules
 
 - Never add Co-Authored-By lines to git commit messages
+- Keep `MODULES.md` in sync with module dependencies: whenever a module is added, removed, or its inter-module
+  dependencies change, update the mermaid graph in `MODULES.md` accordingly
 
 ## Code conventions
 

@@ -15,6 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>instance</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>sim</artifactId>
             <version>${project.version}</version>
         </dependency>

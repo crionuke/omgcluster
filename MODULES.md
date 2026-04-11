@@ -3,23 +3,20 @@ graph TD
     handler --> state
     handler --> conn
     handler --> init
-    handler --> command
 
     lifecycle --> instance
-    lifecycle --> command
     lifecycle --> job
 
     init --> runtime
     init --> prop
 
+    state --> instance
     state --> sim
 
     runtime --> sim
 
     conn --> instance
     conn --> zone
-
-    command --> instance
 
     sim --> zone
 
@@ -36,4 +33,6 @@ graph TD
     event --> job
 
     job --> mdc
+
+    worker
 ```
