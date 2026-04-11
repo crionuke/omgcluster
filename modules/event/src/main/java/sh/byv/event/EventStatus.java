@@ -9,7 +9,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum EventStatus {
     PENDING(1),
-    PROCESSED(2),
+    HANDLED(2),
     FAILED(3);
 
     final int id;

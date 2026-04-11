@@ -21,9 +21,9 @@ public class EventRepository implements PanacheRepository<EventEntity> {
         return event;
     }
 
-    public EventEntity process(final EventEntity event) {
+    public EventEntity handle(final EventEntity event) {
         event.setUpdatedAt(OffsetDateTime.now());
-        event.setStatus(EventStatus.PROCESSED);
+        event.setStatus(EventStatus.HANDLED);
         return event;
     }
 
