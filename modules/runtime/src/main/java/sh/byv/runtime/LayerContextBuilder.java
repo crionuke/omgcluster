@@ -30,7 +30,7 @@ public class LayerContextBuilder {
                                                       final int y1,
                                                       final int x2,
                                                       final int y2) {
-            final var zone = service.create(layer, x1, y1, x2, y2);
+            final var zone = service.createRoot(layer, x1, y1, x2, y2);
             return builder.build(zone);
         }
     }
