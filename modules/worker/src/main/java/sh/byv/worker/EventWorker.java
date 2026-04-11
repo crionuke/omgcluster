@@ -1,17 +1,18 @@
-package sh.byv.event;
+package sh.byv.worker;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.job.JobExecutor;
+import sh.byv.event.EventService;
+import sh.byv.job.JobWorker;
 import sh.byv.job.JobType;
 
 @Slf4j
 @Transactional
 @ApplicationScoped
 @AllArgsConstructor
-public class EventJob implements JobExecutor {
+public class EventWorker implements JobWorker {
 
     final EventService events;
 
@@ -22,7 +23,11 @@ public class EventJob implements JobExecutor {
 
     @Override
     public void execute() {
-        log.debug("Executing {}", getType());
         events.getPendingEvents().forEach(events::handle);
+    }
+
+    @Override
+    public void execute(final Long entityId) {
+        throw new UnsupportedOperationException("Not supported");
     }
 }

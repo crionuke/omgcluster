@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.ObjectAlreadyExistsException;
@@ -20,7 +21,6 @@ import org.quartz.TriggerBuilder;
 import sh.byv.mdc.WithMdcId;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -28,39 +28,62 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApplicationScoped
 public class JobService {
 
-    final Map<JobType, JobExecutor> executors;
+    private static final String ENTITY_ID_JOB_PROPERTY = "entityId";
+    private static final String TYPE_JOB_PROPERTY = "type";
+
+    final Map<JobType, JobWorker> executors;
     final Scheduler scheduler;
 
-    public JobService(final Scheduler scheduler, final Instance<JobExecutor> instances) {
+    public JobService(final Scheduler scheduler, final Instance<JobWorker> instances) {
         this.scheduler = scheduler;
 
         executors = new ConcurrentHashMap<>();
-        instances.stream().forEach(jobExecutor -> {
-            final var type = jobExecutor.getType();
-            executors.put(type, jobExecutor);
+        instances.stream().forEach(jobWorker -> {
+            final var type = jobWorker.getType();
+            executors.put(type, jobWorker);
         });
 
         log.info("Registered job executors, {}", executors.keySet());
     }
 
-    public void iterate(final JobType type) throws SchedulerException {
+    public void schedule(final JobType type) throws SchedulerException {
+        schedule(type, null);
+    }
+
+    public void schedule(final JobType type, final Long entityId) throws SchedulerException {
+        final String identity;
+        final JobDetail job;
+
+        if (entityId != null) {
+            identity = type.formatIdentity(entityId);
+
+            job = JobBuilder.newJob(EntityJob.class)
+                    .withIdentity(identity)
+                    .usingJobData(TYPE_JOB_PROPERTY, type.name())
+                    .usingJobData(ENTITY_ID_JOB_PROPERTY, entityId.toString())
+                    .build();
+        } else {
+            identity = type.getIdentity();
+
+            job = JobBuilder.newJob(BackgroundJob.class)
+                    .withIdentity(identity)
+                    .usingJobData(TYPE_JOB_PROPERTY, type.name())
+                    .build();
+        }
+
         final var trigger = TriggerBuilder.newTrigger()
-                .withIdentity(type.name())
+                .withIdentity(identity)
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds(type.getInterval())
                         .withMisfireHandlingInstructionIgnoreMisfires()
                         .repeatForever())
                 .build();
 
-        scheduleJob(type, trigger);
+        schedule(job, trigger);
     }
 
-    void scheduleJob(final JobType type, final Trigger trigger) throws SchedulerException {
-        final var name = type.name();
-
-        final var job = JobBuilder.newJob(QuartzJob.class)
-                .withIdentity(name)
-                .build();
+    void schedule(final JobDetail job, final Trigger trigger) throws SchedulerException {
+        final var name = job.getKey().getName();
 
         try {
             scheduler.scheduleJob(job, trigger);
@@ -72,27 +95,55 @@ public class JobService {
 
     @WithMdcId
     @ActivateRequestContext
-    void executeJob(final JobType type) {
+    void execute(final JobType type) {
+        execute(type, null);
+    }
+
+    @WithMdcId
+    @ActivateRequestContext
+    void execute(final JobType type, final Long entityId) {
         final var executor = executors.get(type);
-        if (Objects.nonNull(executor)) {
-            log.debug("Executing {}", type);
-            executor.execute();
+        if (executor != null) {
+            if (entityId != null) {
+                log.debug("Executing {} for entity {}", type, entityId);
+                executor.execute(entityId);
+            } else {
+                log.debug("Executing {}", type);
+                executor.execute();
+            }
         } else {
             log.error("No executor found for {} job", type);
         }
     }
 
     @DisallowConcurrentExecution
-    public static class QuartzJob implements Job {
+    public static class BackgroundJob implements Job {
 
         @Inject
         JobService jobs;
 
-        public void execute(JobExecutionContext context) throws JobExecutionException {
-            final var name = context.getJobDetail().getKey().getName();
-            final var type = JobType.valueOf(name);
+        public void execute(final JobExecutionContext context) throws JobExecutionException {
+            final var typeProperty = context.getMergedJobDataMap().getString(TYPE_JOB_PROPERTY);
+            final var type = JobType.valueOf(typeProperty);
 
-            jobs.executeJob(type);
+            jobs.execute(type);
+        }
+    }
+
+    @DisallowConcurrentExecution
+    public static class EntityJob implements Job {
+
+        @Inject
+        JobService jobs;
+
+        public void execute(final JobExecutionContext context) throws JobExecutionException {
+            final var typeProperty = context.getMergedJobDataMap().getString(TYPE_JOB_PROPERTY);
+            final var type = JobType.valueOf(typeProperty);
+
+            final var entityIdProperty = context.getMergedJobDataMap().getString(ENTITY_ID_JOB_PROPERTY);
+            final var entityId = Long.valueOf(entityIdProperty);
+
+            jobs.execute(type, entityId);
         }
     }
 }

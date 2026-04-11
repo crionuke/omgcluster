@@ -18,6 +18,21 @@
             <artifactId>sim</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>layer</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>world</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>zone</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

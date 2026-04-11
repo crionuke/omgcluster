@@ -21,12 +21,6 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm-panache</artifactId>
         </dependency>
-        <!-- MODULES -->
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>job</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
 </project>
