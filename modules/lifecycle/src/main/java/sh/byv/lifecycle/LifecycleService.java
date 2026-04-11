@@ -30,7 +30,7 @@ public class LifecycleService {
         log.info("Create instance {}", name);
         final var instance = instances.getOrCreate(name);
 
-        jobs.iterate(JobType.EVENT);
+        jobs.schedule(JobType.EVENT);
 
         events.create(EventType.INSTANCE_STARTED, instance.getId());
     }

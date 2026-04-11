@@ -3,14 +3,15 @@ package sh.byv.handler.event;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.EventEntity;
 import sh.byv.event.EventHandler;
-import sh.byv.event.EventService;
 import sh.byv.event.EventType;
 import sh.byv.instance.InstanceRelService;
 import sh.byv.instance.InstanceRelType;
-import sh.byv.zone.ZoneEntity;
+import sh.byv.job.JobService;
+import sh.byv.job.JobType;
 import sh.byv.zone.ZoneService;
 import sh.byv.zone.ZoneStatus;
 
@@ -21,8 +22,8 @@ import sh.byv.zone.ZoneStatus;
 public class ZoneCreated implements EventHandler {
 
     final InstanceRelService rels;
-    final EventService events;
     final ZoneService zones;
+    final JobService jobs;
 
     @Override
     public EventType getType() {
@@ -30,12 +31,14 @@ public class ZoneCreated implements EventHandler {
     }
 
     @Override
+    @SneakyThrows
     public void execute(final EventEntity event) {
         final var zone = zones.getByIdRequired(event.getEntityId());
         if (zone.getStatus() == ZoneStatus.PENDING) {
             final var instance = rels.getLeastPopulatedInstance();
             rels.create(InstanceRelType.ZONE, zone.getId(), instance);
 
+            jobs.schedule(JobType.ZONE, zone.getId());
             zones.activate(zone);
         }
     }
