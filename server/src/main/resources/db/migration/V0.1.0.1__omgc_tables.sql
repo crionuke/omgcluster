@@ -39,6 +39,7 @@ create table if not exists omgc_layer (
 create table if not exists omgc_zone (
     id bigint generated always as identity primary key,
     layer_id bigint not null,
+    parent_id bigint,
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null,
     status integer not null,
@@ -49,7 +50,8 @@ create table if not exists omgc_zone (
     constraint omgc_zone_layer_coords_unique unique (layer_id, x1, y1, x2, y2),
     constraint omgc_zone_x_check check (x1 < x2),
     constraint omgc_zone_y_check check (y1 < y2),
-    constraint fk_omgc_zone_layer foreign key (layer_id) references omgc_layer(id) on delete restrict on update restrict
+    constraint fk_omgc_zone_layer foreign key (layer_id) references omgc_layer(id) on delete restrict on update restrict,
+    constraint fk_omgc_zone_parent foreign key (parent_id) references omgc_zone(id) on delete restrict on update restrict
 );
 
 create table if not exists omgc_sim (

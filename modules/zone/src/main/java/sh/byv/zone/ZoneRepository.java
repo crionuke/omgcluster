@@ -10,12 +10,14 @@ import java.time.OffsetDateTime;
 public class ZoneRepository implements PanacheRepository<ZoneEntity> {
 
     public ZoneEntity create(final LayerEntity layer,
+                             final ZoneEntity parent,
                              final int x1,
                              final int y1,
                              final int x2,
                              final int y2) {
         final var zone = new ZoneEntity();
         zone.setLayer(layer);
+        zone.setParent(parent);
         zone.setCreatedAt(OffsetDateTime.now());
         zone.setUpdatedAt(OffsetDateTime.now());
         zone.setStatus(ZoneStatus.PENDING);

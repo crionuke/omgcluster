@@ -31,6 +31,10 @@ public class ZoneEntity extends PanacheEntityBase {
     @JoinColumn(name = "layer_id")
     LayerEntity layer;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    ZoneEntity parent;
+
     @Column(name = "created_at", nullable = false)
     OffsetDateTime createdAt;
 
