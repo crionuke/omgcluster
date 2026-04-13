@@ -6,6 +6,21 @@
 - Keep `MODULES.md` in sync with module dependencies: whenever a module is added, removed, or its inter-module
   dependencies change, update the mermaid graph in `MODULES.md` accordingly
 
+## Project structure
+
+- The `server` module is the deployable artifact (built into the container) and must declare all modules as dependencies
+- The `server` module contains all YAML configuration files (`application*.yml`)
+- Each module under `modules/` declares only the sibling modules it directly imports classes from
+
+## Useful commands
+
+- `./mvnw compile` — compile all modules
+- `./mvnw test` — run unit tests
+- `./mvnw test -pl modules/<name>` — run tests for a specific module
+- `./mvnw quarkus:dev -pl server` — start in dev mode with live reload
+- `./mvnw package -DskipTests` — build without running tests
+- `./mvnw clean install` — full clean build with tests
+
 ## Code conventions
 
 ### Java

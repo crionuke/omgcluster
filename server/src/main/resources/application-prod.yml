@@ -5,6 +5,8 @@ quarkus:
     password: ${DB_PASSWORD}
     jdbc:
       url: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
+  redis:
+    hosts: ${REDIS_HOSTS}
 omgcluster:
   init:
     version: ${INIT_VERSION}
