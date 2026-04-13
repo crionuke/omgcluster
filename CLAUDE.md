@@ -12,6 +12,10 @@
 - The `server` module contains all YAML configuration files (`application*.yml`)
 - Each module under `modules/` declares only the sibling modules it directly imports classes from
 
+## Module dependency graph
+
+- See [`MODULES.md`](MODULES.md) for the full mermaid dependency graph of all modules
+
 ## Useful commands
 
 - `./mvnw compile` — compile all modules
@@ -31,6 +35,7 @@
 
 #### Code style
 
+- Initialize fields in constructors, not inline
 - `final var` for local variables, `final` for method arguments and class fields
 - Package-private over `private` for non-public methods
 - Parameterized logging: `log.info("Message: {}", value)`
