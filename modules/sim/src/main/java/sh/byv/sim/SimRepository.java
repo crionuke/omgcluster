@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import sh.byv.zone.ZoneEntity;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @ApplicationScoped
 public class SimRepository implements PanacheRepository<SimEntity> {
@@ -18,5 +19,9 @@ public class SimRepository implements PanacheRepository<SimEntity> {
         sim.setStatus(SimStatus.PENDING);
         persist(sim);
         return sim;
+    }
+
+    public List<SimEntity> findByZoneAndStatus(final ZoneEntity zone, final SimStatus status) {
+        return find("zone = ?1 and status = ?2", zone, status).list();
     }
 }

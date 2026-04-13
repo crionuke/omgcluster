@@ -120,6 +120,16 @@
             <artifactId>worker</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>task</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>runners</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

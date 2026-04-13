@@ -20,6 +20,21 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>cache</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>task</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>sim</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>job</artifactId>
             <version>${project.version}</version>
         </dependency>

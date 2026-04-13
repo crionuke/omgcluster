@@ -10,27 +10,12 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lifecycle</artifactId>
+    <artifactId>runners</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>instance</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>job</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>event</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>mdc</artifactId>
+            <artifactId>cache</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

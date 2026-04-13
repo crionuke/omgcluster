@@ -15,6 +15,7 @@ graph TD
     lifecycle --> job
     lifecycle --> event
     lifecycle --> mdc
+    lifecycle --> task
 
     init --> runtime
     init --> prop
@@ -58,4 +59,11 @@ graph TD
     worker --> job
     worker --> event
     worker --> zone
+    worker --> cache
+    worker --> sim
+
+    task --> cache
+
+    runners --> task
+    runners --> cache
 ```

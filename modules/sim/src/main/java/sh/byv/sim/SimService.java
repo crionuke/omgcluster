@@ -9,6 +9,8 @@ import sh.byv.event.EventType;
 import sh.byv.exception.NotFoundException;
 import sh.byv.zone.ZoneEntity;
 
+import java.util.List;
+
 @Slf4j
 @Transactional
 @ApplicationScoped
@@ -24,6 +26,10 @@ public class SimService {
         log.info("Created sim {} in zone {} of layer {} in world {}",
                 name, zone.getId(), zone.getLayer().getName(), zone.getLayer().getWorld().getName());
         return sim;
+    }
+
+    public List<SimEntity> getActiveByZone(final ZoneEntity zone) {
+        return repository.findByZoneAndStatus(zone, SimStatus.ACTIVE);
     }
 
     public SimEntity getByIdRequired(final Long id) {

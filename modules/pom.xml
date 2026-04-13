@@ -15,6 +15,7 @@
     <modules>
         <module>cache</module>
         <module>conn</module>
+        <module>runners</module>
         <module>event</module>
         <module>exception</module>
         <module>handler</module>
@@ -28,6 +29,7 @@
         <module>runtime</module>
         <module>sim</module>
         <module>state</module>
+        <module>task</module>
         <module>worker</module>
         <module>world</module>
         <module>zone</module>
