@@ -11,24 +11,26 @@
     </parent>
 
     <packaging>pom</packaging>
+
     <modules>
-        <module>exception</module>
+        <module>cache</module>
         <module>conn</module>
         <module>event</module>
+        <module>exception</module>
+        <module>handler</module>
+        <module>init</module>
         <module>instance</module>
         <module>job</module>
         <module>layer</module>
+        <module>lifecycle</module>
         <module>mdc</module>
         <module>prop</module>
-        <module>zone</module>
-        <module>world</module>
         <module>runtime</module>
         <module>sim</module>
-        <module>lifecycle</module>
-        <module>init</module>
         <module>state</module>
         <module>worker</module>
-        <module>handler</module>
+        <module>world</module>
+        <module>zone</module>
     </modules>
 
     <artifactId>modules</artifactId>
