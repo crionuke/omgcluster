@@ -4,12 +4,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.event.EventEntity;
-import sh.byv.event.EventHandler;
-import sh.byv.event.EventType;
-import sh.byv.node.NodeService;
-import sh.byv.node.NodeStatus;
-import sh.byv.state.StateService;
+import sh.byv.event.entity.EventEntity;
+import sh.byv.event.entity.EventHandler;
+import sh.byv.event.entity.EventType;
+import sh.byv.node.entity.NodeService;
+import sh.byv.node.entity.NodeStatus;
+import sh.byv.state.entity.StateService;
 
 @Slf4j
 @Transactional

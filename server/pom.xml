@@ -32,7 +32,7 @@
         <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>exception</artifactId>
+            <artifactId>exception-clazz</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -42,77 +42,77 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>cache</artifactId>
+            <artifactId>cache-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>conn</artifactId>
+            <artifactId>conn-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>event</artifactId>
+            <artifactId>event-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>node</artifactId>
+            <artifactId>node-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>job</artifactId>
+            <artifactId>job-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>layer</artifactId>
+            <artifactId>layer-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>mdc</artifactId>
+            <artifactId>mdc-id</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>prop</artifactId>
+            <artifactId>prop-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>zone</artifactId>
+            <artifactId>zone-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>world</artifactId>
+            <artifactId>world-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>sim</artifactId>
+            <artifactId>sim-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>runtime</artifactId>
+            <artifactId>runtime-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>lifecycle</artifactId>
+            <artifactId>lifecycle-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>init</artifactId>
+            <artifactId>init-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>state</artifactId>
+            <artifactId>state-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -122,7 +122,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>task</artifactId>
+            <artifactId>task-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
