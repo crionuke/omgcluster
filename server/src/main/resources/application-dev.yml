@@ -6,5 +6,5 @@ quarkus:
 omgcluster:
   init:
     version: 2
-  instance:
+  node:
     name: localhost

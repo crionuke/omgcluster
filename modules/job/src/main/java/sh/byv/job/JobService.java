@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
@@ -46,11 +47,18 @@ public class JobService {
         log.info("Registered job executors, {}", executors.keySet());
     }
 
-    public void schedule(final JobType type) throws SchedulerException {
+    @SneakyThrows
+    public void start() {
+        schedule(JobType.EVENT);
+    }
+
+    @SneakyThrows
+    public void schedule(final JobType type) {
         schedule(type, null);
     }
 
-    public void schedule(final JobType type, final Long entityId) throws SchedulerException {
+    @SneakyThrows
+    public void schedule(final JobType type, final Long entityId) {
         final String identity;
         final JobDetail job;
 
@@ -82,7 +90,8 @@ public class JobService {
         schedule(job, trigger);
     }
 
-    void schedule(final JobDetail job, final Trigger trigger) throws SchedulerException {
+    @SneakyThrows
+    void schedule(final JobDetail job, final Trigger trigger) {
         final var name = job.getKey().getName();
 
         try {
