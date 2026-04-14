@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>instance</artifactId>
+            <artifactId>node</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -4,14 +4,14 @@ graph TD
     handler --> conn
     handler --> init
     handler --> event
-    handler --> instance
+    handler --> node
     handler --> sim
     handler --> zone
     handler --> world
     handler --> layer
     handler --> job
 
-    lifecycle --> instance
+    lifecycle --> node
     lifecycle --> job
     lifecycle --> event
     lifecycle --> mdc
@@ -20,7 +20,7 @@ graph TD
     init --> runtime
     init --> prop
 
-    state --> instance
+    state --> node
     state --> sim
     state --> zone
 
@@ -29,7 +29,7 @@ graph TD
     runtime --> world
     runtime --> zone
 
-    conn --> instance
+    conn --> node
     conn --> zone
     conn --> world
     conn --> event
@@ -50,8 +50,8 @@ graph TD
     world --> exception
     world --> event
 
-    instance --> exception
-    instance --> event
+    node --> exception
+    node --> event
 
     job --> mdc
 

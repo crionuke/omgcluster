@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>handler</artifactId>
+            <artifactId>event-handler</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -57,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>instance</artifactId>
+            <artifactId>node</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -117,7 +117,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>worker</artifactId>
+            <artifactId>job-worker</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -127,7 +127,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>runners</artifactId>
+            <artifactId>task-runner</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

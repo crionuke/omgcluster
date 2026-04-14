@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.SchedulerException;
 import sh.byv.event.EventService;
 import sh.byv.event.EventType;
-import sh.byv.instance.InstanceConfig;
-import sh.byv.instance.InstanceService;
+import sh.byv.node.NodeConfig;
+import sh.byv.node.NodeService;
 import sh.byv.job.JobService;
 import sh.byv.job.JobType;
 import sh.byv.mdc.WithMdcId;
@@ -21,8 +21,8 @@ import sh.byv.task.TaskService;
 @AllArgsConstructor
 public class LifecycleService {
 
-    final InstanceService instances;
-    final InstanceConfig config;
+    final NodeService nodes;
+    final NodeConfig config;
     final EventService events;
     final TaskService tasks;
     final JobService jobs;
@@ -30,13 +30,13 @@ public class LifecycleService {
     @WithMdcId
     public void onStart(@Observes final StartupEvent event) throws SchedulerException {
         final var name = config.name();
-        log.info("Create instance {}", name);
-        final var instance = instances.getOrCreate(name);
+        log.info("Create node {}", name);
+        final var node = nodes.getOrCreate(name);
 
-        jobs.schedule(JobType.EVENT);
+        jobs.start();
         tasks.start();
 
-        events.create(EventType.INSTANCE_STARTED, instance.getId());
+        events.create(EventType.NODE_STARTED, node.getId());
     }
 
     @WithMdcId

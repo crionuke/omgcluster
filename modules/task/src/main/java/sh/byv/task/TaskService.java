@@ -102,4 +102,8 @@ public class TaskService {
         results.hset(key, field, result);
         keys.expire(key, Duration.ofSeconds(5));
     }
+
+    public Map<String, TaskResult> getResult(final String key) {
+        return results.hgetall(key);
+    }
 }

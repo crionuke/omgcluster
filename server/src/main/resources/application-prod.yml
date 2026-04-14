@@ -10,5 +10,5 @@ quarkus:
 omgcluster:
   init:
     version: ${INIT_VERSION}
-  instance:
+  node:
     name: ${HOSTNAME}

@@ -1,6 +1,5 @@
 package sh.byv.state;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,14 +17,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import sh.byv.instance.InstanceEntity;
+import sh.byv.node.NodeEntity;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_state", uniqueConstraints = @UniqueConstraint(columnNames = {"instance_id", "type"}))
+@Table(name = "omgc_state", uniqueConstraints = @UniqueConstraint(columnNames = {"node_id"}))
 public class StateEntity extends PanacheEntityBase {
 
     @Id
@@ -33,8 +32,8 @@ public class StateEntity extends PanacheEntityBase {
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instance_id", nullable = false)
-    InstanceEntity instance;
+    @JoinColumn(name = "node_id", nullable = false)
+    NodeEntity node;
 
     @Column(name = "created_at", nullable = false)
     OffsetDateTime createdAt;
@@ -42,11 +41,7 @@ public class StateEntity extends PanacheEntityBase {
     @Column(name = "updated_at", nullable = false)
     OffsetDateTime updatedAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    StateType type;
-
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "body", nullable = false, columnDefinition = "jsonb")
-    JsonNode body;
+    StateBody body;
 }

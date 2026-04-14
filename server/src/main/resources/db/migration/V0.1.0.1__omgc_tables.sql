@@ -65,47 +65,45 @@ create table if not exists omgc_sim (
     constraint fk_omgc_sim_zone foreign key (zone_id) references omgc_zone(id) on delete restrict on update restrict
 );
 
-create table if not exists omgc_instance (
+create table if not exists omgc_node (
     id bigint generated always as identity primary key,
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null,
     name text not null,
     status integer not null,
-    constraint omgc_instance_name_unique unique (name)
+    constraint omgc_node_name_unique unique (name)
 );
 
 create table if not exists omgc_state (
     id bigint generated always as identity primary key,
-    instance_id bigint not null,
+    node_id bigint not null,
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null,
-    type text not null,
     body jsonb not null,
-    constraint omgc_state_instance_type_unique unique (instance_id, type),
-    constraint fk_omgc_state_instance foreign key (instance_id) references omgc_instance(id) on delete cascade on update restrict
+    constraint fk_omgc_state_node foreign key (node_id) references omgc_node(id) on delete cascade on update restrict
 );
 
-create table if not exists omgc_instance_rel (
+create table if not exists omgc_node_rel (
     id bigint generated always as identity primary key,
-    instance_id bigint not null,
+    node_id bigint not null,
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null,
     type integer not null,
     entity_id bigint not null,
     status integer not null,
-    constraint omgc_instance_rel_type_entity_instance_unique unique (instance_id, entity_id, type),
-    constraint fk_omgc_instance_rel_instance foreign key (instance_id) references omgc_instance(id) on delete restrict on update restrict
+    constraint omgc_node_rel_type_entity_node_unique unique (node_id, entity_id, type),
+    constraint fk_omgc_node_rel_node foreign key (node_id) references omgc_node(id) on delete restrict on update restrict
 );
 
 create table if not exists omgc_conn (
     id bigint generated always as identity primary key,
-    instance_id bigint not null,
+    node_id bigint not null,
     world_id bigint not null,
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null,
     status integer not null,
-    constraint omgc_conn_instance_world_unique unique (instance_id, world_id),
-    constraint fk_omgc_conn_instance foreign key (instance_id) references omgc_instance(id) on delete restrict on update restrict,
+    constraint omgc_conn_node_world_unique unique (node_id, world_id),
+    constraint fk_omgc_conn_node foreign key (node_id) references omgc_node(id) on delete restrict on update restrict,
     constraint fk_omgc_conn_world foreign key (world_id) references omgc_world(id) on delete restrict on update restrict
 );
 
