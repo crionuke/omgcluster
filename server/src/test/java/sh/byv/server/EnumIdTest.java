@@ -1,17 +1,17 @@
 package sh.byv.server;
 
 import org.junit.jupiter.api.Test;
-import sh.byv.conn.ConnStatus;
-import sh.byv.conn.ConnZoneRelStatus;
-import sh.byv.event.EventStatus;
-import sh.byv.event.EventType;
-import sh.byv.node.NodeRelStatus;
-import sh.byv.node.NodeRelType;
-import sh.byv.node.NodeStatus;
-import sh.byv.layer.LayerStatus;
-import sh.byv.sim.SimStatus;
-import sh.byv.world.WorldStatus;
-import sh.byv.zone.ZoneStatus;
+import sh.byv.conn.entity.ConnStatus;
+import sh.byv.conn.entity.ConnZoneRelStatus;
+import sh.byv.event.entity.EventStatus;
+import sh.byv.event.entity.EventType;
+import sh.byv.node.entity.NodeRelStatus;
+import sh.byv.node.entity.NodeRelType;
+import sh.byv.node.entity.NodeStatus;
+import sh.byv.layer.entity.LayerStatus;
+import sh.byv.sim.entity.SimStatus;
+import sh.byv.world.entity.WorldStatus;
+import sh.byv.zone.entity.ZoneStatus;
 
 import java.util.Arrays;
 

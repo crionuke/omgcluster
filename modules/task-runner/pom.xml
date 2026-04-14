@@ -15,12 +15,12 @@
     <dependencies>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>cache</artifactId>
+            <artifactId>cache-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>task</artifactId>
+            <artifactId>task-service</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

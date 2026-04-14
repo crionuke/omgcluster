@@ -3,11 +3,11 @@ package sh.byv.task.runner;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.cache.CacheService;
-import sh.byv.task.TaskItem;
-import sh.byv.task.TaskResult;
-import sh.byv.task.TaskRunner;
-import sh.byv.task.TaskType;
+import sh.byv.cache.service.CacheService;
+import sh.byv.task.service.TaskItem;
+import sh.byv.task.service.TaskResult;
+import sh.byv.task.service.TaskRunner;
+import sh.byv.task.service.TaskType;
 
 @Slf4j
 @ApplicationScoped

@@ -4,9 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.event.EventService;
-import sh.byv.job.JobWorker;
-import sh.byv.job.JobType;
+import sh.byv.event.entity.EventService;
+import sh.byv.job.service.JobWorker;
+import sh.byv.job.service.JobType;
 
 @Slf4j
 @Transactional
