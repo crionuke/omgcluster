@@ -2,7 +2,7 @@ package sh.byv.state.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import sh.byv.node.entity.NodeEntity;
+import sh.byv.server.entity.ServerEntity;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -10,9 +10,9 @@ import java.util.Optional;
 @ApplicationScoped
 public class StateRepository implements PanacheRepository<StateEntity> {
 
-    StateEntity create(final NodeEntity node, final StateBody body) {
+    StateEntity create(final ServerEntity server, final StateBody body) {
         final var state = new StateEntity();
-        state.setNode(node);
+        state.setServer(server);
         state.setCreatedAt(OffsetDateTime.now());
         state.setUpdatedAt(OffsetDateTime.now());
         state.setBody(body);
@@ -20,7 +20,7 @@ public class StateRepository implements PanacheRepository<StateEntity> {
         return state;
     }
 
-    Optional<StateEntity> findByNode(final NodeEntity node) {
-        return find("node", node).firstResultOptional();
+    Optional<StateEntity> findByServer(final ServerEntity server) {
+        return find("server", server).firstResultOptional();
     }
 }

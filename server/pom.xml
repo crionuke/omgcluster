@@ -57,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>node-entity</artifactId>
+            <artifactId>server-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

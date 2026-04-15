@@ -1,69 +1,69 @@
 ```mermaid
 graph TD
-    handler --> state
-    handler --> conn
-    handler --> init
-    handler --> event
-    handler --> node
-    handler --> sim
-    handler --> zone
-    handler --> world
-    handler --> layer
-    handler --> job
+    event-handler --> state-entity
+    event-handler --> conn-entity
+    event-handler --> init-service
+    event-handler --> event-entity
+    event-handler --> server-entity
+    event-handler --> sim-entity
+    event-handler --> zone-entity
+    event-handler --> world-entity
+    event-handler --> layer-entity
+    event-handler --> job-service
 
-    lifecycle --> node
-    lifecycle --> job
-    lifecycle --> event
-    lifecycle --> mdc
-    lifecycle --> task
+    lifecycle-service --> server-entity
+    lifecycle-service --> job-service
+    lifecycle-service --> event-entity
+    lifecycle-service --> mdc-id
+    lifecycle-service --> task-service
 
-    init --> runtime
-    init --> prop
+    init-service --> runtime-service
+    init-service --> prop-entity
 
-    state --> node
-    state --> sim
-    state --> zone
+    state-entity --> server-entity
+    state-entity --> sim-entity
+    state-entity --> zone-entity
 
-    runtime --> sim
-    runtime --> layer
-    runtime --> world
-    runtime --> zone
+    runtime-service --> sim-entity
+    runtime-service --> layer-entity
+    runtime-service --> world-entity
+    runtime-service --> zone-entity
 
-    conn --> node
-    conn --> zone
-    conn --> world
-    conn --> event
-    conn --> exception
+    conn-entity --> server-entity
+    conn-entity --> zone-entity
+    conn-entity --> world-entity
+    conn-entity --> event-entity
+    conn-entity --> exception-clazz
 
-    sim --> zone
-    sim --> event
-    sim --> exception
+    sim-entity --> zone-entity
+    sim-entity --> event-entity
+    sim-entity --> exception-clazz
 
-    zone --> layer
-    zone --> event
-    zone --> exception
+    zone-entity --> layer-entity
+    zone-entity --> event-entity
+    zone-entity --> exception-clazz
 
-    layer --> world
-    layer --> event
-    layer --> exception
+    layer-entity --> world-entity
+    layer-entity --> event-entity
+    layer-entity --> exception-clazz
 
-    world --> exception
-    world --> event
+    world-entity --> exception-clazz
+    world-entity --> event-entity
 
-    node --> exception
-    node --> event
+    server-entity --> exception-clazz
+    server-entity --> event-entity
 
-    job --> mdc
+    job-service --> mdc-id
 
-    worker --> runtime
-    worker --> job
-    worker --> event
-    worker --> zone
-    worker --> cache
-    worker --> sim
+    job-worker --> runtime-service
+    job-worker --> job-service
+    job-worker --> event-entity
+    job-worker --> zone-entity
+    job-worker --> cache-service
+    job-worker --> sim-entity
 
-    task --> cache
+    task-service --> cache-service
 
-    runners --> task
-    runners --> cache
+    task-runner --> task-service
+    task-runner --> cache-service
 ```

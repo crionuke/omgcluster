@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-import sh.byv.node.entity.NodeEntity;
+import sh.byv.server.entity.ServerEntity;
 import sh.byv.world.entity.WorldEntity;
 
 import java.time.OffsetDateTime;
@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_conn", uniqueConstraints = @UniqueConstraint(columnNames = {"node_id", "world_id"}))
+@Table(name = "omgc_conn", uniqueConstraints = @UniqueConstraint(columnNames = {"server_id", "world_id"}))
 public class ConnEntity extends PanacheEntityBase {
 
     @Id
@@ -28,8 +28,8 @@ public class ConnEntity extends PanacheEntityBase {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "node_id")
-    NodeEntity node;
+    @JoinColumn(name = "server_id")
+    ServerEntity server;
 
     @ManyToOne
     @JoinColumn(name = "world_id")

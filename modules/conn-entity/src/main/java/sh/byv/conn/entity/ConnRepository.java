@@ -2,7 +2,7 @@ package sh.byv.conn.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import sh.byv.node.entity.NodeEntity;
+import sh.byv.server.entity.ServerEntity;
 import sh.byv.world.entity.WorldEntity;
 
 import java.time.OffsetDateTime;
@@ -10,9 +10,9 @@ import java.time.OffsetDateTime;
 @ApplicationScoped
 public class ConnRepository implements PanacheRepository<ConnEntity> {
 
-    public ConnEntity create(final NodeEntity node, final WorldEntity world) {
+    public ConnEntity create(final ServerEntity server, final WorldEntity world) {
         final var conn = new ConnEntity();
-        conn.setNode(node);
+        conn.setServer(server);
         conn.setWorld(world);
         conn.setCreatedAt(OffsetDateTime.now());
         conn.setUpdatedAt(OffsetDateTime.now());

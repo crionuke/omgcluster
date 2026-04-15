@@ -20,7 +20,7 @@
         <module>exception-clazz</module>
         <module>event-handler</module>
         <module>init-service</module>
-        <module>node-entity</module>
+        <module>server-entity</module>
         <module>job-service</module>
         <module>layer-entity</module>
         <module>lifecycle-service</module>

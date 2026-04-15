@@ -15,14 +15,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import sh.byv.node.entity.NodeEntity;
+import sh.byv.server.entity.ServerEntity;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "omgc_state", uniqueConstraints = @UniqueConstraint(columnNames = {"node_id"}))
+@Table(name = "omgc_state", uniqueConstraints = @UniqueConstraint(columnNames = {"server_id"}))
 public class StateEntity extends PanacheEntityBase {
 
     @Id
@@ -30,8 +30,8 @@ public class StateEntity extends PanacheEntityBase {
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "node_id", nullable = false)
-    NodeEntity node;
+    @JoinColumn(name = "server_id", nullable = false)
+    ServerEntity server;
 
     @Column(name = "created_at", nullable = false)
     OffsetDateTime createdAt;

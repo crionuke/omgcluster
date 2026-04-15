@@ -13,13 +13,13 @@ import sh.byv.init.InitService;
 @Transactional
 @ApplicationScoped
 @AllArgsConstructor
-public class NodeStarted implements EventHandler {
+public class ServerStarted implements EventHandler {
 
     final InitService init;
 
     @Override
     public EventType getType() {
-        return EventType.NODE_STARTED;
+        return EventType.SERVER_STARTED;
     }
 
     @Override

@@ -5,9 +5,9 @@ import sh.byv.conn.entity.ConnStatus;
 import sh.byv.conn.entity.ConnZoneRelStatus;
 import sh.byv.event.entity.EventStatus;
 import sh.byv.event.entity.EventType;
-import sh.byv.node.entity.NodeRelStatus;
-import sh.byv.node.entity.NodeRelType;
-import sh.byv.node.entity.NodeStatus;
+import sh.byv.server.entity.ServerRelStatus;
+import sh.byv.server.entity.ServerRelType;
+import sh.byv.server.entity.ServerStatus;
 import sh.byv.layer.entity.LayerStatus;
 import sh.byv.sim.entity.SimStatus;
 import sh.byv.world.entity.WorldStatus;
@@ -51,20 +51,20 @@ class EnumIdTest {
     }
 
     @Test
-    void nodeRelStatusIds() {
-        assertUniqueAndSequential(Arrays.stream(NodeRelStatus.values())
-                .mapToInt(NodeRelStatus::getId).toArray());
+    void serverRelStatusIds() {
+        assertUniqueAndSequential(Arrays.stream(ServerRelStatus.values())
+                .mapToInt(ServerRelStatus::getId).toArray());
     }
 
     @Test
-    void nodeRelTypeIds() {
-        assertUniqueAndSequential(Arrays.stream(NodeRelType.values())
-                .mapToInt(NodeRelType::getId).toArray());
+    void serverRelTypeIds() {
+        assertUniqueAndSequential(Arrays.stream(ServerRelType.values())
+                .mapToInt(ServerRelType::getId).toArray());
     }
 
     @Test
-    void nodeStatusIds() {
-        assertUniqueAndSequential(Arrays.stream(NodeStatus.values()).mapToInt(NodeStatus::getId).toArray());
+    void serverStatusIds() {
+        assertUniqueAndSequential(Arrays.stream(ServerStatus.values()).mapToInt(ServerStatus::getId).toArray());
     }
 
     @Test
