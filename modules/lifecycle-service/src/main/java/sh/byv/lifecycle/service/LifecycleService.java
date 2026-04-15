@@ -13,6 +13,7 @@ import sh.byv.server.entity.ServerConfig;
 import sh.byv.server.entity.ServerService;
 import sh.byv.job.service.JobService;
 import sh.byv.mdc.id.WithMdcId;
+import sh.byv.server.executor.TickService;
 import sh.byv.task.service.TaskService;
 
 @Slf4j
@@ -24,7 +25,9 @@ public class LifecycleService {
     final ServerConfig config;
     final EventService events;
     final TaskService tasks;
+    final TickService ticks;
     final JobService jobs;
+
 
     @WithMdcId
     public void onStart(@Observes final StartupEvent event) throws SchedulerException {
@@ -34,6 +37,7 @@ public class LifecycleService {
 
         jobs.start();
         tasks.start();
+        ticks.start();
 
         events.create(EventType.SERVER_STARTED, server.getId());
     }
@@ -41,5 +45,6 @@ public class LifecycleService {
     @WithMdcId
     public void onStart(@Observes final ShutdownEvent event) throws SchedulerException {
         tasks.shutdown();
+        ticks.shutdown();
     }
 }
