@@ -9,13 +9,11 @@ graph TD
     event-handler --> zone-entity
     event-handler --> world-entity
     event-handler --> layer-entity
-    event-handler --> job-service
 
     lifecycle-service --> server-entity
     lifecycle-service --> job-service
     lifecycle-service --> event-entity
     lifecycle-service --> mdc-id
-    lifecycle-service --> task-service
     lifecycle-service --> tick-service
 
     init-service --> runtime-service
@@ -56,17 +54,11 @@ graph TD
 
     job-service --> mdc-id
 
-    job-worker --> runtime-service
     job-worker --> job-service
     job-worker --> event-entity
-    job-worker --> zone-entity
-    job-worker --> cache-service
-    job-worker --> sim-entity
 
-    task-service --> cache-service
+    signal-handler --> signal-service
 
     tick-service --> state-entity
-
-    task-runner --> task-service
-    task-runner --> cache-service
+    tick-service --> signal-service
 ```

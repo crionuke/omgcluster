@@ -8,8 +8,7 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum JobType {
-    EVENT("event", "system", 1),
-    ZONE("zone-%d", "zones", 1);
+    EVENT("event", "system", 1);
 
     final String identity;
     final String group;
