@@ -39,30 +39,30 @@ public class ZoneWorker implements JobWorker {
         final var tickId = cache.nextTick(zoneId);
         log.info("Tick ID: {}", tickId);
 
-        final var resultKey = "zone:%d:tick:%d:results".formatted(zoneId, tickId);
-
-        final var body = states.getThisState();
-        final var zone = body.getZones().get(zoneId);
-        if (zone == null) {
-            return;
-        }
-
-        zone.getSims().values().forEach(sim -> {
-            final var task = new TaskItem();
-            task.setType(TaskType.SIMULATION);
-            task.setResultKey(new TaskItem.MapField(resultKey, "sim"));
-            task.setSimulation(new TaskItem.Simulation(zoneId, tickId, sim.getName()));
-
-            tasks.pushTask(task);
-        });
-
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return;
-        }
-
-        final var results = tasks.getResult(resultKey);
+//        final var resultKey = "zone:%d:tick:%d:results".formatted(zoneId, tickId);
+//
+//        final var body = states.getThisState();
+//        final var zone = body.getZones().get(zoneId);
+//        if (zone == null) {
+//            return;
+//        }
+//
+//        zone.getSims().values().forEach(sim -> {
+//            final var task = new TaskItem();
+//            task.setType(TaskType.SIMULATION);
+//            task.setResultKey(new TaskItem.MapField(resultKey, "sim"));
+//            task.setSimulation(new TaskItem.Simulation(zoneId, tickId, sim.getName()));
+//
+//            tasks.pushTask(task);
+//        });
+//
+//        try {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//            return;
+//        }
+//
+//        final var results = tasks.getResult(resultKey);
     }
 }

@@ -8,6 +8,8 @@ import sh.byv.event.entity.EventService;
 import sh.byv.event.entity.EventType;
 import sh.byv.exception.clazz.NotFoundException;
 
+import java.util.Optional;
+
 @Slf4j
 @Transactional
 @ApplicationScoped
@@ -28,6 +30,10 @@ public class ServerService {
     public ServerEntity getByIdRequired(final Long id) {
         return repository.findByIdOptional(id)
                 .orElseThrow(() -> new NotFoundException("Server not found: " + id));
+    }
+
+    public Optional<ServerEntity> getByNameOptional(final String name) {
+        return repository.findByName(name);
     }
 
     public ServerEntity getByNameRequired(final String name) {

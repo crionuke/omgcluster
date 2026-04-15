@@ -38,6 +38,11 @@
             <artifactId>task-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>tick-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

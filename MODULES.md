@@ -16,6 +16,7 @@ graph TD
     lifecycle-service --> event-entity
     lifecycle-service --> mdc-id
     lifecycle-service --> task-service
+    lifecycle-service --> tick-service
 
     init-service --> runtime-service
     init-service --> prop-entity
@@ -63,6 +64,8 @@ graph TD
     job-worker --> sim-entity
 
     task-service --> cache-service
+
+    tick-service --> state-entity
 
     task-runner --> task-service
     task-runner --> cache-service

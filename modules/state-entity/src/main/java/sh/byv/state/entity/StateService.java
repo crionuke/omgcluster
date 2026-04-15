@@ -6,11 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.exception.clazz.NotFoundException;
 import sh.byv.server.entity.ServerEntity;
-import sh.byv.server.entity.ServerService;
 import sh.byv.sim.entity.SimEntity;
 import sh.byv.zone.entity.ZoneEntity;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class StateService {
 
     final StateRepository repository;
-    final ServerService servers;
+    final StateCache cache;
 
     public StateEntity create(final ServerEntity server) {
         final var state = repository.create(server, new StateBody());
@@ -28,41 +28,40 @@ public class StateService {
         return state;
     }
 
-    public StateBody getThisState() {
-        final var server = servers.getThisServer();
-        final var state = getByServerRequired(server);
-        return state.getBody();
+    public Optional<StateEntity> getByServerOptional(final ServerEntity server) {
+        return repository.findByServer(server);
+    }
+
+    public StateEntity getByServerRequired(final ServerEntity server) {
+        return repository.findByServer(server)
+                .orElseThrow(() -> new NotFoundException("Server %s state not found"
+                        .formatted(server.getName())));
     }
 
     public void addZone(final ServerEntity server, final ZoneEntity zone) {
-        updateServerState(server, body -> body.addZone(zone));
+        updateState(server, body -> body.addZone(zone));
         log.info("Added zone {} to server {} state", zone.getId(), server.getId());
     }
 
     public void removeZone(final ServerEntity server, final Long zoneId) {
-        updateServerState(server, body -> body.removeZone(zoneId));
+        updateState(server, body -> body.removeZone(zoneId));
         log.info("Removed zone {} from server {} state", zoneId, server.getId());
     }
 
     public void addSim(final ServerEntity server, final SimEntity sim) {
-        updateServerState(server, body -> body.addSim(sim));
+        updateState(server, body -> body.addSim(sim));
         log.info("Added sim {} to server {} state", sim.getId(), server.getId());
     }
 
     public void removeSim(final ServerEntity server, final Long simId) {
-        updateServerState(server, body -> body.removeSim(simId));
+        updateState(server, body -> body.removeSim(simId));
         log.info("Removed sim {} from server {} state", simId, server.getId());
     }
 
-    void updateServerState(final ServerEntity server, final Consumer<StateBody> mutator) {
+    void updateState(final ServerEntity server, final Consumer<StateBody> mutator) {
         final var state = getByServerRequired(server);
         mutator.accept(state.getBody());
         state.setUpdatedAt(OffsetDateTime.now());
-    }
-
-    StateEntity getByServerRequired(final ServerEntity server) {
-        return repository.findByServer(server)
-                .orElseThrow(() -> new NotFoundException("Server %s state not found"
-                        .formatted(server.getName())));
+        cache.cacheServerState(server, state);
     }
 }

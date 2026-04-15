@@ -10,32 +10,18 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>state-entity</artifactId>
+    <artifactId>tick-service</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-redis-client</artifactId>
+            <artifactId>quarkus-scheduler</artifactId>
         </dependency>
         <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>server-entity</artifactId>
+            <artifactId>state-entity</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>sim-entity</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>zone-entity</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jackson</artifactId>
         </dependency>
     </dependencies>
 

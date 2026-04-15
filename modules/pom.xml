@@ -34,6 +34,7 @@
         <module>world-entity</module>
         <module>zone-entity</module>
         <module>executor-service</module>
+        <module>tick-service</module>
     </modules>
 
     <artifactId>modules</artifactId>
