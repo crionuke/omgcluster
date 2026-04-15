@@ -15,26 +15,26 @@
     <modules>
         <module>cache-service</module>
         <module>conn-entity</module>
-        <module>task-runner</module>
         <module>event-entity</module>
-        <module>exception-clazz</module>
         <module>event-handler</module>
+        <module>exception-clazz</module>
+        <module>executor-service</module>
         <module>init-service</module>
-        <module>server-entity</module>
         <module>job-service</module>
+        <module>job-worker</module>
         <module>layer-entity</module>
         <module>lifecycle-service</module>
         <module>mdc-id</module>
         <module>prop-entity</module>
         <module>runtime-service</module>
+        <module>server-entity</module>
+        <module>signal-handler</module>
+        <module>signal-service</module>
         <module>sim-entity</module>
         <module>state-entity</module>
-        <module>task-service</module>
-        <module>job-worker</module>
+        <module>tick-service</module>
         <module>world-entity</module>
         <module>zone-entity</module>
-        <module>executor-service</module>
-        <module>tick-service</module>
     </modules>
 
     <artifactId>modules</artifactId>

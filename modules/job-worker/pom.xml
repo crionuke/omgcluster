@@ -15,42 +15,12 @@
     <dependencies>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>runtime-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>cache-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>task-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>sim-entity</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
             <artifactId>job-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
             <artifactId>event-entity</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>zone-entity</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>state-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

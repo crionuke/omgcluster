@@ -58,11 +58,7 @@
             <artifactId>layer-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>job-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
     </dependencies>
 
 </project>

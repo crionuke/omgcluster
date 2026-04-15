@@ -32,16 +32,6 @@
         <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>exception-clazz</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>event-handler</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
             <artifactId>cache-service</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -57,7 +47,22 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>server-entity</artifactId>
+            <artifactId>event-handler</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>exception-clazz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>executor-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>init-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -67,7 +72,17 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>job-worker</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>layer-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>lifecycle-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -82,12 +97,22 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>zone-entity</artifactId>
+            <artifactId>runtime-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>world-entity</artifactId>
+            <artifactId>server-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>signal-handler</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>signal-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -97,37 +122,22 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>runtime-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>lifecycle-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>init-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
             <artifactId>state-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>job-worker</artifactId>
+            <artifactId>tick-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>task-service</artifactId>
+            <artifactId>world-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>task-runner</artifactId>
+            <artifactId>zone-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
