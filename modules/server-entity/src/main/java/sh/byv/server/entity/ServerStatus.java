@@ -1,4 +1,4 @@
-package sh.byv.node.entity;
+package sh.byv.server.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor
-public enum NodeStatus {
+public enum ServerStatus {
     PENDING(1),
     ACTIVE(2),
     SUSPENDED(3),
@@ -15,7 +15,7 @@ public enum NodeStatus {
 
     final int id;
 
-    public static NodeStatus fromId(final int id) {
+    public static ServerStatus fromId(final int id) {
         return Arrays.stream(values())
                 .filter(status -> status.id == id)
                 .findFirst()

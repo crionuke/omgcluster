@@ -8,8 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.entity.EventEntity;
 import sh.byv.event.entity.EventHandler;
 import sh.byv.event.entity.EventType;
-import sh.byv.node.entity.NodeRelService;
-import sh.byv.node.entity.NodeRelType;
+import sh.byv.server.entity.ServerRelService;
+import sh.byv.server.entity.ServerRelType;
 import sh.byv.job.service.JobService;
 import sh.byv.job.service.JobType;
 import sh.byv.zone.entity.ZoneService;
@@ -21,7 +21,7 @@ import sh.byv.zone.entity.ZoneStatus;
 @AllArgsConstructor
 public class ZoneCreated implements EventHandler {
 
-    final NodeRelService rels;
+    final ServerRelService rels;
     final ZoneService zones;
     final JobService jobs;
 
@@ -35,8 +35,8 @@ public class ZoneCreated implements EventHandler {
     public void execute(final EventEntity event) {
         final var zone = zones.getByIdRequired(event.getEntityId());
         if (zone.getStatus() == ZoneStatus.PENDING) {
-            final var node = rels.getLeastPopulatedNode();
-            rels.create(NodeRelType.ZONE, zone.getId(), node);
+            final var server = rels.getLeastPopulatedServer();
+            rels.create(ServerRelType.ZONE, zone.getId(), server);
 
             jobs.schedule(JobType.ZONE, zone.getId());
             zones.activate(zone);

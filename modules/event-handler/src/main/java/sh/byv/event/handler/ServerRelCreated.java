@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.entity.EventEntity;
 import sh.byv.event.entity.EventHandler;
 import sh.byv.event.entity.EventType;
-import sh.byv.node.entity.NodeRelService;
-import sh.byv.node.entity.NodeRelStatus;
+import sh.byv.server.entity.ServerRelService;
+import sh.byv.server.entity.ServerRelStatus;
 import sh.byv.sim.entity.SimService;
 import sh.byv.state.entity.StateService;
 import sh.byv.zone.entity.ZoneService;
@@ -17,28 +17,28 @@ import sh.byv.zone.entity.ZoneService;
 @Transactional
 @ApplicationScoped
 @AllArgsConstructor
-public class NodeRelCreated implements EventHandler {
+public class ServerRelCreated implements EventHandler {
 
-    final NodeRelService rels;
+    final ServerRelService rels;
     final StateService state;
     final ZoneService zones;
     final SimService sims;
 
     @Override
     public EventType getType() {
-        return EventType.NODE_REL_CREATED;
+        return EventType.SERVER_REL_CREATED;
     }
 
     @Override
     public void execute(final EventEntity event) {
         final var rel = rels.getByIdRequired(event.getEntityId());
-        if (rel.getStatus() == NodeRelStatus.PENDING) {
+        if (rel.getStatus() == ServerRelStatus.PENDING) {
             switch (rel.getType()) {
-                case ZONE -> state.addZone(rel.getNode(), zones.getByIdRequired(rel.getEntityId()));
+                case ZONE -> state.addZone(rel.getServer(), zones.getByIdRequired(rel.getEntityId()));
                 case SIM -> {
                     final var sim = sims.getByIdRequired(rel.getEntityId());
                     final var zoneRel = rels.getByZoneRequired(sim.getZone().getId());
-                    state.addSim(zoneRel.getNode(), sim);
+                    state.addSim(zoneRel.getServer(), sim);
                 }
             }
 
