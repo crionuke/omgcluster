@@ -3,6 +3,7 @@ package sh.byv.init;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.runtime.service.RuntimeContext;
 import sh.byv.runtime.service.RuntimeService;
