@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 @ApplicationScoped
 public class TickService {
 
-
     final ScheduledExecutorService scheduler;
     final SignalService signals;
     final TickCache servers;
