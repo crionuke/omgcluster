@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 public class SignalBody {
 
     SignalType type;
-    TickBody tick;
+    TickSignal tick;
 
     @Data
     @AllArgsConstructor
-    public static class TickBody {
+    public static class TickSignal {
         long zoneId;
-        long tickId;
+        long tick;
     }
 }

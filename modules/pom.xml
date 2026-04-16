@@ -18,7 +18,6 @@
         <module>event-entity</module>
         <module>event-handler</module>
         <module>exception-clazz</module>
-        <module>executor-service</module>
         <module>init-service</module>
         <module>job-service</module>
         <module>job-worker</module>
@@ -35,6 +34,9 @@
         <module>tick-service</module>
         <module>world-entity</module>
         <module>zone-entity</module>
+        <module>zone-executor</module>
+        <module>sim-executor</module>
+        <module>task-executor</module>
     </modules>
 
     <artifactId>modules</artifactId>
