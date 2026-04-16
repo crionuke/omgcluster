@@ -14,6 +14,7 @@ import sh.byv.server.entity.ServerService;
 import sh.byv.job.service.JobService;
 import sh.byv.mdc.id.WithMdcId;
 import sh.byv.server.executor.TickService;
+import sh.byv.task.executor.TaskExecutor;
 
 @Slf4j
 @ApplicationScoped
@@ -23,6 +24,7 @@ public class LifecycleService {
     final ServerService servers;
     final ServerConfig config;
     final EventService events;
+    final TaskExecutor tasks;
     final TickService ticks;
     final JobService jobs;
 
@@ -40,7 +42,8 @@ public class LifecycleService {
     }
 
     @WithMdcId
-    public void onStart(@Observes final ShutdownEvent event) throws SchedulerException {
+    public void onShutdown(@Observes final ShutdownEvent event) throws SchedulerException {
         ticks.shutdown();
+        tasks.shutdown();
     }
 }

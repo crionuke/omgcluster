@@ -20,7 +20,7 @@ import java.util.Optional;
 public class StateCache {
 
     private static String getKey(final String name) {
-        return "server:%s:state".formatted(name);
+        return "omgc:server:%s:state".formatted(name);
     }
 
     private static final String VERSION_FIELD = "version";
@@ -52,7 +52,7 @@ public class StateCache {
         inMemoryState = null;
     }
 
-    public synchronized Optional<StateBody> getThisServerState() {
+    public synchronized Optional<StateBody> getServerState() {
         final var cachedVersion = cache.hget(thisServerStateKey, VERSION_FIELD);
         if (cachedVersion == null) {
             log.info("No cached state found, loading persisted state");

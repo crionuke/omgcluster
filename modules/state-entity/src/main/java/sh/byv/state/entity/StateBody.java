@@ -1,13 +1,10 @@
 package sh.byv.state.entity;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.sim.entity.SimEntity;
 import sh.byv.zone.entity.ZoneEntity;
 
-import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +13,11 @@ import java.util.Map;
 public class StateBody {
 
     final Map<Long, ZoneState> zones;
+    final Map<Long, SimState> sims;
 
     public StateBody() {
         zones = new HashMap<>();
+        sims = new HashMap<>();
     }
 
     void addZone(final ZoneEntity zone) {
@@ -30,64 +29,26 @@ public class StateBody {
         zones.remove(zoneId);
     }
 
-    public boolean hasZone(final Long zoneId) {
-        return zones.containsKey(zoneId);
-    }
-
     void addSim(final SimEntity sim) {
-        final var zone = zones.get(sim.getZone().getId());
-        if (zone != null) {
-            zone.addSim(sim);
-        } else {
-            log.warn("Zone {} not found in cluster state, sim {} not added", sim.getZone().getId(), sim.getId());
-        }
+        final var simState = new SimState(sim);
+        sims.put(sim.getId(), simState);
     }
 
     void removeSim(final Long simId) {
-        for (final var zone : zones.values()) {
-            zone.sims.remove(simId);
-        }
+        sims.remove(simId);
     }
 
-    @Getter
-    @NoArgsConstructor
-    public static class ZoneState {
-
-        long id;
-        String name;
-        String world;
-        int x1;
-        int y1;
-        int x2;
-        int y2;
-        Map<Long, SimState> sims;
+    public record ZoneState(long id, String layer, String world) {
 
         ZoneState(final ZoneEntity zone) {
-            id = zone.getId();
-            name = zone.getLayer().getName();
-            world = zone.getLayer().getWorld().getName();
-            x1 = zone.getX1();
-            y1 = zone.getY1();
-            x2 = zone.getX2();
-            y2 = zone.getY2();
-            sims = new HashMap<>();
-        }
-
-        void addSim(final SimEntity sim) {
-            sims.put(sim.getId(), new SimState(sim));
+            this(zone.getId(), zone.getLayer().getName(), zone.getLayer().getWorld().getName());
         }
     }
 
-    @Getter
-    @NoArgsConstructor
-    public static class SimState {
-
-        long id;
-        String name;
+    public record SimState(long id, long zoneId, String name) {
 
         SimState(final SimEntity sim) {
-            id = sim.getId();
-            name = sim.getName();
+            this(sim.getId(), sim.getZone().getId(), sim.getName());
         }
     }
 }

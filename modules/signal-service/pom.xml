@@ -21,6 +21,12 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jackson</artifactId>
         </dependency>
+        <!-- MODULES -->
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>task-executor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

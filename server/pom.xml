@@ -57,11 +57,6 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>executor-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
             <artifactId>init-service</artifactId>
             <version>${project.version}</version>
         </dependency>

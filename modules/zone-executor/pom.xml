@@ -10,14 +10,9 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>executor-service</artifactId>
+    <artifactId>zone-executor</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-scheduler</artifactId>
-        </dependency>
-        <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
             <artifactId>state-entity</artifactId>

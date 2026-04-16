@@ -39,6 +39,7 @@
 - `final var` for local variables, `final` for method arguments and class fields
 - Package-private over `private` for non-public methods
 - Parameterized logging: `log.info("Message: {}", value)`
+- Prefer Java Stream API over `for`/`while` loops for collection iteration and transformation
 
 #### Lombok
 
