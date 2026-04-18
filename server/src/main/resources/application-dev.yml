@@ -8,3 +8,5 @@ omgcluster:
     version: 2
   server:
     name: localhost
+  tick:
+    interval: 1000

@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -21,6 +22,10 @@ public class ServerRelRepository implements PanacheRepository<ServerRelEntity> {
         rel.setStatus(ServerRelStatus.PENDING);
         persist(rel);
         return rel;
+    }
+
+    public List<ServerRelEntity> findRelsByServerAndType(final ServerEntity server, final ServerRelType type) {
+        return find("server = ?1 and type = ?2 and status = ?3", server, type, ServerRelStatus.ACTIVE).list();
     }
 
     Optional<ServerRelEntity> findByTypeAndEntity(final ServerRelType type, final Long entityId) {

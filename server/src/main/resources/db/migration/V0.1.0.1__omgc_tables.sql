@@ -74,15 +74,6 @@ create table if not exists omgc_server (
     constraint omgc_server_name_unique unique (name)
 );
 
-create table if not exists omgc_state (
-    id bigint generated always as identity primary key,
-    server_id bigint not null,
-    created_at timestamp with time zone not null,
-    updated_at timestamp with time zone not null,
-    body jsonb not null,
-    constraint fk_omgc_state_server foreign key (server_id) references omgc_server(id) on delete cascade on update restrict
-);
-
 create table if not exists omgc_server_rel (
     id bigint generated always as identity primary key,
     server_id bigint not null,

@@ -30,7 +30,6 @@
         <module>signal-handler</module>
         <module>signal-service</module>
         <module>sim-entity</module>
-        <module>state-entity</module>
         <module>tick-service</module>
         <module>world-entity</module>
         <module>zone-entity</module>

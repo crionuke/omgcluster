@@ -5,8 +5,10 @@ import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.pubsub.PubSubCommands;
 import io.quarkus.runtime.Startup;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.enterprise.inject.Instance;
 import lombok.extern.slf4j.Slf4j;
+import sh.byv.mdc.id.WithMdcId;
 import sh.byv.task.executor.TaskExecutor;
 
 import java.util.Map;
@@ -23,14 +25,17 @@ public class SignalService {
     final PubSubCommands<String> signals;
     final ObjectMapper mapper;
     final TaskExecutor tasks;
+    final SignalService self;
 
     SignalService(final TaskExecutor tasks,
                   final RedisDataSource redis,
                   final ObjectMapper mapper,
-                  final Instance<SignalHandler> instances) {
+                  final Instance<SignalHandler> instances,
+                  final SignalService self) {
         this.signals = redis.pubsub(String.class);
         this.mapper = mapper;
         this.tasks = tasks;
+        this.self = self;
 
         handlers = new ConcurrentHashMap<>();
         instances.stream().forEach(handler -> handlers.put(handler.getType(), handler));
@@ -73,10 +78,20 @@ public class SignalService {
         try {
             final var handler = handlers.get(signal.getType());
             if (handler != null) {
-                tasks.execute(() -> handler.execute(signal));
+                tasks.execute(() -> self.handle(handler, signal));
             } else {
                 log.warn("No handler for signal type: {}", signal.getType());
             }
+        } catch (Exception e) {
+            log.error("Failed to dispatch signal {}: {}", signal, e.getMessage(), e);
+        }
+    }
+
+    @WithMdcId
+    @ActivateRequestContext
+    void handle(final SignalHandler handler, final SignalBody signal) {
+        try {
+            handler.execute(signal);
         } catch (Exception e) {
             log.error("Failed to handle signal {}: {}", signal, e.getMessage(), e);
         }

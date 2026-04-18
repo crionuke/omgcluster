@@ -16,6 +16,11 @@
         <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>server-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>signal-service</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -31,7 +36,12 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>state-entity</artifactId>
+            <artifactId>cache-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>task-executor</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
