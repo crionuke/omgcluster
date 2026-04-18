@@ -29,3 +29,10 @@ quarkus:
     mapping:
       format:
         global: ignore
+  cache:
+    redis:
+      prefix: omgcache:{cache-name}
+      server-zone-ids:
+        ttl: 10S
+      server-sim-ids:
+        ttl: 10S

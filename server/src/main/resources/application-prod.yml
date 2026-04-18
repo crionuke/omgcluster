@@ -12,3 +12,5 @@ omgcluster:
     version: ${INIT_VERSION}
   node:
     name: ${HOSTNAME}
+  tick:
+    interval: ${TICK_INTERVAL}

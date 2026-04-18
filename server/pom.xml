@@ -117,11 +117,6 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>state-entity</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
             <artifactId>tick-service</artifactId>
             <version>${project.version}</version>
         </dependency>

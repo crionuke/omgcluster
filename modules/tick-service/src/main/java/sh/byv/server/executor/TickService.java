@@ -1,14 +1,15 @@
 package sh.byv.server.executor;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.control.ActivateRequestContext;
 import lombok.extern.slf4j.Slf4j;
+import sh.byv.cache.service.CacheService;
+import sh.byv.mdc.id.WithMdcId;
+import sh.byv.server.entity.ServerConfig;
 import sh.byv.signal.service.SignalBody;
 import sh.byv.signal.service.SignalEnvelope;
 import sh.byv.signal.service.SignalService;
 import sh.byv.signal.service.SignalType;
-import sh.byv.state.entity.StateBody;
-import sh.byv.state.entity.StateCache;
-import sh.byv.zone.entity.ZoneCache;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -21,45 +22,52 @@ public class TickService {
 
     final ScheduledExecutorService scheduler;
     final SignalService signals;
-    final TickCache servers;
-    final StateCache states;
-    final ZoneCache zones;
+    final CacheService cache;
+    final TickService self;
 
-    public TickService(final TickCache servers,
-                       final StateCache states,
-                       final ZoneCache zones,
-                       final SignalService signals) {
-        this.servers = servers;
-        this.states = states;
-        this.zones = zones;
+    final String serverName;
+    final long interval;
+
+    public TickService(final CacheService cache,
+                       final ServerConfig serverConfig,
+                       final TickConfig tickConfig,
+                       final SignalService signals,
+                       final TickService self) {
+        this.cache = cache;
         this.signals = signals;
+        this.self = self;
+
+        serverName = serverConfig.name();
+        interval = tickConfig.interval();
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
     public void start() {
-        scheduler.scheduleAtFixedRate(() -> states.getServerState()
-                .ifPresent(this::tick), 0, 1000, TimeUnit.MILLISECONDS);
+        scheduler.scheduleAtFixedRate(self::tick, 0, interval, TimeUnit.MILLISECONDS);
     }
 
     public void shutdown() {
         scheduler.shutdown();
     }
 
-    void tick(final StateBody state) {
-        if (state.getZones().isEmpty()) {
+    @WithMdcId
+    @ActivateRequestContext
+    void tick() {
+        final var zoneIds = cache.getServerZoneIds(serverName);
+        if (zoneIds.isEmpty()) {
             return;
         }
 
-        final var envelope = new ArrayList<SignalBody>(state.getZones().size());
+        final var envelope = new ArrayList<SignalBody>(zoneIds.size());
 
-        state.getZones().forEach((zoneId, _) -> {
-            final var tick = zones.incrZoneTick(zoneId);
+        zoneIds.forEach(zoneId -> {
+            final var tick = cache.incrZoneTick(zoneId);
             final var signal = new SignalBody(SignalType.TICK, new SignalBody.TickSignal(zoneId, tick));
 
             envelope.add(signal);
         });
 
-        this.signals.publish(new SignalEnvelope(envelope));
+        signals.publish(new SignalEnvelope(envelope));
     }
 }

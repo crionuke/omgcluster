@@ -4,15 +4,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sh.byv.cache.service.CacheService;
 import sh.byv.event.entity.EventEntity;
 import sh.byv.event.entity.EventHandler;
 import sh.byv.event.entity.EventType;
 import sh.byv.server.entity.ServerRelService;
 import sh.byv.server.entity.ServerRelStatus;
-import sh.byv.state.entity.StateCache;
-import sh.byv.sim.entity.SimService;
-import sh.byv.state.entity.StateService;
-import sh.byv.zone.entity.ZoneService;
+import sh.byv.server.entity.ServerRelType;
 
 @Slf4j
 @Transactional
@@ -21,9 +19,7 @@ import sh.byv.zone.entity.ZoneService;
 public class ServerRelCreated implements EventHandler {
 
     final ServerRelService rels;
-    final StateService state;
-    final ZoneService zones;
-    final SimService sims;
+    final CacheService cache;
 
     @Override
     public EventType getType() {
@@ -34,16 +30,14 @@ public class ServerRelCreated implements EventHandler {
     public void execute(final EventEntity event) {
         final var rel = rels.getByIdRequired(event.getEntityId());
         if (rel.getStatus() == ServerRelStatus.PENDING) {
-            switch (rel.getType()) {
-                case ZONE -> state.addZone(rel.getServer(), zones.getByIdRequired(rel.getEntityId()));
-                case SIM -> {
-                    final var sim = sims.getByIdRequired(rel.getEntityId());
-                    final var zoneRel = rels.getByZoneRequired(sim.getZone().getId());
-                    state.addSim(zoneRel.getServer(), sim);
-                }
-            }
-
             rels.activate(rel);
+
+            final var serverName = rel.getServer().getName();
+            if (rel.getType() == ServerRelType.ZONE) {
+                cache.invalidateServerZoneIds(serverName);
+            } else if (rel.getType() == ServerRelType.SIM) {
+                cache.invalidateServerSimIds(serverName);
+            }
         }
     }
 }

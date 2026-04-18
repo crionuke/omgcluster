@@ -1,23 +1,35 @@
 package sh.byv.signal.handler;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sh.byv.cache.service.CacheService;
+import sh.byv.server.entity.ServerConfig;
 import sh.byv.signal.service.SignalBody;
 import sh.byv.signal.service.SignalHandler;
 import sh.byv.signal.service.SignalType;
 import sh.byv.sim.executor.SimExecutor;
-import sh.byv.state.entity.StateCache;
 import sh.byv.zone.executor.ZoneExecutor;
 
 @Slf4j
 @ApplicationScoped
-@AllArgsConstructor
 public class TickHandler implements SignalHandler {
 
+    final CacheService cache;
     final ZoneExecutor zones;
-    final StateCache states;
     final SimExecutor sims;
+
+    final String serverName;
+
+    public TickHandler(final CacheService cache,
+                       final ServerConfig config,
+                       final ZoneExecutor zones,
+                       final SimExecutor sims) {
+        this.cache = cache;
+        this.zones = zones;
+        this.sims = sims;
+
+        serverName = config.name();
+    }
 
     @Override
     public SignalType getType() {
@@ -34,15 +46,7 @@ public class TickHandler implements SignalHandler {
         final var tick = tickSignal.getTick();
         final var zoneId = tickSignal.getZoneId();
 
-        states.getServerState().ifPresent(state -> {
-            final var zone = state.getZones().get(zoneId);
-            if (zone != null) {
-                zones.execute(zone, tick);
-            }
-
-            state.getSims().values().stream()
-                    .filter(sim -> sim.zoneId() == zoneId)
-                    .forEach(sim -> sims.execute(sim, tick));
-        });
+        zones.execute(zoneId, tick);
+        cache.getServerSimIds(serverName).forEach(simId -> sims.execute(simId, tick));
     }
 }
