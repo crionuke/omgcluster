@@ -20,6 +20,7 @@ graph TD
     init-service --> prop-entity
 
     cache-service --> server-entity
+    cache-service --> sim-entity
 
     runtime-service --> sim-entity
     runtime-service --> layer-entity
@@ -57,6 +58,9 @@ graph TD
 
     signal-handler --> signal-service
     signal-handler --> cache-service
+    signal-handler --> zone-executor
+    signal-handler --> sim-executor
+    signal-handler --> task-executor
 
     signal-service --> mdc-id
 

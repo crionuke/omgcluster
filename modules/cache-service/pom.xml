@@ -27,6 +27,11 @@
             <artifactId>server-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>sim-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

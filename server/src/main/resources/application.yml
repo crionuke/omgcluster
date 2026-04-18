@@ -31,8 +31,8 @@ quarkus:
         global: ignore
   cache:
     redis:
-      prefix: omgcache:{cache-name}
-      server-zone-ids:
+      prefix: omgcache
+      rel-zones:
         ttl: 10S
-      server-sim-ids:
+      rel-sims:
         ttl: 10S

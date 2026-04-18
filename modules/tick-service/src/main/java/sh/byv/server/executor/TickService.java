@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
+import sh.byv.cache.service.CachedZone;
 import sh.byv.mdc.id.WithMdcId;
 import sh.byv.server.entity.ServerConfig;
 import sh.byv.signal.service.SignalBody;
@@ -54,7 +55,7 @@ public class TickService {
     @WithMdcId
     @ActivateRequestContext
     void tick() {
-        final var zoneIds = cache.getServerZoneIds(serverName);
+        final var zoneIds = cache.getServerZones(serverName).stream().map(CachedZone::zoneId).toList();
         if (zoneIds.isEmpty()) {
             return;
         }

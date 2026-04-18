@@ -8,6 +8,8 @@ import sh.byv.event.entity.EventService;
 import sh.byv.event.entity.EventType;
 import sh.byv.exception.clazz.NotFoundException;
 
+import java.util.List;
+
 @Slf4j
 @Transactional
 @ApplicationScoped
@@ -22,6 +24,10 @@ public class ServerRelService {
         events.create(EventType.SERVER_REL_CREATED, rel.getId());
         log.info("{} {} relation to server {} created", type, entityId, server.getId());
         return rel;
+    }
+
+    public List<ServerRelEntity> getByServerAndType(final ServerEntity server, final ServerRelType type) {
+        return repository.findRelsByServerAndType(server, type);
     }
 
     public ServerRelEntity getByIdRequired(final Long id) {

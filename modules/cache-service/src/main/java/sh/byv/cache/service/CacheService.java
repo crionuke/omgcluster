@@ -7,9 +7,10 @@ import io.quarkus.redis.datasource.value.ValueCommands;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.server.entity.ServerRelEntity;
-import sh.byv.server.entity.ServerRelRepository;
+import sh.byv.server.entity.ServerRelService;
 import sh.byv.server.entity.ServerRelType;
 import sh.byv.server.entity.ServerService;
+import sh.byv.sim.entity.SimService;
 
 import java.util.List;
 
@@ -17,47 +18,66 @@ import java.util.List;
 @ApplicationScoped
 public class CacheService {
 
-    private static String getZoneTickKey(final long zoneId) {
-        return "omgc:zone:%d:tick".formatted(zoneId);
-    }
-
-    final ServerRelRepository rels;
+    final ServerRelService rels;
     final ServerService servers;
+    final SimService sims;
 
     final ValueCommands<String, Long> longCommands;
+    final String prefix;
 
-    public CacheService(final ServerRelRepository rels,
+    public CacheService(final ServerRelService rels,
                         final ServerService servers,
+                        final SimService sims,
+                        final CacheConfig config,
                         final RedisDataSource redis) {
         this.rels = rels;
         this.servers = servers;
+        this.sims = sims;
 
         longCommands = redis.value(Long.class);
+        prefix = config.prefix();
     }
 
-    @CacheResult(cacheName = "server-zone-ids")
-    public List<Long> getServerZoneIds(final String serverName) {
-        log.info("Cache miss for server zone ids: {}", serverName);
+    private String getZoneTickKey(final long zoneId) {
+        return "%s:zone:%d:tick".formatted(prefix, zoneId);
+    }
+
+    @CacheResult(cacheName = "rel-zones", keyGenerator = ServerCacheKeyGenerator.class)
+    public List<CachedZone> getServerZones(final String serverName) {
+        log.info("Cache miss for server zones: {}", serverName);
+
         final var server = servers.getByNameRequired(serverName);
-        return rels.findRelsByServerAndType(server, ServerRelType.ZONE).stream()
-                .map(ServerRelEntity::getEntityId).toList();
+        return rels.getByServerAndType(server, ServerRelType.ZONE).stream()
+                .map(ServerRelEntity::getEntityId)
+                .map(CachedZone::new)
+                .toList();
     }
 
-    @CacheResult(cacheName = "server-sim-ids")
-    public List<Long> getServerSimIds(final String serverName) {
-        log.info("Cache miss for server sim ids: {}", serverName);
+    @CacheResult(cacheName = "rel-sims", keyGenerator = ServerCacheKeyGenerator.class)
+    public List<CachedSim> getServerSims(final String serverName) {
+        log.info("Cache miss for server sims: {}", serverName);
+
         final var server = servers.getByNameRequired(serverName);
-        return rels.findRelsByServerAndType(server, ServerRelType.SIM).stream()
-                .map(ServerRelEntity::getEntityId).toList();
+        final var simIds = rels.getByServerAndType(server, ServerRelType.SIM).stream()
+                .map(ServerRelEntity::getEntityId)
+                .toList();
+
+        if (simIds.isEmpty()) {
+            return List.of();
+        }
+
+        return sims.getByIds(simIds).stream()
+                .map(sim -> new CachedSim(sim.getId(), sim.getZone().getId()))
+                .toList();
     }
 
-    @CacheInvalidate(cacheName = "server-zone-ids")
-    public void invalidateServerZoneIds(final String serverName) {
+    @CacheInvalidate(cacheName = "rel-zones", keyGenerator = ServerCacheKeyGenerator.class)
+    public void invalidateServerZones(final String serverName) {
         log.info("Invalidated server zone ids cache for {}", serverName);
     }
 
-    @CacheInvalidate(cacheName = "server-sim-ids")
-    public void invalidateServerSimIds(final String serverName) {
+    @CacheInvalidate(cacheName = "rel-sims", keyGenerator = ServerCacheKeyGenerator.class)
+    public void invalidateServerSims(final String serverName) {
         log.info("Invalidated server sim ids cache for {}", serverName);
     }
 

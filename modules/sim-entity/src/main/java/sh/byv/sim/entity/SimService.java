@@ -32,6 +32,10 @@ public class SimService {
         return repository.findByZoneAndStatus(zone, SimStatus.ACTIVE);
     }
 
+    public List<SimEntity> getByIds(final List<Long> ids) {
+        return repository.findByIds(ids);
+    }
+
     public SimEntity getByIdRequired(final Long id) {
         return repository.findByIdOptional(id)
                 .orElseThrow(() -> new NotFoundException("Sim not found: " + id));

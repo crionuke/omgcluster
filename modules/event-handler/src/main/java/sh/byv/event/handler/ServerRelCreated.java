@@ -34,9 +34,9 @@ public class ServerRelCreated implements EventHandler {
 
             final var serverName = rel.getServer().getName();
             if (rel.getType() == ServerRelType.ZONE) {
-                cache.invalidateServerZoneIds(serverName);
+                cache.invalidateServerZones(serverName);
             } else if (rel.getType() == ServerRelType.SIM) {
-                cache.invalidateServerSimIds(serverName);
+                cache.invalidateServerSims(serverName);
             }
         }
     }
