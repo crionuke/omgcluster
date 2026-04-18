@@ -16,6 +16,11 @@
         <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>server-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>signal-service</artifactId>
             <version>${project.version}</version>
         </dependency>

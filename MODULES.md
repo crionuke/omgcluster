@@ -56,6 +56,7 @@ graph TD
     job-worker --> job-service
     job-worker --> event-entity
 
+    signal-handler --> server-entity
     signal-handler --> signal-service
     signal-handler --> cache-service
     signal-handler --> zone-executor
@@ -64,6 +65,7 @@ graph TD
 
     signal-service --> mdc-id
 
+    tick-service --> server-entity
     tick-service --> cache-service
     tick-service --> signal-service
     tick-service --> mdc-id

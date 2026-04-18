@@ -67,7 +67,7 @@ public class CacheService {
         }
 
         return sims.getByIds(simIds).stream()
-                .map(sim -> new CachedSim(sim.getId(), sim.getZone().getId()))
+                .map(sim -> new CachedSim(sim.getZone().getId(), sim.getId()))
                 .toList();
     }
 
@@ -82,7 +82,8 @@ public class CacheService {
     }
 
     public long getZoneTick(final long zoneId) {
-        return longCommands.get(getZoneTickKey(zoneId));
+        final var value = longCommands.get(getZoneTickKey(zoneId));
+        return value != null ? value : 0L;
     }
 
     public long incrZoneTick(final long zoneId) {

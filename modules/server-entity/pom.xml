@@ -25,10 +25,6 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-redis-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-redis-cache</artifactId>
-        </dependency>
         <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
