@@ -38,7 +38,11 @@ public class ServerService {
     }
 
     public long getThisServerId() {
-        return thisServerId;
+        final var id = thisServerId;
+        if (id == 0) {
+            throw new IllegalStateException("Server not started");
+        }
+        return id;
     }
 
     public ServerEntity create(final String name) {

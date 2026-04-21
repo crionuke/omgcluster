@@ -50,7 +50,7 @@
 - Initialize fields in constructors, not inline
 - `final var` for local variables, `final` for method arguments and class fields
 - Package-private over `private` for non-public methods
-``- Repository classes must be package-private (no `public` modifier)``
+- Repository classes must be package-private (no `public` modifier)
 - Parameterized logging: `log.info("Message: {}", value)`
 - Prefer Java Stream API over `for`/`while` loops for collection iteration and transformation
 

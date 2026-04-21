@@ -1,6 +1,7 @@
 package sh.byv.signal.handler;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
 import sh.byv.cache.service.RelSim;
@@ -14,6 +15,7 @@ import sh.byv.task.executor.TaskExecutor;
 import sh.byv.zone.executor.ZoneExecutor;
 
 @Slf4j
+@AllArgsConstructor
 @ApplicationScoped
 public class TickHandler implements SignalHandler {
 
@@ -22,18 +24,6 @@ public class TickHandler implements SignalHandler {
     final TaskExecutor taskExecutor;
     final ZoneExecutor zones;
     final SimExecutor sims;
-
-    public TickHandler(final CacheService cache,
-                       final ServerService servers,
-                       final TaskExecutor taskExecutor,
-                       final ZoneExecutor zones,
-                       final SimExecutor sims) {
-        this.cache = cache;
-        this.servers = servers;
-        this.taskExecutor = taskExecutor;
-        this.zones = zones;
-        this.sims = sims;
-    }
 
     @Override
     public SignalType getType() {
