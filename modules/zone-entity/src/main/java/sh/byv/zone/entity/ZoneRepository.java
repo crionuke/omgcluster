@@ -7,7 +7,7 @@ import sh.byv.layer.entity.LayerEntity;
 import java.time.OffsetDateTime;
 
 @ApplicationScoped
-public class ZoneRepository implements PanacheRepository<ZoneEntity> {
+class ZoneRepository implements PanacheRepository<ZoneEntity> {
 
     public ZoneEntity create(final LayerEntity layer,
                              final ZoneEntity parent,

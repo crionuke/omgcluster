@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-public class ServerRelRepository implements PanacheRepository<ServerRelEntity> {
+class ServerRelRepository implements PanacheRepository<ServerRelEntity> {
 
     ServerRelEntity create(final ServerEntity server,
                          final ServerRelType type,

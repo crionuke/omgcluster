@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @ApplicationScoped
-public class SimRepository implements PanacheRepository<SimEntity> {
+class SimRepository implements PanacheRepository<SimEntity> {
 
     public SimEntity create(final ZoneEntity zone, final String name) {
         final var sim = new SimEntity();

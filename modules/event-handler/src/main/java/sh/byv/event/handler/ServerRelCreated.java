@@ -32,11 +32,11 @@ public class ServerRelCreated implements EventHandler {
         if (rel.getStatus() == ServerRelStatus.PENDING) {
             rels.activate(rel);
 
-            final var serverName = rel.getServer().getName();
+            final var serverId = rel.getServer().getId();
             if (rel.getType() == ServerRelType.ZONE) {
-                cache.invalidateServerZones(serverName);
+                cache.invalidateServerZones(serverId);
             } else if (rel.getType() == ServerRelType.SIM) {
-                cache.invalidateServerSims(serverName);
+                cache.invalidateServerSims(serverId);
             }
         }
     }

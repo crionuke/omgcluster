@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @ApplicationScoped
-public class WorldRepository implements PanacheRepository<WorldEntity> {
+class WorldRepository implements PanacheRepository<WorldEntity> {
 
     public WorldEntity create(final String name) {
         final var world = new WorldEntity();

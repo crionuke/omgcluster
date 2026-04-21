@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @ApplicationScoped
-public class LayerRepository implements PanacheRepository<LayerEntity> {
+class LayerRepository implements PanacheRepository<LayerEntity> {
 
     public LayerEntity create(final WorldEntity world, final String name) {
         final var layer = new LayerEntity();
