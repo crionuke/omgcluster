@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @ApplicationScoped
-public class EventRepository implements PanacheRepository<EventEntity> {
+class EventRepository implements PanacheRepository<EventEntity> {
 
     public EventEntity create(final EventType type,
                               final Long entityId) {

@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @ApplicationScoped
-public class PropRepository implements PanacheRepository<PropEntity> {
+class PropRepository implements PanacheRepository<PropEntity> {
 
     PropEntity create(final PropType type, final JsonNode value) {
         final var now = OffsetDateTime.now();

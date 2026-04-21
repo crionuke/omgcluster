@@ -8,7 +8,7 @@ import sh.byv.world.entity.WorldEntity;
 import java.time.OffsetDateTime;
 
 @ApplicationScoped
-public class ConnRepository implements PanacheRepository<ConnEntity> {
+class ConnRepository implements PanacheRepository<ConnEntity> {
 
     public ConnEntity create(final ServerEntity server, final WorldEntity world) {
         final var conn = new ConnEntity();

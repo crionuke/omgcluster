@@ -43,21 +43,21 @@ public class CacheService {
     }
 
     @CacheResult(cacheName = "rel-zones", keyGenerator = ServerCacheKeyGenerator.class)
-    public List<CachedZone> getServerZones(final String serverName) {
-        log.info("Cache miss for server zones: {}", serverName);
+    public List<RelZone> getServerZones(final long serverId) {
+        log.info("Cache miss for server zones: {}", serverId);
 
-        final var server = servers.getByNameRequired(serverName);
+        final var server = servers.getByIdRequired(serverId);
         return rels.getByServerAndType(server, ServerRelType.ZONE).stream()
                 .map(ServerRelEntity::getEntityId)
-                .map(CachedZone::new)
+                .map(RelZone::new)
                 .toList();
     }
 
     @CacheResult(cacheName = "rel-sims", keyGenerator = ServerCacheKeyGenerator.class)
-    public List<CachedSim> getServerSims(final String serverName) {
-        log.info("Cache miss for server sims: {}", serverName);
+    public List<RelSim> getServerSims(final long serverId) {
+        log.info("Cache miss for server sims: {}", serverId);
 
-        final var server = servers.getByNameRequired(serverName);
+        final var server = servers.getByIdRequired(serverId);
         final var simIds = rels.getByServerAndType(server, ServerRelType.SIM).stream()
                 .map(ServerRelEntity::getEntityId)
                 .toList();
@@ -67,18 +67,18 @@ public class CacheService {
         }
 
         return sims.getByIds(simIds).stream()
-                .map(sim -> new CachedSim(sim.getZone().getId(), sim.getId()))
+                .map(sim -> new RelSim(sim.getZone().getId(), sim.getId()))
                 .toList();
     }
 
     @CacheInvalidate(cacheName = "rel-zones", keyGenerator = ServerCacheKeyGenerator.class)
-    public void invalidateServerZones(final String serverName) {
-        log.info("Invalidated server zone ids cache for {}", serverName);
+    public void invalidateServerZones(final long serverId) {
+        log.info("Invalidated server zone ids cache for {}", serverId);
     }
 
     @CacheInvalidate(cacheName = "rel-sims", keyGenerator = ServerCacheKeyGenerator.class)
-    public void invalidateServerSims(final String serverName) {
-        log.info("Invalidated server sim ids cache for {}", serverName);
+    public void invalidateServerSims(final long serverId) {
+        log.info("Invalidated server sim ids cache for {}", serverId);
     }
 
     public long getZoneTick(final long zoneId) {

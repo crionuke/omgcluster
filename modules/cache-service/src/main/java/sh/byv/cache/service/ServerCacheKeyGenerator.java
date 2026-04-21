@@ -12,9 +12,9 @@ public class ServerCacheKeyGenerator implements CacheKeyGenerator {
 
     @Override
     public Object generate(final Method method, final Object... methodParams) {
-        final var serverName = (String) methodParams[0];
+        final var serverId = (Long) methodParams[0];
         final var cacheName = getCacheName(method);
-        return "server:%s:%s".formatted(serverName, cacheName);
+        return "server:%d:%s".formatted(serverId, cacheName);
     }
 
     private String getCacheName(final Method method) {

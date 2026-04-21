@@ -4,9 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
-import sh.byv.cache.service.CachedZone;
+import sh.byv.cache.service.RelZone;
 import sh.byv.mdc.id.WithMdcId;
-import sh.byv.server.entity.ServerConfig;
+import sh.byv.server.entity.ServerService;
 import sh.byv.signal.service.SignalBody;
 import sh.byv.signal.service.SignalEnvelope;
 import sh.byv.signal.service.SignalService;
@@ -23,22 +23,22 @@ public class TickService {
 
     final ScheduledExecutorService scheduler;
     final SignalService signals;
+    final ServerService servers;
     final CacheService cache;
     final TickService self;
 
-    final String serverName;
     final long interval;
 
     public TickService(final CacheService cache,
-                       final ServerConfig serverConfig,
+                       final ServerService servers,
                        final TickConfig tickConfig,
                        final SignalService signals,
                        final TickService self) {
         this.cache = cache;
+        this.servers = servers;
         this.signals = signals;
         this.self = self;
 
-        serverName = serverConfig.name();
         interval = tickConfig.interval();
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -55,7 +55,8 @@ public class TickService {
     @WithMdcId
     @ActivateRequestContext
     void tick() {
-        final var zoneIds = cache.getServerZones(serverName).stream().map(CachedZone::zoneId).toList();
+        final var serverId = servers.getThisServerId();
+        final var zoneIds = cache.getServerZones(serverId).stream().map(RelZone::zoneId).toList();
         if (zoneIds.isEmpty()) {
             return;
         }

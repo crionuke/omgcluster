@@ -2,7 +2,6 @@ package sh.byv.server.entity;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.entity.EventService;
@@ -14,18 +13,36 @@ import java.util.Optional;
 @Slf4j
 @Transactional
 @ApplicationScoped
-@AllArgsConstructor
 public class ServerService {
 
     final ServerRepository repository;
     final ServerConfig config;
     final EventService events;
 
+    volatile long thisServerId;
+
+    public ServerService(final ServerRepository repository,
+                         final ServerConfig config,
+                         final EventService events) {
+        this.repository = repository;
+        this.config = config;
+        this.events = events;
+    }
+
     @SneakyThrows
     public void start() {
         final var name = config.name();
         final var server = getOrCreate(name);
+        thisServerId = server.getId();
         events.create(EventType.SERVER_STARTED, server.getId());
+    }
+
+    public long getThisServerId() {
+        final var id = thisServerId;
+        if (id == 0) {
+            throw new IllegalStateException("Server not started");
+        }
+        return id;
     }
 
     public ServerEntity create(final String name) {

@@ -7,7 +7,7 @@ import sh.byv.zone.entity.ZoneEntity;
 import java.time.OffsetDateTime;
 
 @ApplicationScoped
-public class ConnZoneRelRepository implements PanacheRepository<ConnZoneRelEntity> {
+class ConnZoneRelRepository implements PanacheRepository<ConnZoneRelEntity> {
 
     ConnZoneRelEntity create(final ConnEntity conn, final ZoneEntity zone) {
         final var rel = new ConnZoneRelEntity();
