@@ -13,6 +13,7 @@
     <artifactId>runtime-service</artifactId>
 
     <dependencies>
+        <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
             <artifactId>sim-entity</artifactId>

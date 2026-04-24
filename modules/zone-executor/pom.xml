@@ -12,5 +12,18 @@
 
     <artifactId>zone-executor</artifactId>
 
+    <dependencies>
+        <!-- MODULES -->
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>cache-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>runtime-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

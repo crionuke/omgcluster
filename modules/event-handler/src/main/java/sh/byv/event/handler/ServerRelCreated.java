@@ -1,10 +1,11 @@
 package sh.byv.event.handler;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.cache.service.CacheService;
+import sh.byv.cache.service.CacheEvent;
 import sh.byv.event.entity.EventEntity;
 import sh.byv.event.entity.EventHandler;
 import sh.byv.event.entity.EventType;
@@ -19,7 +20,7 @@ import sh.byv.server.entity.ServerRelType;
 public class ServerRelCreated implements EventHandler {
 
     final ServerRelService rels;
-    final CacheService cache;
+    final Event<CacheEvent> cacheInvalidation;
 
     @Override
     public EventType getType() {
@@ -34,9 +35,9 @@ public class ServerRelCreated implements EventHandler {
 
             final var serverId = rel.getServer().getId();
             if (rel.getType() == ServerRelType.ZONE) {
-                cache.invalidateServerZones(serverId);
+                cacheInvalidation.fire(new CacheEvent(CacheEvent.Type.SERVER_ZONES, serverId));
             } else if (rel.getType() == ServerRelType.SIM) {
-                cache.invalidateServerSims(serverId);
+                cacheInvalidation.fire(new CacheEvent(CacheEvent.Type.SERVER_SIMS, serverId));
             }
         }
     }

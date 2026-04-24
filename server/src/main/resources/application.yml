@@ -32,7 +32,11 @@ quarkus:
   cache:
     redis:
       prefix: omgcache
-      rel-zones:
+      server-zones:
         ttl: 10S
-      rel-sims:
+      server-sims:
+        ttl: 10S
+      zone-sims:
+        ttl: 10S
+      cached-sim:
         ttl: 10S

@@ -21,6 +21,7 @@ graph TD
 
     cache-service --> server-entity
     cache-service --> sim-entity
+    cache-service --> zone-entity
 
     runtime-service --> sim-entity
     runtime-service --> layer-entity
@@ -55,6 +56,12 @@ graph TD
 
     job-worker --> job-service
     job-worker --> event-entity
+
+    sim-executor --> cache-service
+    sim-executor --> runtime-service
+
+    zone-executor --> cache-service
+    zone-executor --> runtime-service
 
     signal-handler --> server-entity
     signal-handler --> signal-service

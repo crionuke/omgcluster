@@ -10,3 +10,6 @@ omgcluster:
     name: localhost
   tick:
     interval: 1000
+  executor:
+    zone:
+      delay: 500
