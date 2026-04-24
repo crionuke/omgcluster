@@ -6,12 +6,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.lang.reflect.Method;
 
 @ApplicationScoped
-public class ServerCacheKeyGenerator implements CacheKeyGenerator {
+public class ZoneCacheKeyGenerator implements CacheKeyGenerator {
 
     @Override
     public Object generate(final Method method, final Object... methodParams) {
-        final var serverId = (Long) methodParams[0];
+        final var zoneId = (Long) methodParams[0];
         final var cacheName = CacheKeyUtils.getCacheName(method);
-        return "server:%d:%s".formatted(serverId, cacheName);
+        return "zone:%d:%s".formatted(zoneId, cacheName);
     }
 }

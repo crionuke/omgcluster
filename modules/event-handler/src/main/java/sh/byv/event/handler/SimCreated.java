@@ -1,9 +1,11 @@
 package sh.byv.event.handler;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sh.byv.cache.service.CacheEvent;
 import sh.byv.event.entity.EventEntity;
 import sh.byv.event.entity.EventHandler;
 import sh.byv.event.entity.EventType;
@@ -18,6 +20,7 @@ import sh.byv.sim.entity.SimStatus;
 @AllArgsConstructor
 public class SimCreated implements EventHandler {
 
+    final Event<CacheEvent> cacheInvalidation;
     final ServerRelService rels;
     final SimService sims;
 
@@ -34,6 +37,8 @@ public class SimCreated implements EventHandler {
             rels.create(ServerRelType.SIM, sim.getId(), server);
 
             sims.activate(sim);
+
+            cacheInvalidation.fire(new CacheEvent(CacheEvent.Type.ZONE_SIMS, sim.getZone().getId()));
         }
     }
 }

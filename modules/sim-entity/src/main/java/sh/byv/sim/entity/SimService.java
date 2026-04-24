@@ -28,8 +28,8 @@ public class SimService {
         return sim;
     }
 
-    public List<SimEntity> getActiveByZone(final ZoneEntity zone) {
-        return repository.findByZoneAndStatus(zone, SimStatus.ACTIVE);
+    public List<SimEntity> getByZone(final ZoneEntity zone) {
+        return repository.findByZone(zone);
     }
 
     public List<SimEntity> getByIds(final List<Long> ids) {

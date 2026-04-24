@@ -32,6 +32,11 @@
             <artifactId>sim-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>zone-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

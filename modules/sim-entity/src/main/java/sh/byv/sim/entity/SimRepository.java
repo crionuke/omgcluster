@@ -21,7 +21,7 @@ class SimRepository implements PanacheRepository<SimEntity> {
         return sim;
     }
 
-    public List<SimEntity> findByZoneAndStatus(final ZoneEntity zone, final SimStatus status) {
-        return find("zone = ?1 and status = ?2", zone, status).list();
+    public List<SimEntity> findByZone(final ZoneEntity zone) {
+        return find("zone = ?1", zone).list();
     }
 }

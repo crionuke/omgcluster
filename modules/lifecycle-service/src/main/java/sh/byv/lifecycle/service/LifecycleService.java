@@ -23,14 +23,14 @@ public class LifecycleService {
     final JobService jobs;
 
     @WithMdcId
-    public void onStart(@Observes final StartupEvent event) {
+    void onStart(@Observes final StartupEvent event) {
         servers.start();
         jobs.start();
         ticks.start();
     }
 
     @WithMdcId
-    public void onShutdown(@Observes final ShutdownEvent event) {
+    void onShutdown(@Observes final ShutdownEvent event) {
         ticks.shutdown();
         tasks.shutdown();
     }
