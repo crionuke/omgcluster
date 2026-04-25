@@ -113,10 +113,10 @@ public class JobService {
         final var executor = executors.get(type);
         if (executor != null) {
             if (entityId != null) {
-                log.debug("Executing {} for entity {}", type, entityId);
+                log.debug("Executing {} job for entity {}", type, entityId);
                 executor.execute(entityId);
             } else {
-                log.debug("Executing {}", type);
+                log.debug("Executing {} job", type);
                 executor.execute();
             }
         } else {

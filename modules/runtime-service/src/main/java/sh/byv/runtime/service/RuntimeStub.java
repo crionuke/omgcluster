@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -14,13 +15,9 @@ import java.util.List;
 public class RuntimeStub implements RuntimeService {
 
     @Override
-    public void init(final RuntimeContext runtime, final int version) {
+    public void migrateCluster(final RuntimeContext runtime, final int version) {
         if (version == 1) {
             final var world = runtime.newWorld("stub_world");
-
-            world.newLayer("lobby_layer")
-                    .newZone(0, 0, 1024, 1024)
-                    .newSim("lobby_sim");
 
             world.newLayer("game_layer")
                     .newZone(0, 0, 1024, 1024)
@@ -29,14 +26,17 @@ public class RuntimeStub implements RuntimeService {
     }
 
     @Override
-    public Object simulate(final long tick, final String sim, final Object zoneState) {
-        log.info("Stub simulate for sim {} at tick {}", sim, tick);
-        return null;
+    public Object simulateZone(final long tick, final String sim, final Object zoneState) {
+        return new HashMap<>();
     }
 
     @Override
-    public Object aggregate(final Object prevZoneState, final List<Object> simStates, final long tick) {
-        log.info("Stub aggregate at tick {}", tick);
-        return null;
+    public Object initZone() {
+        return new HashMap<>();
+    }
+
+    @Override
+    public Object computeZone(final Object prevZoneState, final List<Object> simStates, final long tick) {
+        return prevZoneState;
     }
 }

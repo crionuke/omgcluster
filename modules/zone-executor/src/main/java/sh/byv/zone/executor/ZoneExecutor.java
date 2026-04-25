@@ -14,36 +14,49 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ZoneExecutor {
 
-    final ZoneExecutorConfig config;
     final RuntimeService runtime;
     final CacheService cache;
 
     public void execute(final long zoneId, final long tick) {
-        log.info("Executing zone {} at tick {}", zoneId, tick);
+        log.trace("Executing zone {} tick {}", zoneId, tick);
 
-        try {
-            Thread.sleep(config.delay());
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            log.warn("Zone {} execution interrupted during delay", zoneId);
+        final var latestExecutedTick = cache.getZoneLatestExecutedTick(zoneId);
+        if (latestExecutedTick == null) {
+            log.warn("Zone {} tick {}: no executed tick found", zoneId, tick);
+            return;
+        }
+
+        final var latestZoneState = cache.getZoneTickState(zoneId, latestExecutedTick);
+        if (latestZoneState == null) {
+            log.error("Zone {} tick {}: no zone state found", zoneId, tick);
             return;
         }
 
         final var zoneSims = cache.getZoneSims(zoneId);
-
-        final var simStates = zoneSims.stream()
+        final var prevSimStates = zoneSims.stream()
                 .map(CachedZoneSim::simId)
-                .map(simId -> cache.getSimState(simId, tick))
+                .map(simId -> cache.getSimState(simId, latestExecutedTick))
                 .filter(Objects::nonNull)
                 .toList();
 
-        final var prevZoneState = cache.getZoneState(zoneId);
-
-        log.info("Aggregating {} sim states for zone {} at tick {}", simStates.size(), zoneId, tick);
-
-        final var zoneState = runtime.aggregate(prevZoneState, simStates, tick);
-        if (zoneState != null) {
-            cache.setZoneState(zoneId, zoneState);
+        if (prevSimStates.size() < zoneSims.size()) {
+            log.warn("Zone {} tick {}: sim states {}/{}", zoneId, tick, prevSimStates.size(), zoneSims.size());
+            finishExecution(zoneId, tick, latestZoneState);
+            return;
         }
+
+        final Object nextZoneState = runtime.computeZone(latestZoneState, prevSimStates, tick);
+        if (nextZoneState == null) {
+            log.warn("Zone {} tick {}: no state produced", zoneId, tick);
+            finishExecution(zoneId, tick, latestZoneState);
+            return;
+        }
+
+        finishExecution(zoneId, tick, nextZoneState);
+    }
+
+    void finishExecution(final long zoneId, final long tick, final Object zoneState) {
+        cache.setZoneTickState(zoneId, tick, zoneState);
+        cache.addZoneExecutedTick(zoneId, tick);
     }
 }
