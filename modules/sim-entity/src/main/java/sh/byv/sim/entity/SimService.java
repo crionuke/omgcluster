@@ -10,6 +10,7 @@ import sh.byv.exception.clazz.NotFoundException;
 import sh.byv.zone.entity.ZoneEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Transactional
@@ -34,6 +35,10 @@ public class SimService {
 
     public List<SimEntity> getByIds(final List<Long> ids) {
         return repository.findByIds(ids);
+    }
+
+    public Optional<SimEntity> getByIdOptional(final Long id) {
+        return repository.findByIdOptional(id);
     }
 
     public SimEntity getByIdRequired(final Long id) {

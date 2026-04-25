@@ -3,7 +3,6 @@ package sh.byv.init;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.runtime.service.RuntimeContext;
 import sh.byv.runtime.service.RuntimeService;
@@ -29,13 +28,13 @@ public class InitService {
         final var toVersion = initConfig.version();
 
         IntStream.range(fromVersion, toVersion)
-                .forEach(version -> serviceProxy.initToVersion(version + 1));
+                .forEach(version -> serviceProxy.migrateToVersion(version + 1));
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void initToVersion(final int version) {
-        log.info("Init version {}", version);
-        runtimeService.init(runtimeContext, version);
+    public void migrateToVersion(final int version) {
+        log.info("Migrate to version {}", version);
+        runtimeService.migrateCluster(runtimeContext, version);
         propService.setInt(PropType.RUNTIME_VERSION, version);
     }
 }
