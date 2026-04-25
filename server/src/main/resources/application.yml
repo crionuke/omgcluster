@@ -40,7 +40,4 @@ quarkus:
         ttl: 10S
       cached-sim:
         ttl: 10S
-      sim-state:
-        ttl: 10S
-      zone-state:
-        ttl: 10S
+

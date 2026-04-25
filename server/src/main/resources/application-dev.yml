@@ -12,5 +12,11 @@ omgcluster:
     version: 2
   server:
     name: localhost
+  state:
+    prefix: omgcache
+    sim-state:
+      ttl: 10S
+    zone-state:
+      ttl: 10S
   tick:
     interval: 1000

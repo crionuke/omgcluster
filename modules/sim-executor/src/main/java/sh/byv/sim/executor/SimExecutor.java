@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.sim.entity.SimStatus;
+import sh.byv.state.service.StateService;
 
 @Slf4j
 @ApplicationScoped
@@ -14,6 +15,7 @@ public class SimExecutor {
 
     final RuntimeService runtime;
     final CacheService cache;
+    final StateService state;
 
     public void execute(final long simId, final long tick) {
         log.trace("Executing sim {} tick {}", simId, tick);
@@ -31,7 +33,7 @@ public class SimExecutor {
 
         final var zoneId = sim.zoneId();
         final var prevTick = tick - 1;
-        final var prevZoneState = cache.getZoneTickState(zoneId, prevTick);
+        final var prevZoneState = state.getZoneState(zoneId, prevTick);
         if (prevZoneState == null) {
             log.debug("Sim {} tick {} skipped: no prev zone state", simId, tick);
             return;
@@ -43,6 +45,6 @@ public class SimExecutor {
             return;
         }
 
-        cache.setSimState(simId, tick, simState);
+        state.setSimState(simId, tick, simState);
     }
 }
