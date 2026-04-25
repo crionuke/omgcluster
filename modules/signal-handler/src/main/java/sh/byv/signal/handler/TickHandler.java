@@ -34,13 +34,22 @@ public class TickHandler implements SignalHandler {
     public void execute(final SignalBody signal) {
         final var tickSignal = signal.getTick();
         if (tickSignal == null) {
+            log.error("Received signal with null body");
             return;
         }
 
-        final var tick = tickSignal.getTick();
         final var zoneId = tickSignal.getZoneId();
+        final var tick = tickSignal.getTick();
+
+        log.debug("Handling zone {} tick {}", zoneId, tick);
 
         final var serverId = servers.getThisServerId();
+
+        // Execute sims
+        cache.getServerSims(serverId).stream()
+                .filter(sim -> sim.zoneId() == zoneId)
+                .map(CachedServerSim::simId)
+                .forEach(simId -> taskExecutor.execute(() -> sims.execute(simId, tick)));
 
         // Execute zone
         cache.getServerZones(serverId).stream()
@@ -48,11 +57,5 @@ public class TickHandler implements SignalHandler {
                 .filter(id -> id == zoneId)
                 .findAny()
                 .ifPresent(id -> taskExecutor.execute(() -> zones.execute(id, tick)));
-
-        // Execute sims
-        cache.getServerSims(serverId).stream()
-                .filter(sim -> sim.zoneId() == zoneId)
-                .map(CachedServerSim::simId)
-                .forEach(simId -> taskExecutor.execute(() -> sims.execute(simId, tick)));
     }
 }

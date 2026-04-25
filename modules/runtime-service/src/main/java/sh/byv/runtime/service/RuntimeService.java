@@ -4,9 +4,11 @@ import java.util.List;
 
 public interface RuntimeService {
 
-    void init(RuntimeContext runtime, int version);
+    void migrateCluster(RuntimeContext runtime, int version);
 
-    Object simulate(long tick, String sim, Object zoneState);
+    Object simulateZone(long tick, String sim, Object zoneState);
 
-    Object aggregate(Object prevZoneState, List<Object> simStates, long tick);
+    Object initZone();
+
+    Object computeZone(Object prevZoneState, List<Object> simStates, long tick);
 }

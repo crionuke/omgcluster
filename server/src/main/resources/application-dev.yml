@@ -3,6 +3,10 @@ quarkus:
     devservices:
       container-env:
         "PAGER": "cat"
+  log:
+    category:
+      "sh.byv":
+        level: DEBUG
 omgcluster:
   init:
     version: 2
@@ -10,6 +14,3 @@ omgcluster:
     name: localhost
   tick:
     interval: 1000
-  executor:
-    zone:
-      delay: 500
