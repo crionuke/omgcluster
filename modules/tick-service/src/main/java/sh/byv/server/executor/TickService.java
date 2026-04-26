@@ -68,7 +68,7 @@ public class TickService {
         final var envelope = new ArrayList<SignalBody>(zoneIds.size());
 
         zoneIds.forEach(zoneId -> {
-            final var tick = state.incrTickNumber(zoneId);
+            final var tick = state.incrZoneTick(zoneId);
             final var signal = new SignalBody(SignalType.TICK, new SignalBody.TickSignal(zoneId, tick));
 
             envelope.add(signal);

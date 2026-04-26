@@ -22,13 +22,8 @@ public class ZoneExecutor {
     public void execute(final long zoneId, final long tick) {
         log.trace("Executing zone {} tick {}", zoneId, tick);
 
-        final var prevTick = state.getLatestExecutedTick(zoneId);
-
-        final var prevZoneState = state.getZoneState(zoneId, prevTick);
-        if (prevZoneState == null) {
-            log.error("Zone {} tick {}: no zone state found", zoneId, tick);
-            return;
-        }
+        final var prevTick = state.getStateTick(zoneId);
+        final var prevState = state.getZoneState(zoneId, prevTick);
 
         final var zoneSims = cache.getZoneSims(zoneId);
         final var prevSimStates = zoneSims.stream()
@@ -38,21 +33,24 @@ public class ZoneExecutor {
                 .toList();
 
         if (prevSimStates.size() < zoneSims.size()) {
-            log.warn("Zone {} tick {}: sim states {}/{}", zoneId, tick, prevSimStates.size(), zoneSims.size());
-            state.setZoneState(zoneId, tick, prevZoneState);
-            state.addExecutedTick(zoneId, tick);
+            log.warn("Zone {} tick {} skipped: sim states {}/{}", zoneId, tick, prevSimStates.size(), zoneSims.size());
+            state.setZoneState(zoneId, tick, prevState);
             return;
         }
 
-        final Object nextZoneState = runtime.computeZone(prevZoneState, prevSimStates, tick);
+        final Object nextZoneState = runtime.computeZone(prevState, prevSimStates, tick);
         if (nextZoneState == null) {
-            log.warn("Zone {} tick {}: no state produced", zoneId, tick);
-            state.setZoneState(zoneId, tick, prevZoneState);
-            state.addExecutedTick(zoneId, tick);
+            log.warn("Zone {} tick {} skipped: no state produced", zoneId, tick);
+            state.setZoneState(zoneId, tick, prevState);
+            return;
+        }
+
+        final var zoneTick = state.getZoneTick(zoneId);
+        if (zoneTick > tick) {
+            log.warn("Zone {} tick {} skipped: stale tick", zoneId, tick);
             return;
         }
 
         state.setZoneState(zoneId, tick, nextZoneState);
-        state.addExecutedTick(zoneId, tick);
     }
 }
