@@ -22,24 +22,24 @@ public class ZoneExecutor {
     public void execute(final long zoneId, final long tick) {
         log.trace("Executing zone {} tick {}", zoneId, tick);
 
-        final var prevTick = state.getStateTick(zoneId);
-        final var prevState = state.getZoneState(zoneId, prevTick);
+        final var prevState = state.getCachedState(zoneId);
+        final var prevTick = prevState.tick();
 
         final var zoneSims = cache.getZoneSims(zoneId);
-        final var prevSimStates = zoneSims.stream()
+        final var simStates = zoneSims.stream()
                 .map(CachedZoneSim::simId)
                 .map(simId -> state.getSimState(simId, prevTick))
                 .filter(Objects::nonNull)
                 .toList();
 
-        if (prevSimStates.size() < zoneSims.size()) {
-            log.warn("Zone {} tick {} skipped: sim states {}/{}", zoneId, tick, prevSimStates.size(), zoneSims.size());
+        if (simStates.size() < zoneSims.size()) {
+            log.warn("Zone {} tick {} skipped: sim states {}/{}", zoneId, tick, simStates.size(), zoneSims.size());
             state.setZoneState(zoneId, tick, prevState);
             return;
         }
 
-        final Object nextZoneState = runtime.computeZone(prevState, prevSimStates, tick);
-        if (nextZoneState == null) {
+        final Object nextState = runtime.computeZone(prevState, simStates, tick);
+        if (nextState == null) {
             log.warn("Zone {} tick {} skipped: no state produced", zoneId, tick);
             state.setZoneState(zoneId, tick, prevState);
             return;
@@ -48,9 +48,10 @@ public class ZoneExecutor {
         final var zoneTick = state.getZoneTick(zoneId);
         if (zoneTick > tick) {
             log.warn("Zone {} tick {} skipped: stale tick", zoneId, tick);
+            state.setZoneState(zoneId, tick, prevState);
             return;
         }
 
-        state.setZoneState(zoneId, tick, nextZoneState);
+        state.setZoneState(zoneId, tick, nextState);
     }
 }
