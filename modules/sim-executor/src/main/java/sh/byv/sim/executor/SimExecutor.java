@@ -39,12 +39,12 @@ public class SimExecutor {
             return;
         }
 
-        final var state = runtime.simulateZone(tick, sim.name(), zoneState);
-        if (state == null) {
+        final var simState = runtime.simulateZone(tick, sim.name(), zoneState);
+        if (simState == null) {
             log.warn("Sim {} tick {}: no state produced", simId, tick);
             return;
         }
 
-        this.state.setSimState(simId, tick, state);
+        state.setSimState(simId, tick, simState);
     }
 }
