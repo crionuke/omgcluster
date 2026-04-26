@@ -33,18 +33,18 @@ public class SimExecutor {
 
         final var zoneId = sim.zoneId();
         final var prevTick = tick - 1;
-        final var prevZoneState = state.getZoneState(zoneId, prevTick);
-        if (prevZoneState == null) {
+        final var zoneState = state.getZoneState(zoneId, prevTick);
+        if (zoneState == null) {
             log.debug("Sim {} tick {} skipped: no prev zone state", simId, tick);
             return;
         }
 
-        final var simState = runtime.simulateZone(tick, sim.name(), prevZoneState);
-        if (simState == null) {
+        final var state = runtime.simulateZone(tick, sim.name(), zoneState);
+        if (state == null) {
             log.warn("Sim {} tick {}: no state produced", simId, tick);
             return;
         }
 
-        state.setSimState(simId, tick, simState);
+        this.state.setSimState(simId, tick, state);
     }
 }

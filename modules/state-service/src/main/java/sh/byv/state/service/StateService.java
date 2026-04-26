@@ -1,6 +1,7 @@
 package sh.byv.state.service;
 
 import io.quarkus.redis.datasource.RedisDataSource;
+import io.quarkus.redis.datasource.hash.HashCommands;
 import io.quarkus.redis.datasource.sortedset.SortedSetCommands;
 import io.quarkus.redis.datasource.value.ValueCommands;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -37,54 +38,47 @@ public class StateService {
         return objects.get(getSimStateKey(simId, tick));
     }
 
-    private String getSimStateKey(final long simId, final long tick) {
-        // omgc:sim:1:tick:2:sim-state
-        return "%s:sim:%d:tick:%d:sim-state".formatted(prefix, simId, tick);
-    }
-
     public void setZoneState(final long zoneId, final long tick, final Object state) {
         final var ttl = config.zoneState().ttl().getSeconds();
         objects.setex(getZoneStateKey(zoneId, tick), ttl, state);
+        longs.set(getStateTickKey(zoneId), tick);
     }
 
     public Object getZoneState(final long zoneId, final long tick) {
         return objects.get(getZoneStateKey(zoneId, tick));
     }
 
-    private String getZoneStateKey(final long zoneId, final long tick) {
-        // omgc:zone:1:tick:2:zone-state
-        return "%s:zone:%d:tick:%d:zone-state".formatted(prefix, zoneId, tick);
-    }
-
-    public long getTickTick(final long zoneId) {
-        final var value = longs.get(getTickNumberKey(zoneId));
+    public long getZoneTick(final long zoneId) {
+        final var value = longs.get(getZoneTickKey(zoneId));
         return value != null ? value : 0L;
     }
 
-    public long incrTickNumber(final long zoneId) {
-        return longs.incr(getTickNumberKey(zoneId));
+    public long incrZoneTick(final long zoneId) {
+        return longs.incr(getZoneTickKey(zoneId));
     }
 
-    private String getTickNumberKey(final long zoneId) {
-        // omgc:zone:1:tick
-        return "%s:zone:%d:tick-number".formatted(prefix, zoneId);
+    public long getStateTick(final long zoneId) {
+        final var value = longs.get(getStateTickKey(zoneId));
+        return value != null ? value : 0L;
     }
 
-    public void addExecutedTick(final long zoneId, final long tick) {
-        ssets.zadd(getExecutedTicksKey(zoneId), tick, tick);
+    private String getSimStateKey(final long simId, final long tick) {
+        // omgstate:sim:1:tick:2:sim-state
+        return "%s:sim:%d:tick:%d:sim-state".formatted(prefix, simId, tick);
     }
 
-    public Long getLatestExecutedTick(final long zoneId) {
-        final var values = ssets.zrange(getExecutedTicksKey(zoneId), -1, -1);
-        if (values.isEmpty()) {
-            return null;
-        } else {
-            return values.getFirst();
-        }
+    private String getZoneStateKey(final long zoneId, final long tick) {
+        // omgstate:zone:1:tick:2:zone-state
+        return "%s:zone:%d:tick:%d:zone-state".formatted(prefix, zoneId, tick);
     }
 
-    private String getExecutedTicksKey(final long zoneId) {
-        // omgc:zone:1:executed-ticks
-        return "%s:zone:%d:executed-ticks".formatted(prefix, zoneId);
+    private String getZoneTickKey(final long zoneId) {
+        // omgstate:zone:1:zone-tick
+        return "%s:zone:%d:zone-tick".formatted(prefix, zoneId);
+    }
+
+    private String getStateTickKey(final long zoneId) {
+        // omgstate:zone:1:state-tick
+        return "%s:zone:%d:state-tick".formatted(prefix, zoneId);
     }
 }

@@ -41,7 +41,6 @@ public class ZoneCreated implements EventHandler {
             final var zoneId = zone.getId();
             final var zoneState = runtime.initZone();
             state.setZoneState(zoneId, tick, zoneState);
-            state.addExecutedTick(zoneId, tick);
 
             zones.activate(zone);
         }

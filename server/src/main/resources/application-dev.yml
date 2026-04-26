@@ -13,7 +13,7 @@ omgcluster:
   server:
     name: localhost
   state:
-    prefix: omgcache
+    prefix: omgstate
     sim-state:
       ttl: 10S
     zone-state:
