@@ -34,4 +34,8 @@ public class WorldEntity extends PanacheEntityBase {
 
     @Column(name = "status", nullable = false)
     WorldStatus status;
+
+    public WorldModel toModel() {
+        return new WorldModel(id, createdAt, updatedAt, name, status);
+    }
 }

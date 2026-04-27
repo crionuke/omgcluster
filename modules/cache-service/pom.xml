@@ -33,6 +33,16 @@
             <artifactId>zone-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>layer-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>world-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

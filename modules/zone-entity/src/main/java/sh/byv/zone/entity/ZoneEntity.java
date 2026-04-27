@@ -55,4 +55,9 @@ public class ZoneEntity extends PanacheEntityBase {
 
     @Column(name = "y2", nullable = false)
     Integer y2;
+
+    public ZoneModel toModel() {
+        return new ZoneModel(id, layer.getId(), createdAt, updatedAt, status,
+                new ZoneRect(x1, y1, x2, y2), parent != null ? parent.getId() : null);
+    }
 }

@@ -4,8 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
-import sh.byv.cache.service.CachedServerSim;
-import sh.byv.cache.service.CachedServerZone;
+import sh.byv.sim.entity.SimModel;
+import sh.byv.zone.entity.ZoneModel;
 import sh.byv.server.entity.ServerService;
 import sh.byv.signal.service.SignalBody;
 import sh.byv.signal.service.SignalHandler;
@@ -48,12 +48,12 @@ public class TickHandler implements SignalHandler {
         // Execute sims
         cache.getServerSims(serverId).stream()
                 .filter(sim -> sim.zoneId() == zoneId)
-                .map(CachedServerSim::simId)
+                .map(SimModel::id)
                 .forEach(simId -> taskExecutor.execute(() -> sims.execute(simId, tick)));
 
         // Execute zone
         cache.getServerZones(serverId).stream()
-                .map(CachedServerZone::zoneId)
+                .map(ZoneModel::id)
                 .filter(id -> id == zoneId)
                 .findAny()
                 .ifPresent(id -> taskExecutor.execute(() -> zones.execute(id, tick)));

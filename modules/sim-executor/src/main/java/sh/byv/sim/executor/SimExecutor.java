@@ -20,7 +20,7 @@ public class SimExecutor {
     public void execute(final long simId, final long tick) {
         log.trace("Executing sim {} tick {}", simId, tick);
 
-        final var sim = cache.getCachedSim(simId);
+        final var sim = cache.getSimEntity(simId);
         if (sim == null) {
             log.error("Sim {} tick {} skipped: sim not found", simId, tick);
             return;
