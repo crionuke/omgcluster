@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
+import sh.byv.runtime.service.AggregationContext;
 import sh.byv.sim.entity.SimModel;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.state.service.StateService;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ZoneExecutor {
 
+    final AggregationContext.Builder builder;
     final RuntimeService runtime;
     final CacheService cache;
     final StateService state;
@@ -26,19 +28,20 @@ public class ZoneExecutor {
         final var prevTick = prevState.tick();
 
         final var zoneSims = cache.getZoneSims(zoneId);
-        final var simStates = zoneSims.stream()
+        final var results = zoneSims.stream()
                 .map(SimModel::id)
                 .map(simId -> state.getSimState(simId, prevTick))
                 .filter(Objects::nonNull)
                 .toList();
 
-        if (simStates.size() < zoneSims.size()) {
-            log.warn("Zone {} tick {} skipped: sim states {}/{}", zoneId, tick, simStates.size(), zoneSims.size());
+        if (results.size() < zoneSims.size()) {
+            log.warn("Zone {} tick {} skipped: sim states {}/{}", zoneId, tick, results.size(), zoneSims.size());
             state.setZoneState(zoneId, tick, prevState);
             return;
         }
 
-        final Object nextState = runtime.computeZone(prevState, simStates, tick);
+        final var context = builder.build(tick, results, prevState);
+        final Object nextState = runtime.aggregate(context);
         if (nextState == null) {
             log.warn("Zone {} tick {} skipped: no state produced", zoneId, tick);
             state.setZoneState(zoneId, tick, prevState);
