@@ -1,14 +1,12 @@
 package sh.byv.runtime.service;
 
-import java.util.List;
-
 public interface RuntimeService {
 
-    void migrateCluster(RuntimeContext runtime, int version);
+    void migrate(MigrationContext context);
 
-    Object simulateZone(long tick, String sim, Object zoneState);
+    Object initialize(InitialiationContext context);
 
-    Object initZone();
+    Object simulate(SimulationContext context);
 
-    Object computeZone(Object prevZoneState, List<Object> simStates, long tick);
+    Object aggregate(AggregationContext context);
 }

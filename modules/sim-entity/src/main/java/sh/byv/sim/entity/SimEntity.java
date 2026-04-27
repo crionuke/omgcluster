@@ -43,6 +43,11 @@ public class SimEntity extends PanacheEntityBase {
     SimStatus status;
 
     public SimModel toModel() {
-        return new SimModel(id, zone.getId(), createdAt, updatedAt, name, status);
+        final var zoneModel = zone.toModel();
+
+        return new SimModel(id, createdAt, updatedAt, name, status,
+                zoneModel.id(), zoneModel.rect(),
+                zoneModel.layerId(), zoneModel.layerName(),
+                zoneModel.worldId(), zoneModel.worldName());
     }
 }

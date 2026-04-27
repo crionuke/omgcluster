@@ -43,6 +43,9 @@ public class LayerEntity extends PanacheEntityBase {
     LayerStatus status;
 
     public LayerModel toModel() {
-        return new LayerModel(id, world.getId(), createdAt, updatedAt, name, status);
+        final var worldModel = world.toModel();
+
+        return new LayerModel(id, createdAt, updatedAt, name, status,
+                worldModel.id(), worldModel.name());
     }
 }

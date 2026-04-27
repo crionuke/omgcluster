@@ -57,7 +57,12 @@ public class ZoneEntity extends PanacheEntityBase {
     Integer y2;
 
     public ZoneModel toModel() {
-        return new ZoneModel(id, layer.getId(), createdAt, updatedAt, status,
-                new ZoneRect(x1, y1, x2, y2), parent != null ? parent.getId() : null);
+        final var layerModel = layer.toModel();
+
+        return new ZoneModel(id, createdAt, updatedAt, status,
+                new ZoneRect(x1, y1, x2, y2),
+                parent != null ? parent.getId() : null,
+                layerModel.id(), layerModel.name(),
+                layerModel.worldId(), layerModel.worldName());
     }
 }

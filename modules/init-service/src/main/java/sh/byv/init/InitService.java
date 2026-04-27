@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.runtime.service.RuntimeContext;
+import sh.byv.runtime.service.MigrationContext;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.prop.entity.PropService;
 import sh.byv.prop.entity.PropType;
@@ -17,8 +17,8 @@ import java.util.stream.IntStream;
 @AllArgsConstructor
 public class InitService {
 
+    final MigrationContext.Builder builder;
     final RuntimeService runtimeService;
-    final RuntimeContext runtimeContext;
     final InitService serviceProxy;
     final PropService propService;
     final InitConfig initConfig;
@@ -34,7 +34,9 @@ public class InitService {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void migrateToVersion(final int version) {
         log.info("Migrate to version {}", version);
-        runtimeService.migrateCluster(runtimeContext, version);
+
+        final var context = builder.build(version);
+        runtimeService.migrate(context);
         propService.setInt(PropType.RUNTIME_VERSION, version);
     }
 }

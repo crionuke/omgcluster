@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.entity.EventEntity;
 import sh.byv.event.entity.EventHandler;
 import sh.byv.event.entity.EventType;
+import sh.byv.runtime.service.InitialiationContext;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.server.entity.ServerRelService;
 import sh.byv.server.entity.ServerRelType;
@@ -20,9 +21,10 @@ import sh.byv.zone.entity.ZoneStatus;
 @AllArgsConstructor
 public class ZoneCreated implements EventHandler {
 
+    final InitialiationContext.Builder builder;
     final RuntimeService runtime;
     final ServerRelService rels;
-    final StateService state;
+    final StateService states;
     final ZoneService zones;
 
     @Override
@@ -39,8 +41,10 @@ public class ZoneCreated implements EventHandler {
 
             final var tick = 0L;
             final var zoneId = zone.getId();
-            final var zoneState = runtime.initZone();
-            state.setZoneState(zoneId, tick, zoneState);
+
+            final var context = builder.build(zone.toModel());
+            final var state = runtime.initialize(context);
+            states.setZoneState(zoneId, tick, state);
 
             zones.activate(zone);
         }
