@@ -41,4 +41,8 @@ public class SimEntity extends PanacheEntityBase {
 
     @Column(name = "status", nullable = false)
     SimStatus status;
+
+    public SimModel toModel() {
+        return new SimModel(id, zone.getId(), createdAt, updatedAt, name, status);
+    }
 }

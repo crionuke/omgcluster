@@ -41,6 +41,16 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>sim-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>zone-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>task-executor</artifactId>
             <version>${project.version}</version>
         </dependency>

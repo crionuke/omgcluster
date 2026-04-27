@@ -6,6 +6,9 @@ public record CacheEvent(Type type, long entityId) {
         SERVER_ZONES,
         SERVER_SIMS,
         ZONE_SIMS,
-        CACHED_SIM
+        SIM_ENTITY,
+        ZONE_ENTITY,
+        LAYER_ENTITY,
+        WORLD_ENTITY
     }
 }

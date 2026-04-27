@@ -21,6 +21,11 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>sim-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>runtime-service</artifactId>
             <version>${project.version}</version>
         </dependency>

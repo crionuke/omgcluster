@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
-import sh.byv.cache.service.CachedZoneSim;
+import sh.byv.sim.entity.SimModel;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.state.service.StateService;
 
@@ -27,7 +27,7 @@ public class ZoneExecutor {
 
         final var zoneSims = cache.getZoneSims(zoneId);
         final var simStates = zoneSims.stream()
-                .map(CachedZoneSim::simId)
+                .map(SimModel::id)
                 .map(simId -> state.getSimState(simId, prevTick))
                 .filter(Objects::nonNull)
                 .toList();

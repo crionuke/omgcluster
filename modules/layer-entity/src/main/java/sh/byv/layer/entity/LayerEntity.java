@@ -41,4 +41,8 @@ public class LayerEntity extends PanacheEntityBase {
 
     @Column(name = "status", nullable = false)
     LayerStatus status;
+
+    public LayerModel toModel() {
+        return new LayerModel(id, world.getId(), createdAt, updatedAt, name, status);
+    }
 }

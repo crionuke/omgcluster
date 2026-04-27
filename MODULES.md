@@ -23,6 +23,8 @@ graph TD
     cache-service --> server-entity
     cache-service --> sim-entity
     cache-service --> zone-entity
+    cache-service --> layer-entity
+    cache-service --> world-entity
 
     runtime-service --> sim-entity
     runtime-service --> layer-entity
@@ -65,6 +67,7 @@ graph TD
     zone-executor --> cache-service
     zone-executor --> runtime-service
     zone-executor --> state-service
+    zone-executor --> sim-entity
 
     signal-handler --> server-entity
     signal-handler --> signal-service
@@ -72,6 +75,8 @@ graph TD
     signal-handler --> zone-executor
     signal-handler --> sim-executor
     signal-handler --> task-executor
+    signal-handler --> sim-entity
+    signal-handler --> zone-entity
 
     signal-service --> mdc-id
 
@@ -80,4 +85,5 @@ graph TD
     tick-service --> state-service
     tick-service --> signal-service
     tick-service --> mdc-id
+    tick-service --> zone-entity
 ```
