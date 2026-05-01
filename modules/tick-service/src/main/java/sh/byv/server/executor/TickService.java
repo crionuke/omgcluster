@@ -11,7 +11,7 @@ import sh.byv.signal.service.SignalBody;
 import sh.byv.signal.service.SignalEnvelope;
 import sh.byv.signal.service.SignalService;
 import sh.byv.signal.service.SignalType;
-import sh.byv.state.service.StateService;
+import sh.byv.zone.states.ZoneStates;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -26,13 +26,13 @@ public class TickService {
     final SignalService signals;
     final ServerService servers;
     final CacheService cache;
-    final StateService state;
+    final ZoneStates state;
     final TickService self;
 
     final long interval;
 
     public TickService(final CacheService cache,
-                       final StateService state,
+                       final ZoneStates state,
                        final ServerService servers,
                        final TickConfig tickConfig,
                        final SignalService signals,

@@ -10,7 +10,7 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>state-service</artifactId>
+    <artifactId>zone-states</artifactId>
 
     <dependencies>
         <dependency>

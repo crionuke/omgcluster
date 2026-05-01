@@ -31,7 +31,12 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>state-service</artifactId>
+            <artifactId>sim-results</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>zone-states</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

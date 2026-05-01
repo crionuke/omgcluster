@@ -1,6 +1,6 @@
 ```mermaid
 graph TD
-    event-handler --> state-service
+    event-handler --> zone-states
     event-handler --> cache-service
     event-handler --> conn-entity
     event-handler --> init-service
@@ -62,11 +62,13 @@ graph TD
 
     sim-executor --> cache-service
     sim-executor --> runtime-service
-    sim-executor --> state-service
+    sim-executor --> sim-results
+    sim-executor --> zone-states
 
     zone-executor --> cache-service
     zone-executor --> runtime-service
-    zone-executor --> state-service
+    zone-executor --> sim-results
+    zone-executor --> zone-states
     zone-executor --> sim-entity
 
     signal-handler --> server-entity
@@ -82,7 +84,7 @@ graph TD
 
     tick-service --> server-entity
     tick-service --> cache-service
-    tick-service --> state-service
+    tick-service --> zone-states
     tick-service --> signal-service
     tick-service --> mdc-id
     tick-service --> zone-entity

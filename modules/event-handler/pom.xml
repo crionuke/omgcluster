@@ -60,7 +60,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>state-service</artifactId>
+            <artifactId>zone-states</artifactId>
             <version>${project.version}</version>
         </dependency>
 

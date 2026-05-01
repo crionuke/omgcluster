@@ -12,11 +12,11 @@ omgcluster:
     version: ${INIT_VERSION}
   node:
     name: ${HOSTNAME}
-  state:
-    prefix: ${STATE_PREFIX}
-    sim-state:
-      ttl: ${SIM_STATE_TTL}
-    zone-state:
-      ttl: ${ZONE_STATE_TTL}
+  sim-results:
+    prefix: ${quarkus.cache.redis.prefix}
+    ttl: ${SIM_RESULT_TTL}
+  zone-states:
+    prefix: ${quarkus.cache.redis.prefix}
+    ttl: ${ZONE_STATE_TTL}
   tick:
     interval: ${TICK_INTERVAL}

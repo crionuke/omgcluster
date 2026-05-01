@@ -7,7 +7,8 @@ import sh.byv.cache.service.CacheService;
 import sh.byv.runtime.service.AggregationContext;
 import sh.byv.sim.entity.SimModel;
 import sh.byv.runtime.service.RuntimeService;
-import sh.byv.state.service.StateService;
+import sh.byv.sim.results.SimResults;
+import sh.byv.zone.states.ZoneStates;
 
 import java.util.Objects;
 
@@ -19,24 +20,25 @@ public class ZoneExecutor {
     final AggregationContext.Builder builder;
     final RuntimeService runtime;
     final CacheService cache;
-    final StateService state;
+    final SimResults results;
+    final ZoneStates states;
 
     public void execute(final long zoneId, final long tick) {
         log.trace("Executing zone {} tick {}", zoneId, tick);
 
-        final var prevState = state.getCachedState(zoneId);
+        final var prevState = states.getZoneState(zoneId);
         final var prevTick = prevState.tick();
 
         final var zoneSims = cache.getZoneSims(zoneId);
         final var results = zoneSims.stream()
                 .map(SimModel::id)
-                .map(simId -> state.getSimState(simId, prevTick))
+                .map(simId -> this.results.getSimResult(simId, prevTick))
                 .filter(Objects::nonNull)
                 .toList();
 
         if (results.size() < zoneSims.size()) {
-            log.warn("Zone {} tick {} skipped: sim states {}/{}", zoneId, tick, results.size(), zoneSims.size());
-            state.setZoneState(zoneId, tick, prevState);
+            log.warn("Zone {} tick {} skipped: sim results {}/{}", zoneId, tick, results.size(), zoneSims.size());
+            states.setTickState(zoneId, tick, prevState);
             return;
         }
 
@@ -44,17 +46,17 @@ public class ZoneExecutor {
         final Object nextState = runtime.aggregate(context);
         if (nextState == null) {
             log.warn("Zone {} tick {} skipped: no state produced", zoneId, tick);
-            state.setZoneState(zoneId, tick, prevState);
+            states.setTickState(zoneId, tick, prevState);
             return;
         }
 
-        final var zoneTick = state.getZoneTick(zoneId);
+        final var zoneTick = states.getZoneTick(zoneId);
         if (zoneTick > tick) {
             log.warn("Zone {} tick {} skipped: stale tick", zoneId, tick);
-            state.setZoneState(zoneId, tick, prevState);
+            states.setTickState(zoneId, tick, prevState);
             return;
         }
 
-        state.setZoneState(zoneId, tick, nextState);
+        states.setTickState(zoneId, tick, nextState);
     }
 }
