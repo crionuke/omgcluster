@@ -25,13 +25,15 @@
         <module>lifecycle-service</module>
         <module>mdc-id</module>
         <module>prop-entity</module>
+        <module>runtime-context</module>
         <module>runtime-service</module>
+        <module>runtime-stub</module>
         <module>server-entity</module>
         <module>signal-handler</module>
         <module>signal-service</module>
         <module>sim-entity</module>
-        <module>sim-results</module>
-        <module>zone-states</module>
+        <module>sim-result</module>
+        <module>zone-state</module>
         <module>tick-service</module>
         <module>world-entity</module>
         <module>zone-entity</module>

@@ -49,7 +49,7 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>zone-states</artifactId>
+            <artifactId>zone-state</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

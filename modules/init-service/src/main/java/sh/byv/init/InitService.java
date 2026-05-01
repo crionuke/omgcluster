@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sh.byv.runtime.service.MigrationContext;
+import sh.byv.runtime.context.MigrationContext;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.prop.entity.PropService;
 import sh.byv.prop.entity.PropType;

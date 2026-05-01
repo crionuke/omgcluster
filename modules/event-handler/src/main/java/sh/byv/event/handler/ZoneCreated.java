@@ -7,11 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import sh.byv.event.entity.EventEntity;
 import sh.byv.event.entity.EventHandler;
 import sh.byv.event.entity.EventType;
-import sh.byv.runtime.service.InitialiationContext;
+import sh.byv.runtime.context.InitialiationContext;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.server.entity.ServerRelService;
 import sh.byv.server.entity.ServerRelType;
-import sh.byv.zone.states.ZoneStates;
+import sh.byv.zone.state.ZoneStates;
 import sh.byv.zone.entity.ZoneService;
 import sh.byv.zone.entity.ZoneStatus;
 
@@ -44,7 +44,7 @@ public class ZoneCreated implements EventHandler {
 
             final var context = builder.build(zone.toModel());
             final var state = runtime.initialize(context);
-            states.setTickState(zoneId, tick, state);
+            states.setZoneState(zoneId, tick, state);
 
             zones.activate(zone);
         }

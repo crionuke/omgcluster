@@ -92,7 +92,17 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
+            <artifactId>runtime-context</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
             <artifactId>runtime-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>sh.byv</groupId>
+            <artifactId>runtime-stub</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -117,12 +127,12 @@
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>sim-results</artifactId>
+            <artifactId>sim-result</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>zone-states</artifactId>
+            <artifactId>zone-state</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

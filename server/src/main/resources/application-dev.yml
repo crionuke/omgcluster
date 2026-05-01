@@ -12,10 +12,10 @@ omgcluster:
     version: 2
   server:
     name: localhost
-  sim-results:
+  sim-result:
     prefix: omgstate
     ttl: 10S
-  zone-states:
+  zone-state:
     prefix: omgstate
     ttl: 10S
   tick:

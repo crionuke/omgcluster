@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import sh.byv.server.entity.ServerService;
 import sh.byv.job.service.JobService;
 import sh.byv.mdc.id.WithMdcId;
-import sh.byv.server.executor.TickService;
+import sh.byv.tick.service.TickService;
 import sh.byv.task.executor.TaskExecutor;
 
 @Slf4j

@@ -4,11 +4,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.cache.service.CacheService;
+import sh.byv.runtime.context.SimulationContext;
 import sh.byv.runtime.service.RuntimeService;
-import sh.byv.runtime.service.SimulationContext;
 import sh.byv.sim.entity.SimStatus;
-import sh.byv.sim.results.SimResults;
-import sh.byv.zone.states.ZoneStates;
+import sh.byv.sim.result.SimResults;
+import sh.byv.zone.state.ZoneStates;
 
 @Slf4j
 @ApplicationScoped
@@ -18,8 +18,8 @@ public class SimExecutor {
     final SimulationContext.Builder builder;
     final RuntimeService runtime;
     final CacheService cache;
-    final SimResults simResults;
-    final ZoneStates zoneStates;
+    final SimResults results;
+    final ZoneStates states;
 
     public void execute(final long simId, final long tick) {
         log.trace("Executing sim {} tick {}", simId, tick);
@@ -37,7 +37,7 @@ public class SimExecutor {
 
         final var zoneId = sim.zoneId();
         final var prevTick = tick - 1;
-        final var state = this.zoneStates.getTickState(zoneId, prevTick);
+        final var state = this.states.getZoneState(zoneId, prevTick);
         if (state == null) {
             log.debug("Sim {} tick {} skipped: no prev zone state", simId, tick);
             return;
@@ -50,6 +50,6 @@ public class SimExecutor {
             return;
         }
 
-        this.simResults.setSimResult(simId, tick, result);
+        this.results.setSimResult(simId, tick, result);
     }
 }
