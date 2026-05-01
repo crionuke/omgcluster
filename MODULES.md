@@ -1,6 +1,6 @@
 ```mermaid
 graph TD
-    event-handler --> zone-states
+    event-handler --> zone-state
     event-handler --> cache-service
     event-handler --> conn-entity
     event-handler --> init-service
@@ -10,6 +10,8 @@ graph TD
     event-handler --> zone-entity
     event-handler --> world-entity
     event-handler --> layer-entity
+    event-handler --> runtime-context
+    event-handler --> runtime-service
 
     lifecycle-service --> server-entity
     lifecycle-service --> job-service
@@ -17,6 +19,7 @@ graph TD
     lifecycle-service --> mdc-id
     lifecycle-service --> tick-service
 
+    init-service --> runtime-context
     init-service --> runtime-service
     init-service --> prop-entity
 
@@ -26,10 +29,21 @@ graph TD
     cache-service --> layer-entity
     cache-service --> world-entity
 
-    runtime-service --> sim-entity
-    runtime-service --> layer-entity
-    runtime-service --> world-entity
-    runtime-service --> zone-entity
+    runtime-context --> sim-entity
+    runtime-context --> sim-result
+    runtime-context --> layer-entity
+    runtime-context --> world-entity
+    runtime-context --> zone-entity
+    runtime-context --> zone-state
+
+    runtime-service --> runtime-context
+    runtime-service --> sim-result
+    runtime-service --> zone-state
+
+    runtime-stub --> runtime-context
+    runtime-stub --> runtime-service
+    runtime-stub --> sim-result
+    runtime-stub --> zone-state
 
     conn-entity --> server-entity
     conn-entity --> zone-entity
@@ -61,14 +75,16 @@ graph TD
     job-worker --> event-entity
 
     sim-executor --> cache-service
+    sim-executor --> runtime-context
     sim-executor --> runtime-service
-    sim-executor --> sim-results
-    sim-executor --> zone-states
+    sim-executor --> sim-result
+    sim-executor --> zone-state
 
     zone-executor --> cache-service
+    zone-executor --> runtime-context
     zone-executor --> runtime-service
-    zone-executor --> sim-results
-    zone-executor --> zone-states
+    zone-executor --> sim-result
+    zone-executor --> zone-state
     zone-executor --> sim-entity
 
     signal-handler --> server-entity
@@ -84,7 +100,7 @@ graph TD
 
     tick-service --> server-entity
     tick-service --> cache-service
-    tick-service --> zone-states
+    tick-service --> zone-state
     tick-service --> signal-service
     tick-service --> mdc-id
     tick-service --> zone-entity

@@ -16,22 +16,17 @@
         <!-- MODULES -->
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>sim-entity</artifactId>
+            <artifactId>runtime-context</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>layer-entity</artifactId>
+            <artifactId>sim-result</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>sh.byv</groupId>
-            <artifactId>world-entity</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>sh.byv</groupId>
-            <artifactId>zone-entity</artifactId>
+            <artifactId>zone-state</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
