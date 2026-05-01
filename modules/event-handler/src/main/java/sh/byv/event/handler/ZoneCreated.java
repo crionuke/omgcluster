@@ -11,7 +11,7 @@ import sh.byv.runtime.service.InitialiationContext;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.server.entity.ServerRelService;
 import sh.byv.server.entity.ServerRelType;
-import sh.byv.state.service.StateService;
+import sh.byv.zone.states.ZoneStates;
 import sh.byv.zone.entity.ZoneService;
 import sh.byv.zone.entity.ZoneStatus;
 
@@ -24,7 +24,7 @@ public class ZoneCreated implements EventHandler {
     final InitialiationContext.Builder builder;
     final RuntimeService runtime;
     final ServerRelService rels;
-    final StateService states;
+    final ZoneStates states;
     final ZoneService zones;
 
     @Override
@@ -44,7 +44,7 @@ public class ZoneCreated implements EventHandler {
 
             final var context = builder.build(zone.toModel());
             final var state = runtime.initialize(context);
-            states.setZoneState(zoneId, tick, state);
+            states.setTickState(zoneId, tick, state);
 
             zones.activate(zone);
         }

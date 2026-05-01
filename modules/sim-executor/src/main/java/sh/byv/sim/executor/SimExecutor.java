@@ -7,7 +7,8 @@ import sh.byv.cache.service.CacheService;
 import sh.byv.runtime.service.RuntimeService;
 import sh.byv.runtime.service.SimulationContext;
 import sh.byv.sim.entity.SimStatus;
-import sh.byv.state.service.StateService;
+import sh.byv.sim.results.SimResults;
+import sh.byv.zone.states.ZoneStates;
 
 @Slf4j
 @ApplicationScoped
@@ -17,7 +18,8 @@ public class SimExecutor {
     final SimulationContext.Builder builder;
     final RuntimeService runtime;
     final CacheService cache;
-    final StateService state;
+    final SimResults simResults;
+    final ZoneStates zoneStates;
 
     public void execute(final long simId, final long tick) {
         log.trace("Executing sim {} tick {}", simId, tick);
@@ -35,7 +37,7 @@ public class SimExecutor {
 
         final var zoneId = sim.zoneId();
         final var prevTick = tick - 1;
-        final var state = this.state.getZoneState(zoneId, prevTick);
+        final var state = this.zoneStates.getTickState(zoneId, prevTick);
         if (state == null) {
             log.debug("Sim {} tick {} skipped: no prev zone state", simId, tick);
             return;
@@ -48,6 +50,6 @@ public class SimExecutor {
             return;
         }
 
-        this.state.setSimState(simId, tick, result);
+        this.simResults.setSimResult(simId, tick, result);
     }
 }
