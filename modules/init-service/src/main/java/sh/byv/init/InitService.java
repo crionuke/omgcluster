@@ -36,7 +36,7 @@ public class InitService {
         log.info("Migrate to version {}", version);
 
         final var context = builder.build(version);
-        runtimeService.migrate(context);
+        runtimeService.onMigration(context);
         propService.setInt(PropType.RUNTIME_VERSION, version);
     }
 }

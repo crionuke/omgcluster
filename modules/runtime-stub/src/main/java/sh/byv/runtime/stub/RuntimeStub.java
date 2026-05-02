@@ -5,7 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sh.byv.runtime.context.AggregationContext;
-import sh.byv.runtime.context.InitialiationContext;
+import sh.byv.runtime.context.ZoneCreatedContext;
 import sh.byv.runtime.context.MigrationContext;
 import sh.byv.runtime.context.SimulationContext;
 import sh.byv.runtime.service.RuntimeService;
@@ -19,7 +19,7 @@ import sh.byv.zone.state.ZoneState;
 public class RuntimeStub implements RuntimeService {
 
     @Override
-    public void migrate(final MigrationContext context) {
+    public void onMigration(final MigrationContext context) {
         final var version = context.getVersion();
 
         if (version == 1) {
@@ -32,17 +32,17 @@ public class RuntimeStub implements RuntimeService {
     }
 
     @Override
-    public ZoneState initialize(final InitialiationContext context) {
+    public ZoneState onZoneCreated(final ZoneCreatedContext context) {
         return new ZoneStateStub();
     }
 
     @Override
-    public SimResult simulate(final SimulationContext context) {
+    public SimResult onSimulation(final SimulationContext context) {
         return new SimResultStub();
     }
 
     @Override
-    public ZoneState aggregate(final AggregationContext context) {
+    public ZoneState onAggregation(final AggregationContext context) {
         return context.getState();
     }
 }

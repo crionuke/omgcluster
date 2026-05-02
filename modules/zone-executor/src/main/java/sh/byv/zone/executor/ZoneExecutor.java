@@ -43,7 +43,7 @@ public class ZoneExecutor {
         }
 
         final var context = builder.build(tick, results, prevState.state());
-        final var nextState = runtime.aggregate(context);
+        final var nextState = runtime.onAggregation(context);
         if (nextState == null) {
             log.warn("Zone {} tick {} skipped: no state produced", zoneId, tick);
             states.setZoneState(zoneId, tick, prevState.state());
