@@ -8,7 +8,7 @@ import sh.byv.zone.entity.ZoneModel;
 
 @Getter
 @AllArgsConstructor
-public class InitialiationContext {
+public class ZoneCreatedContext {
 
     final ZoneModel zone;
 
@@ -17,8 +17,8 @@ public class InitialiationContext {
     @AllArgsConstructor
     public static class Builder {
 
-        public InitialiationContext build(final ZoneModel zone) {
-            return new InitialiationContext(zone);
+        public ZoneCreatedContext build(final ZoneModel zone) {
+            return new ZoneCreatedContext(zone);
         }
     }
 }

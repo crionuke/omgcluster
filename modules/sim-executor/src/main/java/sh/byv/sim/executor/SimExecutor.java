@@ -44,7 +44,7 @@ public class SimExecutor {
         }
 
         final var context = builder.build(tick, sim, state);
-        final var result = runtime.simulate(context);
+        final var result = runtime.onSimulation(context);
         if (result == null) {
             log.warn("Sim {} tick {}: no state produced", simId, tick);
             return;
